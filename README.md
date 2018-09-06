@@ -1,4 +1,4 @@
-## FusionAuth Containers! Containers! Containers!
+## Containers! Containers! Containers!
 
 ### Docker
 
