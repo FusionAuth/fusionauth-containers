@@ -21,7 +21,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
  mysql-server-5.7
 
 ###### Get and install the FusionAuth Bundles #######################
-RUN export FUSIONAUTH_VERSION=$(curl -s https://www.inversoft.com/api/fusionauth/latest-version) && wget --quiet https://storage.googleapis.com/inversoft_products_j098230498/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app_${FUSIONAUTH_VERSION}-1_all.deb dpkg -i fusionauth-app_${FUSIONAUTH_VERSION}-1_all.deb
+RUN export FUSIONAUTH_VERSION=$(curl -s https://www.inversoft.com/api/fusionauth/latest-version) && wget --quiet https://storage.googleapis.com/inversoft_products_j098230498/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app_${FUSIONAUTH_VERSION}-1_all.deb && dpkg -i fusionauth-app_${FUSIONAUTH_VERSION}-1_all.deb
 RUN export FUSIONAUTH_VERSION=$(curl -s https://www.inversoft.com/api/fusionauth/latest-version) && wget --quiet https://storage.googleapis.com/inversoft_products_j098230498/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-search_${FUSIONAUTH_VERSION}-1_all.deb && dpkg -i fusionauth-search_${FUSIONAUTH_VERSION}-1_all.deb
 
 ###### Update my.cnf ##################################
