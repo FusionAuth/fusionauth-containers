@@ -18,7 +18,10 @@ project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.0.0",
   publications {
     standard()
     docker {
-      publication(name: "fusionauth-app-dockerfile", type: "docker", file: "docker/DockerFile")
+      publication(name: "fusionauth-app-dockerfile", type: "docker", file: "docker/fusionauth/fusionauth-app/Dockerfile")
+      publication(name: "fusionauth-search-dockerfile", type: "docker", file: "docker/fusionauth/fusionauth-search/Dockerfile")
+      publication(name: "fusionauth-dockerfile", type: "docker", file: "docker/fusionauth/fusionauth/Dockerfile")
+      publication(name: "fusionauth-mysql-dockerfile", type: "docker", file: "docker/fusionauth/fusionauth-mysql/Dockerfile")
     }
   }
 }
