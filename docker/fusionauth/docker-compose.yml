@@ -1,22 +1,3 @@
-## Containers! Containers! Containers!
-
-### Docker
-
-https://hub.docker.com/u/fusionauth/
-
-
-FusionAuth App Only
-```
-docker pull fusionauth/fusionauth-app
-```
-
-FusionAuth Search Only
-```
-docker pull fusionauth/fusionauth-search
-```
-
-Example Compose
-```yml
 version: '3'
 
 services:
@@ -56,4 +37,3 @@ volumes:
   db_data:
   fa_config:
   fa_data:
-```
