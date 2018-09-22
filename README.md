@@ -15,7 +15,7 @@ FusionAuth Search Only
 docker pull fusionauth/fusionauth-search
 ```
 
-Example Compose
+`docker-compose.yml`
 ```yml
 version: '3'
 
