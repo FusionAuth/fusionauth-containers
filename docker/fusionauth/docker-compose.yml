@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 
 services:
   db:
@@ -10,30 +10,36 @@ services:
     restart: always
     environment:
       PGDATA : /var/lib/postgresql/data/pgdata
-      POSTGRES_DB: fusionauth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: hkaLBM3RVnyYeYeqE3WI1w2e4Avpy0Wd5O3s3_rulcA
 
-  fusionauth-search:
-    image: fusionauth/fusionauth-search:latest
-    ports:
-      - 9020:9020
-      - 9021:9021
-    restart: always
+  search:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
+    environment:
+      - cluster.name=fusionauth
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
-      - fa_config:/usr/local/fusionauth/config
-      - fa_data:/usr/local/fusionauth/data
+      - es_data1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
 
-  fusionauth-app:
+  app:
     depends_on:
       - db
-      - fusionauth-search
+      - search
     image: fusionauth/fusionauth-app:latest
     ports:
       - 9011:9011
-    restart: always
     volumes:
       - fa_config:/usr/local/fusionauth/config
 
 volumes:
   db_data:
+  es_data1:
   fa_config:
-  fa_data:
