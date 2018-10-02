@@ -21,7 +21,7 @@ services:
       ES_JAVA_OPTS: "-Xms256m -Xmx256m"
     healthcheck:
       test: "curl --fail -s http://localhost:9200 || exit 1"
-      interval: 1s
+      interval: 2s
       timeout: 1s
       retries: 10
     ulimits:
