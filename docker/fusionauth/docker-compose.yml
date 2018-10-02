@@ -1,4 +1,4 @@
-version: '3.3'
+version: '2.3'
 
 services:
   db:
@@ -9,16 +9,21 @@ services:
       - db_data:/var/lib/postgresql/data
     restart: always
     environment:
-      PGDATA : /var/lib/postgresql/data/pgdata
+      PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: hkaLBM3RVnyYeYeqE3WI1w2e4Avpy0Wd5O3s3_rulcA
+      POSTGRES_PASSWORD:
 
-  search:
+  search1:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
     environment:
-      - cluster.name=fusionauth
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      cluster.name: fusionauth
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+    healthcheck:
+      test: "curl --fail -s http://localhost:9200 || exit 1"
+      interval: 1s
+      timeout: 1s
+      retries: 10
     ulimits:
       memlock:
         soft: -1
@@ -29,11 +34,24 @@ services:
       - 9200:9200
       - 9300:9300
 
-  app:
+  fusionauth:
     depends_on:
-      - db
-      - search
+      db:
+        condition: service_started
+      search1:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/fusionauth
+      DATABASE_ROOT_USER: postgres
+      DATABASE_ROOT_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_USER: fusionauth
+      DATABASE_PASSWORD: hkaLBM3RVnyYeYeqE3WI1w2e4Avpy0Wd5O3s3
+      FUSIONAUTH_MEMORY: 256M
+      FUSIONAUTH_SEARCH_SERVERS: http://search1:9200
     image: fusionauth/fusionauth-app:latest
+    links:
+      - db
+      - search1
     ports:
       - 9011:9011
     volumes:
