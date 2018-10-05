@@ -30,7 +30,7 @@ RUN mkdir -p /usr/local/fusionauth/java \
  && rm jre-linux-1.8.0+u171.tar.gz
 
 ###### Get and install FusionAuth Search Bundle #####################
-RUN export FUSIONAUTH_VERSION=1.0.15 \
+RUN export FUSIONAUTH_VERSION=1.0.16 \
   && curl -Sk --progress-bar https://storage.googleapis.com/inversoft_products_j098230498/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-search-${FUSIONAUTH_VERSION}.zip -o fusionauth-search.zip \
   && unzip -nq fusionauth-search.zip -d /usr/local/fusionauth \
   && rm fusionauth-search.zip \
