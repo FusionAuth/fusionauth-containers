@@ -2,14 +2,14 @@
 # FusionAuth Search Dockerfile
 #
 # Build:
-#   > docker build -t fusionauth/fusionauth-search:1.0.16 .
+#   > docker build -t fusionauth/fusionauth-search:1.0.17 .
 #   > docker build -t fusionauth/fusionauth-search:latest .
 #
 # Run:
 #  > docker run -p 9020:9020 -p 9021:9021 -it fusionauth/fusionauth-search
 #
 # Publish:
-#   > docker push fusionauth/fusionauth-search:1.0.16
+#   > docker push fusionauth/fusionauth-search:1.0.17
 #   > docker push fusionauth/fusionauth-search:latest
 #
 
@@ -38,7 +38,7 @@ RUN mkdir -p /usr/local/fusionauth/java \
  && rm jre-linux-1.8.0+u171.tar.gz
 
 ###### Get and install FusionAuth Search Bundle #####################
-RUN export FUSIONAUTH_VERSION=1.0.16 \
+RUN export FUSIONAUTH_VERSION=1.0.17 \
   && curl -Sk --progress-bar https://storage.googleapis.com/inversoft_products_j098230498/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-search-${FUSIONAUTH_VERSION}.zip -o fusionauth-search.zip \
   && unzip -nq fusionauth-search.zip -d /usr/local/fusionauth \
   && rm fusionauth-search.zip \
