@@ -1,9 +1,17 @@
 #
 # FusionAuth App Dockerfile
 #
-# Example build command: docker build -t fusionauth/fusionauth-app:latest .
-# Example start command: docker run -p 9011:9011 -it fusionauth/fusionauth-app
-# Example publish command: docker push fusionauth/fusionauth-app:latest
+# Build:
+#   > docker build -t fusionauth/fusionauth-app:1.0.16 .
+#   > docker build -t fusionauth/fusionauth-app:latest .
+#
+# Run:
+#  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
+#
+# Publish:
+#   > docker push fusionauth/fusionauth-app:1.0.16
+#   > docker push fusionauth/fusionauth-app:latest
+#
 
 FROM debian:stretch-slim
 

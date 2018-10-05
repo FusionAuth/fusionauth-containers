@@ -1,9 +1,17 @@
 #
 # FusionAuth Search Dockerfile
 #
-# Example build command: docker build -t fusionauth/fusionauth-search:latest .
-# Example start command: docker run -p 9020:9020 -it fusionauth/fusionauth-search
-# Example publish command: docker push fusionauth/fusionauth-search:latest
+# Build:
+#   > docker build -t fusionauth/fusionauth-search:1.0.16 .
+#   > docker build -t fusionauth/fusionauth-search:latest .
+#
+# Run:
+#  > docker run -p 9020:9020 -p 9021:9021 -it fusionauth/fusionauth-search
+#
+# Publish:
+#   > docker push fusionauth/fusionauth-search:1.0.16
+#   > docker push fusionauth/fusionauth-search:latest
+#
 
 FROM debian:stretch-slim
 
