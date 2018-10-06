@@ -10,9 +10,9 @@ See [docker-compose.yml](https://raw.githubusercontent.com/FusionAuth/fusionauth
 
 Review our [Docker Install Guide](https://fusionauth.io/docs/v1/tech/installation-guide/docker) for additional assistance.
 
-Fast path docker-compose
 ```bash
-curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml && docker-compose up
+curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml
+docker-compose up
 ``` 
 
 #### Docker Images
