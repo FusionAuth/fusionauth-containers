@@ -16,7 +16,6 @@ project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.0.18"
   }
 
   publications {
-    standard()
     docker {
       publication(name: "fusionauth-app-dockerfile", type: "docker", file: "docker/fusionauth/fusionauth-app/Dockerfile")
       publication(name: "fusionauth-search-dockerfile", type: "docker", file: "docker/fusionauth/fusionauth-search/Dockerfile")
