@@ -39,7 +39,49 @@ target(name: "idea", description: "Releases a local integration build of the pro
   idea.iml()
 }
 
-
 target(name: "release", description: "Releases a full version of the project") {
   release.release()
+
+  // Build images
+  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-app:${project.version}" as String, "./docker/fusionauth/fusionauth-app")) {
+    fail("Failed to build Docker image for fusionauth-app [${project.version}]")
+  }
+
+  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-app:latest" as String, "./docker/fusionauth/fusionauth-app")) {
+    fail("Failed to build Docker image for fusionauth-app [latest]")
+  }
+
+  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-search:${project.version}" as String, "./docker/fusionauth/fusionauth-search")) {
+    fail("Failed to build Docker image for fusionauth-search [${project.version}]")
+  }
+
+  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-search:latest" as String, "./docker/fusionauth/fusionauth-search")) {
+    fail("Failed to build Docker image for fusionauth-search [latest]")
+  }
+
+  // Push images
+  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:${project.version}" as String)) {
+    fail("Failed to push Docker image for fusionauth-app [${project.version}]")
+  }
+
+  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:latest" as String)) {
+    fail("Failed to push Docker image for fusionauth-app [latest]")
+  }
+
+  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-search:${project.version}" as String)) {
+    fail("Failed to push Docker image for fusionauth-search [${project.version}]")
+  }
+
+  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-search:latest" as String)) {
+    fail("Failed to push Docker image for fusionauth-search [latest]")
+  }
+}
+
+boolean cleanExecute(String... args) {
+  ProcessBuilder pb = new ProcessBuilder(args).inheritIO().directory(new File('.'))
+
+  def process = pb.start()
+  process.consumeProcessOutput(System.out, System.err)
+  process.waitFor()
+  return process.exitValue() == 0
 }
