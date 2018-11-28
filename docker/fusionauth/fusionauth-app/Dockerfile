@@ -2,7 +2,7 @@
 # FusionAuth App Dockerfile
 #
 # Build:
-#   > docker build -t fusionauth/fusionauth-app:1.2.3.2.2 .
+#   > docker build -t fusionauth/fusionauth-app:1.2.2 .
 #   > docker build -t fusionauth/fusionauth-app:latest .
 #
 # Run:
@@ -37,7 +37,7 @@ RUN mkdir -p /usr/local/fusionauth/java \
  && rm jre-linux-1.8.0+u171.tar.gz
 
 ###### Get and install FusionAuth App Bundle ########################
-RUN export FUSIONAUTH_VERSION=1.2.3.2.2 \
+RUN export FUSIONAUTH_VERSION=1.2.2 \
   && curl -Sk --progress-bar https://storage.googleapis.com/inversoft_products_j098230498/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip -o fusionauth-app.zip \
   && mkdir -p /usr/local/fusionauth/fusionauth-app \
   && unzip -nq fusionauth-app.zip -d /usr/local/fusionauth \
