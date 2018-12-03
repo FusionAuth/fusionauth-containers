@@ -32,7 +32,12 @@ release = loadPlugin(id: "org.savantbuild.plugin:release-git:${savantVersion}")
  * Targets
  */
 
-target(name: "int", description: "Releases a local integration build of the project") {
+target(name: "clean", description: "Clean project") {
+  // No Op
+}
+
+target(name: "int", description: "runs an integration build") {
+  // No Op
 }
 
 target(name: "idea", description: "Releases a local integration build of the project") {
