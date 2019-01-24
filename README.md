@@ -4,11 +4,12 @@ FusionAuth loves containers, found an issue? Please open a bug or submit a PR.
 
 
 ## Credits
-- @ssirag Thank you for the feedback, bug reports and for PR #3 to enhance our docker-compose example.  
-- @nadilas Thank you for building out an example Kubernetes configuration via PR #6, this will be very valuable to many.
+- [@ssirag](https://github.com/ssirag) Thank you for the feedback and bug reports. 
+- [@minyangu](https://github.com/minyangu) Thank you for [PR #3](https://github.com/FusionAuth/fusionauth-containers/pull/3) to enhance our docker-compose example.
+- [János Veres](https://github.com/nadilas) Thank you for building out an example Kubernetes configuration via [PR #6](https://github.com/FusionAuth/fusionauth-containers/pull/6), this will be very valuable to many.
+- The FusionAuth team - couldn't have done it without you! 
 
 ## Docker
----
 
 
 ### Docker Compose
