@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: fusionauth
+spec:
+  hosts:
+    - "myauth.company.com"
+  gateways:
+    - fusionauth-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            port:
+              number: 9011
+            host: fusionauth

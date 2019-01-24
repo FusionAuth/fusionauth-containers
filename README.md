@@ -28,3 +28,23 @@ FusionAuth Search Only
 ```bash
 docker pull fusionauth/fusionauth-search
 ```
+
+### Kubernetes
+
+Single instance deployment
+
+
+#### For Istio
+
+```bash
+kubectl apply --recursive -f kubernetes
+```
+
+#### Internal only
+
+```bash
+kubectl apply --recursive -f kubernetes/volume-claims
+kubectl apply --recursive -f kubernetes/deployments
+kubectl apply --recursive -f kubernetes/services
+```
+
