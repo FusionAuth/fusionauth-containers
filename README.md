@@ -1,10 +1,17 @@
 ## Containers! Containers! Containers!
 
-### Docker
+FusionAuth loves containers, found an issue? Please open a bug or submit a PR. 
 
 
+## Credits
+- @ssirag Thank you for the feedback, bug reports and for PR #3 to enhance our docker-compose example.  
+- @nadilas Thank you for building out an example Kubernetes configuration via PR #6, this will be very valuable to many.
 
-#### Docker Compose
+## Docker
+---
+
+
+### Docker Compose
 
 See [docker-compose.yml](https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml)
 
@@ -15,7 +22,7 @@ curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionau
 docker-compose up
 ``` 
 
-#### Docker Images
+### Docker Images
 
 Docker images are available on [Docker Hub](https://hub.docker.com/u/fusionauth/)
 
@@ -29,9 +36,10 @@ FusionAuth Search Only
 docker pull fusionauth/fusionauth-search
 ```
 
-### Kubernetes
+## Kubernetes
 
-Single instance deployment
+
+### Single instance deployment
 
 
 #### For Istio
