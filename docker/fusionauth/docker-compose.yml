@@ -5,11 +5,13 @@ services:
     image: postgres:9.6
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - 5432:5432
-    restart: always
+    networks:
+      - db
+    restart: unless-stopped
     volumes:
       - db_data:/var/lib/postgresql/data
 
@@ -18,11 +20,13 @@ services:
     environment:
       cluster.name: fusionauth
       bootstrap.memory_lock: "true"
-      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+      ES_JAVA_OPTS: "${ES_JAVA_OPTS}"
     ports:
     - 9200:9200
     - 9300:9300
-    restart: always
+    networks:
+      - search
+    restart: unless-stopped
     ulimits:
       memlock:
         soft: -1
@@ -37,20 +41,26 @@ services:
       - search
     environment:
       DATABASE_URL: jdbc:postgresql://db:5432/fusionauth
-      DATABASE_ROOT_USER: postgres
+      DATABASE_ROOT_USER: ${POSTGRES_USER}
       DATABASE_ROOT_PASSWORD: ${POSTGRES_PASSWORD}
-      DATABASE_USER: fusionauth
-      DATABASE_PASSWORD: hkaLBM3RVnyYeYeqE3WI1w2e4Avpy0Wd5O3s3
-      FUSIONAUTH_MEMORY: 256M
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      FUSIONAUTH_MEMORY: ${FUSIONAUTH_MEMORY}
       FUSIONAUTH_SEARCH_SERVERS: http://search:9200
-    links:
-      - db
-      - search
-    restart: always
+    networks:
+     - db
+     - search
+    restart: unless-stopped
     ports:
       - 9011:9011
     volumes:
       - fa_config:/usr/local/fusionauth/config
+
+networks:
+  db:
+    driver: bridge
+  search:
+    driver: bridge
 
 volumes:
   db_data:
