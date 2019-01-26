@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: fusionauth-db
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: fusionauth-db
+    spec:
+      containers:
+      - env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+        image: postgres:9.6
+        name: fusionauth-db
+        ports:
+        - containerPort: 5432
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: fusionauth-db-data
+      restartPolicy: Always
+      volumes:
+      - name: fusionauth-db-data
+        persistentVolumeClaim:
+          claimName: fusionauth-db-data
