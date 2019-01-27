@@ -47,6 +47,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       FUSIONAUTH_MEMORY: ${FUSIONAUTH_MEMORY}
       FUSIONAUTH_SEARCH_SERVERS: http://search:9200
+      FUSIONAUTH_URL: http://fusionauth:9011
     networks:
      - db
      - search
