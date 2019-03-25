@@ -4,7 +4,7 @@
 savantVersion = "1.0.0"
 
 
-project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.4.3",licenses: ["ApacheV2_0"]) {
+project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.5.0",licenses: ["ApacheV2_0"]) {
   workflow {
     standard()
   }

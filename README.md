@@ -20,6 +20,7 @@ Review our [Docker Install Guide](https://fusionauth.io/docs/v1/tech/installatio
 
 ```bash
 curl -o docker-compose.yml https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml
+curl -o .env https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env
 docker-compose up
 ``` 
 
