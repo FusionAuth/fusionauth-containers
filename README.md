@@ -60,4 +60,4 @@ kubectl apply --recursive -f kubernetes/services
 
 ## Helm
 
-See [README](helm/README.md) for more informations.
+See [README](helm/fusionauth/README.md) for more informations.
