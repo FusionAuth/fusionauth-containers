@@ -58,3 +58,6 @@ kubectl apply --recursive -f kubernetes/deployments
 kubectl apply --recursive -f kubernetes/services
 ```
 
+## Helm
+
+See [README](helm/README.md) for more informations.

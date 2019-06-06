@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fusionauth.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "fusionauth.name" . }}
+    helm.sh/chart: {{ include "fusionauth.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "fusionauth.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "fusionauth.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      initContainers:
+        # App has to wait for the database to be online "depends_on" workaround
+        - name: wait-for-db
+          image: darthcabs/tiny-tools:1
+          args:
+            - /bin/bash
+            - -c
+            - >
+              set -x;
+              while [[ "$(nc -zv '{{ .Release.Name }}-postgresql' 5432 &> /dev/null; echo $?)" != 0 ]]; do
+                echo '.'
+                sleep 15;
+              done
+        # App has to wait for elasticsearch to be online "depends_on" workaround
+        - name: wait-for-search
+          image: darthcabs/tiny-tools:1
+          args:
+            - /bin/bash
+            - -c
+            - >
+              set -x;
+              while [[ "$(nc -zv '{{ .Release.Name }}-elasticsearch-client' 9200 &> /dev/null; echo $?)" != 0 ]]; do
+                echo '.'
+                sleep 15;
+              done
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 9011
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          env:
+            - name: DATABASE_USER
+              value: {{ .Values.data.database.user }}
+            - name: DATABASE_PASSWORD
+              value: {{ .Values.data.database.password }}
+            - name: DATABASE_ROOT_PASSWORD
+              value: {{ .Values.data.database.root.password }}
+            - name: DATABASE_ROOT_USER
+              value: {{ .Values.data.database.root.user }}
+            - name: DATABASE_URL
+              value: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/{{ .Values.data.database.name }}"
+            - name: FUSIONAUTH_MEMORY
+              value: {{ .Values.data.memory }}
+            - name: FUSIONAUTH_SEARCH_SERVERS
+              value: http://{{ .Release.Name }}-elasticsearch-client:9200
+          resources:
+              {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+          {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      restartPolicy: Always
