@@ -70,7 +70,7 @@ spec:
             - name: DATABASE_ROOT_USER
               value: {{ .Values.data.database.root.user }}
             - name: DATABASE_URL
-              value: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/{{ .Values.data.database.name }}"
+              value: "jdbc:postgresql://{{ include "fusionauth.databaseHost" . }}:{{ .Values.data.database.port }}/{{ .Values.data.database.name }}"
             - name: FUSIONAUTH_MEMORY
               value: {{ .Values.data.memory }}
             - name: FUSIONAUTH_SEARCH_SERVERS
