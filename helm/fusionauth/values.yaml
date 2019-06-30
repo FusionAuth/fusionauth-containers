@@ -21,9 +21,10 @@ migrations:
     repository: ninjaneers/flywait
     tag: "1.2.7"
     pullPolicy: IfNotPresent
-  enabled: true
+  enabled: false
   data: 
-    # create-init-user.sql: |
+    # We start with V2 because of baselineOnMigrate=true
+    # V2__create-init-user.sql: |
     #   INSERT INTO users (id, active, birth_date, clean_speak_id, data, expiry, first_name, full_name, image_url,
     #                       insert_instant, last_name, middle_name, mobile_phone, tenants_id, timezone)
     #   VALUES ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', true, null, null, '{"data":{},"preferredLanguages":[]}', null, 'Admin',
@@ -36,7 +37,7 @@ migrations:
     # PBE Ciphers: PBKDF2WithHmacSHA256 
     # example password: admin
     # to generate password
-    # create-init-user-identity.sql: |
+    # V3__create-init-user-identity.sql: |
     #   INSERT INTO identities (email, encryption_scheme, factor, last_login_instant, password,
     #                            password_change_required, password_last_update_instant, salt, status, tenants_id,
     #                            two_factor_delivery, two_factor_enabled, two_factor_secret, username, username_index,
@@ -46,18 +47,18 @@ migrations:
     #           'qzDxRCKxuVJ6Wgag6upCwbv7xFtGlxp6ppLp0D/dSIM=', 0, (SELECT id FROM tenants WHERE name = 'default'), 0, false,
     #           null, null, null, 0, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', true);
 
-    # create-init-user-registration.sql: |
+    # V4__create-init-user-registration.sql: |
     #   INSERT INTO user_registrations (id, applications_id, authentication_token, clean_speak_id, data, insert_instant,
     #                                         last_login_instant, timezone, username, username_status, users_id, verified)
     #   VALUES ('4200e85b-5ee2-45fb-93e6-45d9ded5a276', (SELECT id FROM applications WHERE name = 'FusionAuth'), null, null,
     #           '{"data":{},"preferredLanguages":[],"tokens":{}}', (extract(epoch from now()) * 1000), null, null, null, 0,
     #           'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', true);
 
-    # create-init-user-app-registration.sql: |
+    # V5__create-init-user-app-registration.sql: |
     #   INSERT INTO user_registrations_application_roles (application_roles_id, user_registrations_id)
     #   VALUES ((SELECT id FROM application_roles WHERE name = 'admin'), '4200e85b-5ee2-45fb-93e6-45d9ded5a276');
 
-    # create-api-key.sql: |
+    # V6__create-api-key.sql: |
     #    INSERT INTO authentication_keys (id, permissions, meta_data, tenants_id) 
     #    VALUES ('admin_api_key', null, null, (SELECT id FROM tenants WHERE name = 'default'));
 
