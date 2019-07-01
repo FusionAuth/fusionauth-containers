@@ -1,0 +1,40 @@
+{{- if .Values.migrations.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "fusionauth.fullname" . }}-migrations
+  labels:
+    app.kubernetes.io/name: {{ include "fusionauth.name" . }}-migrations
+    helm.sh/chart: {{ include "fusionauth.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  template:
+    metadata:
+      name: {{ template "fusionauth.name" . }}-migrations
+      labels:
+        app: {{ template "fusionauth.name" . }}
+        release: "{{ .Release.Name }}"
+        component: migrations
+    spec:
+      {{- if .Values.image.pullSecrets }}
+      imagePullSecrets:
+      {{- range .Values.image.pullSecrets }}
+        - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ include "fusionauth.name" . }}-migrations
+          image: "{{ .Values.migrations.image.repository }}:{{ .Values.migrations.image.tag }}"
+          imagePullPolicy: {{ .Values.migrations.image.pullPolicy }}
+          volumeMounts:
+            - name: {{ template "fusionauth.fullname" . }}-migrations-volume
+              mountPath: /flyway/sql
+          command: ["/bin/sh"]
+          args: ["-c", "./wait-for-healthy -t 120 http://{{ include "fusionauth.fullname" . }}:9011/api/status -- flyway -url=jdbc:postgresql://{{ include "fusionauth.databaseHost" . }}:{{ .Values.data.database.port }}/{{ .Values.data.database.name }} -user={{ .Values.data.database.root.user }} -password={{ .Values.data.database.root.password }} -connectRetries=60 -baselineOnMigrate=true migrate"]
+      restartPolicy: OnFailure
+      volumes:
+        - name: {{ template "fusionauth.fullname" . }}-migrations-volume
+          configMap:
+            name: {{ template "fusionauth.fullname" . }}-migrations
+{{- end }}
