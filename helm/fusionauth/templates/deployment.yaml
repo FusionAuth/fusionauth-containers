@@ -20,8 +20,8 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       initContainers:
-        # App has to wait for the database to be online "depends_on" workaround
         {{- if .Values.postgresql.enabled -}}
+        # App has to wait for the database to be online "depends_on" workaround
         - name: wait-for-db
           image: darthcabs/tiny-tools:1
           args:
