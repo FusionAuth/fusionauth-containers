@@ -22,8 +22,8 @@ services:
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=${ES_JAVA_OPTS}"
     ports:
-    - 9200:9200
-    - 9300:9300
+      - 9200:9200
+      - 9300:9300
     networks:
       - search
     restart: unless-stopped
