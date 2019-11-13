@@ -25,11 +25,11 @@ spec:
         ports:
         - containerPort: 5432
         resources: {}
-      #   volumeMounts:
-      #   - mountPath: /var/lib/postgresql/data
-      #     name: fusionauth-db-data
-      # restartPolicy: Always
-      # volumes:
-      # - name: fusionauth-db-data
-      #   persistentVolumeClaim:
-      #     claimName: fusionauth-db-data
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: fusionauth-db-data
+      restartPolicy: Always
+      volumes:
+      - name: fusionauth-db-data
+        persistentVolumeClaim:
+          claimName: fusionauth-db-data
