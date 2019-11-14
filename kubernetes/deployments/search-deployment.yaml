@@ -36,6 +36,14 @@ spec:
           args: ["vm.max_map_count=262144"]
           securityContext:
             privileged: true
+        # To increase the ulimit
+        # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_notes_for_production_use_and_defaults
+        - name: increase-fd-ulimit
+          image: busybox
+          command: ["sh", "-c", "ulimit", "-n"] 
+          args: ["65536"]
+          securityContext:
+            privileged: true
       containers:
         - name: fusionauth-search
           image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
