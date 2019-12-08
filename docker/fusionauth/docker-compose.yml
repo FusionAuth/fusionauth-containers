@@ -7,8 +7,9 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - 5432:5432
+# Un-comment to access the db service directly
+#    ports:
+#      - 5432:5432
     networks:
       - db
     restart: unless-stopped
@@ -21,9 +22,10 @@ services:
       - cluster.name=fusionauth
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=${ES_JAVA_OPTS}"
-    ports:
-      - 9200:9200
-      - 9300:9300
+# Un-comment to access the search service directly
+#    ports:
+#      - 9200:9200
+#      - 9300:9300
     networks:
       - search
     restart: unless-stopped
