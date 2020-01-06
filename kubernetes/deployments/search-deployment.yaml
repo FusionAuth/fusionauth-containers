@@ -55,7 +55,7 @@ spec:
             - name: ES_JAVA_OPTS
               value: -Xms256m -Xmx256m
             - name: discoveryzen
-              value: discovery.zen.ping.unicast.hosts=elasticsearch1
+              value: discovery.seed_host=elasticsearch1
           resources:
             limits:
               memory: "1G"
