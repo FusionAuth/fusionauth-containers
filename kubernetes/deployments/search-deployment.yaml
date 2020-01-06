@@ -58,7 +58,7 @@ spec:
               value: discovery.zen.ping.unicast.hosts=elasticsearch1
           resources:
             limits:
-              memory: "128Mi"
+              memory: "1G"
               cpu: "500m"
           ports:
             - containerPort: 9200
