@@ -62,7 +62,7 @@ target(name: "release-docker", description: "Releases the Docker images to Docke
     fail("Failed to build Docker image for fusionauth-app [${project.version}]")
   }
 
-  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-app:latest" as String, "./docker/fusionauth/fusionauth-app")) {
+  if (!cleanExecute("docker", "tag", "fusionauth/fusionauth-app:${project.version}" as String, "fusionauth/fusionauth-app:latest" as String)) {
     fail("Failed to build Docker image for fusionauth-app [latest]")
   }
 
@@ -70,7 +70,7 @@ target(name: "release-docker", description: "Releases the Docker images to Docke
     fail("Failed to build Docker image for fusionauth-search [${project.version}]")
   }
 
-  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-search:latest" as String, "./docker/fusionauth/fusionauth-search")) {
+  if (!cleanExecute("docker", "tag", "fusionauth/fusionauth-search:${project.version}" as String, "fusionauth/fusionauth-search:latest" as String)) {
     fail("Failed to build Docker image for fusionauth-search [latest]")
   }
 

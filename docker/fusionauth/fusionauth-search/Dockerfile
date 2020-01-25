@@ -28,7 +28,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  curl \
  && rm -rf /var/lib/apt/lists/* \
  && groupadd -g 1000 fusionauth \
- && useradd -g fusionauth -u 1000 fusionauth
+ && useradd -g fusionauth -u 1000 fusionauth \
+ && mkdir -p /usr/local/fusionauth \
+ && chown fusionauth:fusionauth /usr/local/fusionauth
 
 ###### Install Java #################################################
 RUN mkdir -p /usr/local/fusionauth/java \
@@ -44,7 +46,7 @@ RUN export FUSIONAUTH_VERSION=1.14.1 \
   && unzip -nq fusionauth-search.zip -d /usr/local/fusionauth \
   && rm fusionauth-search.zip \
   && mkdir -p /usr/local/fusionauth/data \
-  && chown -R fusionauth:fusionauth /usr/local/fusionauth/bin /usr/local/fusionauth/config /usr/local/fusionauth/fusionauth-search
+  && find /usr/local/fusionauth -type d -maxdepth 1 -not -user fusionauth -not -group fusionauth -exec chown -R fusionauth:fusionauth {} +
 
 ###### Start FusionAuth Search ######################################
 USER fusionauth
