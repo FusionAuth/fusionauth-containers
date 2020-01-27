@@ -2,15 +2,11 @@
 # FusionAuth App Dockerfile
 #
 # Build:
-#   > docker build -t fusionauth/fusionauth-app:1.14.1 .
-#   > docker build -t fusionauth/fusionauth-app:latest .
+#   > cp ~/dev/inversoft/fusionauth/fusionauth-app/build/bundles/*.zip .
+#   > docker build -t fusionauth/fusionauth-app:dev .
 #
 # Run:
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
-#
-# Publish:
-#   > docker push fusionauth/fusionauth-app:1.14.1
-#   > docker push fusionauth/fusionauth-app:latest
 #
 
 FROM debian:stretch-slim
