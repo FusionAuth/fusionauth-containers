@@ -49,4 +49,4 @@ RUN export FUSIONAUTH_VERSION=1.14.1 \
 
 ###### Start FusionAuth App #########################################
 USER fusionauth
-CMD /usr/local/fusionauth/fusionauth-app/apache-tomcat/bin/catalina.sh run
+CMD ["/usr/local/fusionauth/fusionauth-app/apache-tomcat/bin/catalina.sh", "run"]
