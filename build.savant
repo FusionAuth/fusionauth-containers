@@ -75,20 +75,22 @@ target(name: "release-docker", description: "Releases the Docker images to Docke
   }
 
   // Push images
-  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:${project.version}" as String)) {
-    fail("Failed to push Docker image for fusionauth-app [${project.version}]")
-  }
+  if (!switches.has("dryRun")) {
+    if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:${project.version}" as String)) {
+      fail("Failed to push Docker image for fusionauth-app [${project.version}]")
+    }
 
-  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:latest" as String)) {
-    fail("Failed to push Docker image for fusionauth-app [latest]")
-  }
+    if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:latest" as String)) {
+      fail("Failed to push Docker image for fusionauth-app [latest]")
+    }
 
-  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-search:${project.version}" as String)) {
-    fail("Failed to push Docker image for fusionauth-search [${project.version}]")
-  }
+    if (!cleanExecute("docker", "push", "fusionauth/fusionauth-search:${project.version}" as String)) {
+      fail("Failed to push Docker image for fusionauth-search [${project.version}]")
+    }
 
-  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-search:latest" as String)) {
-    fail("Failed to push Docker image for fusionauth-search [latest]")
+    if (!cleanExecute("docker", "push", "fusionauth/fusionauth-search:latest" as String)) {
+      fail("Failed to push Docker image for fusionauth-search [latest]")
+    }
   }
 }
 
