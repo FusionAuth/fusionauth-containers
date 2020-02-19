@@ -46,7 +46,7 @@ RUN export FUSIONAUTH_VERSION=1.15.2 \
   && unzip -nq fusionauth-search.zip -d /usr/local/fusionauth \
   && rm fusionauth-search.zip \
   && mkdir -p /usr/local/fusionauth/data \
-  && find /usr/local/fusionauth -type d -maxdepth 1 -not -user fusionauth -not -group fusionauth -exec chown -R fusionauth:fusionauth {} +
+  && find /usr/local/fusionauth -type d -maxdepth 1 -not -user fusionauth -and -group fusionauth -exec chown -R fusionauth:fusionauth {} +
 
 ###### Start FusionAuth Search ######################################
 USER fusionauth

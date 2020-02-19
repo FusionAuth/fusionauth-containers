@@ -42,8 +42,8 @@ COPY fusionauth-app-*zip fusionauth-app.zip
 RUN mkdir -p /usr/local/fusionauth/fusionauth-app \
   && unzip -nq fusionauth-app.zip -d /usr/local/fusionauth \
   && rm fusionauth-app.zip \
-  && find /usr/local/fusionauth -type d -maxdepth 1 -not -user fusionauth -not -group fusionauth -exec chown -R fusionauth:fusionauth {} +
+  && find /usr/local/fusionauth -type d -maxdepth 1 -not -user fusionauth -and -group fusionauth -exec chown -R fusionauth:fusionauth {} +
 
 ###### Start FusionAuth App #########################################
 USER fusionauth
-CMD /usr/local/fusionauth/fusionauth-app/apache-tomcat/bin/catalina.sh run
+CMD ["/usr/local/fusionauth/fusionauth-app/apache-tomcat/bin/catalina.sh", "run"]
