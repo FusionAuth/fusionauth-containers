@@ -7,13 +7,18 @@ metadata:
     helm.sh/chart: {{ include "fusionauth.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{- if .Values.service.annotations -}}
+  annotations:
+{{ .Values.service.annotations | toYaml | indent 4 }}
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - name: http
+      port: {{ .Values.service.port }}
       targetPort: http
       protocol: TCP
-      name: http
   selector:
     app.kubernetes.io/name: {{ include "fusionauth.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+{{ .Values.service.spec | toYaml | indent 2 }}
