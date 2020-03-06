@@ -38,3 +38,14 @@ Create chart name and version as used by the chart label.
 {{- define "fusionauth.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Set name of elasticsearch service
+*/}}
+{{- define "fusionauth.elasticsearchHost" -}}
+{{- if .Values.data.elasticsearch.host -}}
+{{- .Values.data.elasticsearch.host -}}
+{{- else -}}
+{{- .Release.Name -}}-elasticsearch-client
+{{- end -}}
+{{- end -}}
