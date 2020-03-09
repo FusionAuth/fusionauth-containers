@@ -28,7 +28,7 @@ spec:
             - -c
             - >
               set -x;
-              while [[ "$(nc -zv '{{ .Release.Name }}-postgresql' 5432 &> /dev/null; echo $?)" != 0 ]]; do
+              while [[ "$(nc -zv '{{ include "fusionauth.databaseHost" . }}' {{ .Values.data.database.port }} &> /dev/null; echo $?)" != 0 ]]; do
                 echo '.'
                 sleep 15;
               done
