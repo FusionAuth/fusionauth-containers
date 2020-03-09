@@ -49,3 +49,14 @@ Set name of elasticsearch service
 {{- .Release.Name -}}-elasticsearch-client
 {{- end -}}
 {{- end -}}
+
+{{/*
+Set apiVersion for ingress
+*/}}
+{{- define "fusionauth.ingressApiVersion" -}}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" -}}
+networking.k8s.io/v1beta1
+{{- else -}}
+extensions/v1beta1
+{{- end -}}
+{{- end -}}

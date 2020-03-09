@@ -1,7 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "fusionauth.fullname" . -}}
 {{- $ingressPaths := .Values.ingress.paths -}}
-apiVersion: extensions/v1beta1
+apiVersion: {{ include "fusionauth.ingressApiVersion" . }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
