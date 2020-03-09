@@ -89,6 +89,8 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   paths: []
+  # Define complete path objects, will be inserted before regular paths. Can be useful for things like ALB Ingress Controller actions
+  extraPaths: []
   hosts:
     - chart-example.local
   tls: []
