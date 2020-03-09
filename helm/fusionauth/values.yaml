@@ -71,6 +71,7 @@ data:
     # if empty {{- .Release.Name -}}-postgresql will be used
     host: ""
     port: 5432
+    tls: false
     name: fusionauth
     user: localhost
     password: localhost

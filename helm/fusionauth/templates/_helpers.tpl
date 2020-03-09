@@ -60,3 +60,12 @@ networking.k8s.io/v1beta1
 extensions/v1beta1
 {{- end -}}
 {{- end -}}
+
+{{/*
+Configure TLS if enabled
+*/}}
+{{- define "fusionauth.databaseTLS" -}}
+{{- if .Values.data.database.tls -}}
+?sslmode=require
+{{- end -}}
+{{- end -}}

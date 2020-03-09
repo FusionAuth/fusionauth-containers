@@ -31,7 +31,7 @@ spec:
             - name: {{ template "fusionauth.fullname" . }}-migrations-volume
               mountPath: /flyway/sql
           command: ["/bin/sh"]
-          args: ["-c", "./wait-for-healthy -t 120 http://{{ include "fusionauth.fullname" . }}:{{ .Values.service.port }}/api/status -- flyway -url=jdbc:postgresql://{{ include "fusionauth.databaseHost" . }}:{{ .Values.data.database.port }}/{{ .Values.data.database.name }} -user={{ .Values.data.database.root.user }} -password={{ .Values.data.database.root.password }} -connectRetries=60 -baselineOnMigrate=true migrate"]
+          args: ["-c", "./wait-for-healthy -t 120 http://{{ include "fusionauth.fullname" . }}:{{ .Values.service.port }}/api/status -- flyway -url=jdbc:postgresql://{{ include "fusionauth.databaseHost" . }}:{{ .Values.data.database.port }}/{{ .Values.data.database.name }}{{ include "fusionauth.databaseTLS" . }} -user={{ .Values.data.database.root.user }} -password={{ .Values.data.database.root.password }} -connectRetries=60 -baselineOnMigrate=true migrate"]
       restartPolicy: OnFailure
       volumes:
         - name: {{ template "fusionauth.fullname" . }}-migrations-volume
