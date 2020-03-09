@@ -13,6 +13,7 @@ FusionAuth loves containers, found an issue? Please open a bug or submit a PR.
 - The FusionAuth team - couldn't have done it without you! 
 
 ## Contributors
+- [@nadilas](https://github.com/nadilas)
 - [@trollr](https://github.com/trollr)
 - [@drpebcak](https://github.com/drpebcak)
 
