@@ -16,13 +16,13 @@ service:
   type: ClusterIP
   port: 9011
 
-migrations: 
+migrations:
   image:
     repository: ninjaneers/flywait
     tag: 1.2.8
     pullPolicy: IfNotPresent
   enabled: false
-  data: 
+  data:
     # We start with V2 because of baselineOnMigrate=true
     # V2__create-init-user.sql: |
     #   INSERT INTO users (id, active, birth_date, clean_speak_id, data, expiry, first_name, full_name, image_url,
@@ -32,9 +32,9 @@ migrations:
 
     # Use https://8gwifi.org/pbkdf.jsp with (see query for salt and factor)
     # Salt: qzDxRCKxuVJ6Wgag6upCwbv7xFtGlxp6ppLp0D/dSIM= (salt),
-    # Iterations: 24000 (factor), 
+    # Iterations: 24000 (factor),
     # dkLen: 256
-    # PBE Ciphers: PBKDF2WithHmacSHA256 
+    # PBE Ciphers: PBKDF2WithHmacSHA256
     # example password: admin
     # to generate password
     # V3__create-init-user-identity.sql: |
@@ -59,7 +59,7 @@ migrations:
     #   VALUES ((SELECT id FROM application_roles WHERE name = 'admin'), '4200e85b-5ee2-45fb-93e6-45d9ded5a276');
 
     # V6__create-api-key.sql: |
-    #    INSERT INTO authentication_keys (id, permissions, meta_data, tenants_id) 
+    #    INSERT INTO authentication_keys (id, permissions, meta_data, tenants_id)
     #    VALUES ('admin_api_key', null, null, (SELECT id FROM tenants WHERE name = 'default'));
 
 data:
@@ -74,6 +74,11 @@ data:
     root:
       user: localhost
       password: localhost
+  elasticsearch:
+    # if empty {{- .Release.Name -}}-elasticsearch-client will be used
+    host: ""
+    port: 9200
+
 
 ingress:
   enabled: false
@@ -107,11 +112,13 @@ tolerations: []
 affinity: {}
 
 elasticsearch:
+  # if enabled = false, you must set data.elasticsearch.host
+  enabled: true
   master:
     name: master
 
-postgresql: 
-  # if enabled = false u need to set data.database.host
+postgresql:
+  # if enabled = false you need to set data.database.host
   enabled: true
   postgresqlUsername: localhost
   postgresqlPassword: localhost

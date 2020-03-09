@@ -40,7 +40,7 @@ spec:
             - -c
             - >
               set -x;
-              while [[ "$(nc -zv '{{ .Release.Name }}-elasticsearch-client' 9200 &> /dev/null; echo $?)" != 0 ]]; do
+              while [[ "$(nc -zv '{{ include "fusionauth.elasticsearchHost" . }}' {{ .Values.data.elasticsearch.port }} &> /dev/null; echo $?)" != 0 ]]; do
                 echo '.'
                 sleep 15;
               done
@@ -74,7 +74,7 @@ spec:
             - name: FUSIONAUTH_MEMORY
               value: {{ .Values.data.memory }}
             - name: FUSIONAUTH_SEARCH_SERVERS
-              value: http://{{ .Release.Name }}-elasticsearch-client:9200
+              value: http://{{ include "fusionauth.elasticsearchHost" . }}:{{ .Values.data.elasticsearch.port }}
           resources:
               {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
