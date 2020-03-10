@@ -1,11 +1,11 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fusionauth-search
 spec:
-  replicas: 1
-  strategy:
-    type: Recreate
+  selector:
+    matchLabels:
+      app: fusionauth-search
   template:
     metadata:
       labels:
@@ -21,10 +21,7 @@ spec:
         # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_notes_for_production_use_and_defaults
         - name: fix-the-volume-permission
           image: busybox
-          command:
-            - sh
-            - -c
-            - chown -R 1000:1000 /usr/share/elasticsearch/data
+          command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
           securityContext:
             privileged: true
           volumeMounts:
@@ -35,48 +32,44 @@ spec:
         # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode
         - name: increase-the-vm-max-map-count
           image: busybox
-          command:
-            - sysctl
-            - -w
-            - vm.max_map_count=262144
+          command: ["sysctl", "-w"]
+          args: ["vm.max_map_count=262144"]
           securityContext:
             privileged: true
         # To increase the ulimit
         # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_notes_for_production_use_and_defaults
-        - name: increase-the-ulimit
+        - name: increase-fd-ulimit
           image: busybox
-          command:
-            - sh
-            - -c
-            - ulimit -n 65536
+          command: ["sh", "-c", "ulimit", "-n"] 
+          args: ["65536"]
           securityContext:
             privileged: true
       containers:
-      - env:
-        - name: ES_JAVA_OPTS
-          value: -Xms256m -Xmx256m
-        # NOTE:
-        # To prevent cannot lock memory issue: https://stackoverflow.com/a/45041560
-        - name: MAX_LOCKED_MEMORY
-          value: unlimited
-        #- name: bootstrap.memory_lock
-        #  value: "true"
-        - name: cluster.name
-          value: fusionauth
-        image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
-        name: search
-        ports:
-        - containerPort: 9200
-          name: http
-        - containerPort: 9300
-          name: transport
-        resources: {}
-        volumeMounts:
-        - mountPath: /usr/share/elasticsearch/data
-          name: es-data
+        - name: fusionauth-search
+          image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
+          env:
+            - name: CLUSTER_NAME
+              value: cluster.name=fusionauth
+            - name: BOOSTRAP_MEMORY_LOCK
+              value: bootstrap.memory_lock=true
+            - name: ES_JAVA_OPTS
+              value: -Xms256m -Xmx256m
+            - name: discoveryzen
+              value: discovery.seed_host=elasticsearch1
+          resources:
+            limits:
+              memory: "1G"
+              cpu: "500m"
+          ports:
+            - containerPort: 9200
+              name: http
+            - containerPort: 9300
+              name: transport
+          volumeMounts:
+            - mountPath: /usr/share/elasticsearch/data
+              name: es-data
       restartPolicy: Always
       volumes:
-      - name: es-data
-        persistentVolumeClaim:
-          claimName: es-data
-status: {}
+        - name: es-data
+          persistentVolumeClaim:
+            claimName: es-data
