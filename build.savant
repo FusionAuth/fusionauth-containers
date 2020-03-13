@@ -28,7 +28,6 @@ project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.15.5"
   publications {
     docker {
       publication(name: "fusionauth-app-dockerfile", type: "docker", file: "docker/fusionauth/fusionauth-app/Dockerfile")
-      publication(name: "fusionauth-search-dockerfile", type: "docker", file: "docker/fusionauth/fusionauth-search/Dockerfile")
       publication(name: "fusionauth-docker-compose", type: "yml", file: "docker/fusionauth/docker-compose.yml")
     }
   }
@@ -66,14 +65,6 @@ target(name: "release-docker", description: "Releases the Docker images to Docke
     fail("Failed to build Docker image for fusionauth-app [latest]")
   }
 
-  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-search:${project.version}" as String, "./docker/fusionauth/fusionauth-search")) {
-    fail("Failed to build Docker image for fusionauth-search [${project.version}]")
-  }
-
-  if (!cleanExecute("docker", "tag", "fusionauth/fusionauth-search:${project.version}" as String, "fusionauth/fusionauth-search:latest" as String)) {
-    fail("Failed to build Docker image for fusionauth-search [latest]")
-  }
-
   // Push images
   if (!switches.has("dryRun")) {
     if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:${project.version}" as String)) {
@@ -82,14 +73,6 @@ target(name: "release-docker", description: "Releases the Docker images to Docke
 
     if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:latest" as String)) {
       fail("Failed to push Docker image for fusionauth-app [latest]")
-    }
-
-    if (!cleanExecute("docker", "push", "fusionauth/fusionauth-search:${project.version}" as String)) {
-      fail("Failed to push Docker image for fusionauth-search [${project.version}]")
-    }
-
-    if (!cleanExecute("docker", "push", "fusionauth/fusionauth-search:latest" as String)) {
-      fail("Failed to push Docker image for fusionauth-search [latest]")
     }
   }
 }

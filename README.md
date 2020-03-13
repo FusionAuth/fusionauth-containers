@@ -36,14 +36,9 @@ docker-compose up
 
 Docker images are available on [Docker Hub](https://hub.docker.com/u/fusionauth/)
 
-FusionAuth App Only
+FusionAuth App
 ```bash
 docker pull fusionauth/fusionauth-app
-```
-
-FusionAuth Search Only
-```bash
-docker pull fusionauth/fusionauth-search
 ```
 
 ## Kubernetes
