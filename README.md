@@ -68,4 +68,4 @@ kubectl apply --recursive -f kubernetes/services
 
 ## Helm
 
-See [README](https://github.com/FusionAuth/charts/blob/master/README.md) for more informations.
+The [FusionAuth Helm chart](https://github.com/FusionAuth/charts) is managed in a separate repository. See [README](https://github.com/FusionAuth/charts/blob/master/README.md) for more informations.
