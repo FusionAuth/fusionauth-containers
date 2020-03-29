@@ -1,0 +1,98 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: authorization
+  name: fusionauth
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: fusionauth
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: fusionauth
+    spec:
+      containers:
+      - env:
+        # TODO: create fusionauth-db secret
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_USER
+              name: fustionauth-db
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_PASSWORD
+              name: fustionauth-db
+        - name: DATABASE_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_ROOT_PASSWORD
+              name: fustionauth-db
+        - name: DATABASE_ROOT_USER
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_ROOT_USER
+              name: fustionauth-db
+        - name: DATABASE_URL
+          value: jdbc:postgresql://fusionauth-db:5432/fusionauth
+        - name: FUSIONAUTH_MEMORY
+          value: 1G
+        - name: FUSIONAUTH_SEARCH_SERVERS
+          value: http://fusionauth-search:9200
+        # TODO: link to fusionauth-openshift image
+        image: docker-registry.default.svc:5000/namespace/fusionauth-openshift:1.14.0
+        imagePullPolicy: Always
+        name: fusionauth
+        ports:
+        - containerPort: 9011
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 300m
+            memory: 1Gi
+          requests:
+            cpu: 50m
+            memory: 512Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      initContainers:
+      - args:
+        - /bin/bash
+        - -c
+        - |
+          set -x; while [[ "$(nc -zv fusionauth-db 5432 &> /dev/null; echo $?)" != 0 ]]; do
+            echo '.'
+            sleep 15;
+          done
+        image: giantswarm/tiny-tools:3.10
+        imagePullPolicy: IfNotPresent
+        name: wait-for-db
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - args:
+        - /bin/bash
+        - -c
+        - |
+          set -x; while [[ "$(nc -zv fusionauth-search 9200 &> /dev/null; echo $?)" != 0 ]]; do
+            echo '.'
+            sleep 15;
+          done
+        image: giantswarm/tiny-tools:3.10
+        imagePullPolicy: IfNotPresent
+        name: wait-for-search
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

@@ -1,0 +1,60 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: authorization
+  name: fusionauth-db
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: fusionauth-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: fusionauth-db
+    spec:
+      containers:
+      - env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_ROOT_USER
+              name: fustionauth-db
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_ROOT_PASSWORD
+              name: fustionauth-db
+        image: postgres:9.6.13
+        imagePullPolicy: IfNotPresent
+        name: fusionauth-db
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 150m
+            memory: 300Mi
+          requests:
+            cpu: 100m
+            memory: 262Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: fusionauth-db-data
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: fusionauth-db-data
+        persistentVolumeClaim:
+          claimName: fusionauth-db-data
