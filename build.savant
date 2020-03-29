@@ -1,10 +1,22 @@
 /*
- * Copyright (c) 2018, FusionAuth, All Rights Reserved
+ * Copyright (c) 2018-2020, FusionAuth, All Rights Reserved
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
  */
 savantVersion = "1.0.0"
 
 
-project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.4.0",licenses: ["ApacheV2_0"]) {
+project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.15.6", licenses: ["ApacheV2_0"]) {
   workflow {
     standard()
   }
@@ -16,7 +28,6 @@ project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.4.0",
   publications {
     docker {
       publication(name: "fusionauth-app-dockerfile", type: "docker", file: "docker/fusionauth/fusionauth-app/Dockerfile")
-      publication(name: "fusionauth-search-dockerfile", type: "docker", file: "docker/fusionauth/fusionauth-search/Dockerfile")
       publication(name: "fusionauth-docker-compose", type: "yml", file: "docker/fusionauth/docker-compose.yml")
     }
   }
@@ -50,33 +61,19 @@ target(name: "release-docker", description: "Releases the Docker images to Docke
     fail("Failed to build Docker image for fusionauth-app [${project.version}]")
   }
 
-  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-app:latest" as String, "./docker/fusionauth/fusionauth-app")) {
+  if (!cleanExecute("docker", "tag", "fusionauth/fusionauth-app:${project.version}" as String, "fusionauth/fusionauth-app:latest" as String)) {
     fail("Failed to build Docker image for fusionauth-app [latest]")
   }
 
-  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-search:${project.version}" as String, "./docker/fusionauth/fusionauth-search")) {
-    fail("Failed to build Docker image for fusionauth-search [${project.version}]")
-  }
-
-  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-search:latest" as String, "./docker/fusionauth/fusionauth-search")) {
-    fail("Failed to build Docker image for fusionauth-search [latest]")
-  }
-
   // Push images
-  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:${project.version}" as String)) {
-    fail("Failed to push Docker image for fusionauth-app [${project.version}]")
-  }
+  if (!switches.has("dryRun")) {
+    if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:${project.version}" as String)) {
+      fail("Failed to push Docker image for fusionauth-app [${project.version}]")
+    }
 
-  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:latest" as String)) {
-    fail("Failed to push Docker image for fusionauth-app [latest]")
-  }
-
-  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-search:${project.version}" as String)) {
-    fail("Failed to push Docker image for fusionauth-search [${project.version}]")
-  }
-
-  if (!cleanExecute("docker", "push", "fusionauth/fusionauth-search:latest" as String)) {
-    fail("Failed to push Docker image for fusionauth-search [latest]")
+    if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:latest" as String)) {
+      fail("Failed to push Docker image for fusionauth-app [latest]")
+    }
   }
 }
 

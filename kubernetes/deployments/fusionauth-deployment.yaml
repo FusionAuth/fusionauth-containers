@@ -1,12 +1,13 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fusionauth
   namespace: default
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
+  selector:
+   matchLabels:
+     app: fusionauth
   template:
     metadata:
       labels:
@@ -15,7 +16,7 @@ spec:
       initContainers:
         # App has to wait for the database to be online "depends_on" workaround
         - name: wait-for-db
-          image: darthcabs/tiny-tools:1
+          image: giantswarm/tiny-tools:3.10
           args:
             - /bin/bash
             - -c
@@ -27,7 +28,7 @@ spec:
               done
         # App has to wait for elasticsearch to be online "depends_on" workaround
         - name: wait-for-search
-          image: darthcabs/tiny-tools:1
+          image: giantswarm/tiny-tools:3.10
           args:
             - /bin/bash
             - -c
