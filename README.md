@@ -12,13 +12,16 @@ FusionAuth loves containers, found an issue? Please open a bug or submit a PR.
 - [@drpebcak](https://github.com/drpebcak) for all of your contribution and assistance in this repo!
 - The FusionAuth team - couldn't have done it without you!
 
+<br>
+
 ## Contributors
 - [@nadilas](https://github.com/nadilas)
 - [@trollr](https://github.com/trollr)
 - [@drpebcak](https://github.com/drpebcak)
 
-## Docker
+<br>
 
+## Docker
 
 ### Docker Compose
 
@@ -41,6 +44,8 @@ FusionAuth App
 docker pull fusionauth/fusionauth-app
 ```
 
+<br>
+
 ## Kubernetes
 
 
@@ -61,11 +66,13 @@ kubectl apply --recursive -f kubernetes/deployments
 kubectl apply --recursive -f kubernetes/services
 ```
 
-## Helm
+<br>
 
+## Helm
 The [FusionAuth Helm chart](https://github.com/FusionAuth/charts) is managed in a separate repository. See [README](https://github.com/FusionAuth/charts/blob/master/README.md) for more informations.
 
-## OpenShift
+<br>
 
+## OpenShift
 See the [FusionAuth OpenShift README](https://github.com/FusionAuth/fusionauth-containers/tree/master/openshift)
 
