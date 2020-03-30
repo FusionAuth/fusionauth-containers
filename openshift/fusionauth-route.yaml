@@ -1,0 +1,18 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: authorization
+  name: fusionauth
+spec:
+  # TODO add hostname for fusionauth
+  host: fauth.mydomain.com
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: fusionauth
+    weight: 100
+  wildcardPolicy: None
