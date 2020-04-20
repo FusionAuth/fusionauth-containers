@@ -48,6 +48,9 @@ docker pull fusionauth/fusionauth-app
 
 ## Kubernetes
 
+### Notice
+The Kubernetes portion of this repository is community maintained; and is provided to assist in your deployment and management of FusionAuth. Use of this software is not covered under the FusionAuth license agreement and is provided "as is" without warranty.  https://fusionauth.io/license
+
 
 ### Single instance deployment
 
@@ -69,10 +72,18 @@ kubectl apply --recursive -f kubernetes/services
 <br>
 
 ## Helm
+
+### Notice
+The Helm repository is community maintained; and is provided to assist in your deployment and management of FusionAuth. Use of this software is not covered under the FusionAuth license agreement and is provided "as is" without warranty.  https://fusionauth.io/license
+
 The [FusionAuth Helm chart](https://github.com/FusionAuth/charts) is managed in a separate repository. See [README](https://github.com/FusionAuth/charts/blob/master/README.md) for more informations.
 
 <br>
 
 ## OpenShift
+
+### Notice
+The OpenShift portion of this repository is community maintained; and is provided to assist in your deployment and management of FusionAuth. Use of this software is not covered under the FusionAuth license agreement and is provided "as is" without warranty.  https://fusionauth.io/license
+
 See the [FusionAuth OpenShift README](https://github.com/FusionAuth/fusionauth-containers/tree/master/openshift)
 
