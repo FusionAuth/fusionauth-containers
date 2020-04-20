@@ -9,7 +9,7 @@
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 
-FROM fusionauth/fusionauth-java:14-jdk-alpine3.11
+FROM fusionauth/fusionauth-java:14-jdk-alpine3.11.5
 
 LABEL description="Create an image running FusionAuth App. Installs FusionAuth App"
 LABEL maintainer="FusionAuth <dev@fusionauth.io>"

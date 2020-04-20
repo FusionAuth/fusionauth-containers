@@ -26,7 +26,7 @@ RUN curl -Sk --progress-bar https://storage.googleapis.com/inversoft_products_j0
   && mkdir -p /usr/local/fusionauth/fusionauth-app \
   && unzip -nq fusionauth-app.zip -d /usr/local/fusionauth
 
-FROM fusionauth/fusionauth-java:14-jdk-alpine3.11
+FROM fusionauth/fusionauth-java:14-jdk-alpine3.11.5
 
 RUN addgroup fusionauth \
   && adduser -G fusionauth -D -H fusionauth
