@@ -1,8 +1,8 @@
 #!/bin/sh
 
-currentDir=`pwd`
-cd ~/dev/inversoft/fusionauth/fusionauth-app
+cd ~/dev/inversoft/fusionauth/fusionauth-app || exit 1
 sb bundle --zipOnly
-cd ${currentDir}
-cp ~/dev/inversoft/fusionauth/fusionauth-app/build/bundles/fusionauth-app-*.zip .
+cd - || exit 1
+rm -rf ./fusionauth-app
+unzip ~/dev/inversoft/fusionauth/fusionauth-app/build/bundles/fusionauth-app-*.zip -d ./fusionauth-app
 docker build -t fusionauth/fusionauth-app:dev .
