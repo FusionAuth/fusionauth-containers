@@ -2,8 +2,9 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/docker/fusionauth/test/fusionauth-app/fusionauth-app" />
+    </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
-
