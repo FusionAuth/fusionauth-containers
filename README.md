@@ -51,23 +51,13 @@ docker pull fusionauth/fusionauth-app
 ### Notice
 The Kubernetes portion of this repository is community maintained; and is provided to assist in your deployment and management of FusionAuth. Use of this software is not covered under the FusionAuth license agreement and is provided "as is" without warranty.  https://fusionauth.io/license
 
-
-### Single instance deployment
-
-
-#### For Istio
-
-```bash
-kubectl apply --recursive -f kubernetes
+```
+kubernetes
+├── *
+├── README.md
 ```
 
-#### Internal only
-
-```bash
-kubectl apply --recursive -f kubernetes/volume-claims
-kubectl apply --recursive -f kubernetes/deployments
-kubectl apply --recursive -f kubernetes/services
-```
+See the [Kubernetes README](https://github.com/FusionAuth/fusionauth-containers/tree/master/kubernetes)
 
 <br>
 
@@ -85,5 +75,11 @@ The [FusionAuth Helm chart](https://github.com/FusionAuth/charts) is managed in 
 ### Notice
 The OpenShift portion of this repository is community maintained; and is provided to assist in your deployment and management of FusionAuth. Use of this software is not covered under the FusionAuth license agreement and is provided "as is" without warranty.  https://fusionauth.io/license
 
-See the [FusionAuth OpenShift README](https://github.com/FusionAuth/fusionauth-containers/tree/master/openshift)
+```
+openshift
+├── *
+├── README.md
+```
+
+See the [OpenShift README](https://github.com/FusionAuth/fusionauth-containers/tree/master/openshift)
 

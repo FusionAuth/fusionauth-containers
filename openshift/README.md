@@ -1,7 +1,9 @@
-# Openshift deployment
+## OpenShift
 
+### Notice
+This repository is community maintained; and is provided to assist in your deployment and management of FusionAuth. Use of this software is not covered under the FusionAuth license agreement and is provided "as is" without warranty.  https://fusionauth.io/license
 
-#### Basics 
+#### How to use these files 
 
 1. Use this [Dockerfile](./Dockerfile) to build openshift image for non-privileged containers
 2. Update the [fusionauth-app.yaml](./fusionauth-app.yaml) definition to use the correct image
