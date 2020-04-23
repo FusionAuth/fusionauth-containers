@@ -21,7 +21,7 @@ RUN apk add --no-cache \
   curl
 
 ###### Get and install FusionAuth App Bundle ########################
-ENV FUSIONAUTH_VERSION=1.16.0-RC.2
+ENV FUSIONAUTH_VERSION=1.16.0-RC.1
 RUN curl -Sk --progress-bar https://storage.googleapis.com/inversoft_products_j098230498/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip -o fusionauth-app.zip \
   && mkdir -p /usr/local/fusionauth/fusionauth-app \
   && unzip -nq fusionauth-app.zip -d /usr/local/fusionauth
@@ -38,4 +38,5 @@ LABEL description="Create an image running FusionAuth App. Installs FusionAuth A
 LABEL maintainer="FusionAuth <dev@fusionauth.io>"
 EXPOSE 9011
 USER fusionauth
+ENV FUSIONAUTH_USE_GLOBAL_JAVA=1
 CMD ["/usr/local/fusionauth/fusionauth-app/apache-tomcat/bin/catalina.sh", "run"]
