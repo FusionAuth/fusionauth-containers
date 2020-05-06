@@ -3,18 +3,18 @@
 #
 # Note:
 # -----------------------------------------------------------------------------
-# Under normal circumstances, the MySQL connector is downloaded at runtime
-# if you have configured a MySQL JDBC URL.
+# The MySQL JDBC connector is not bundled with FusionAuth due to the GPL
+# license terms under which Oracle publishes this software.
 #
-# This means the MySQL connector is not bundled with FusionAuth due to the
-# GPL license under which Oracle publishes this software.
+# https://github.com/mysql/mysql-connector-j/blob/release/8.0/LICENSE
 #
-#  https://github.com/mysql/mysql-connector-j/blob/release/8.0/LICENSE
+# Because of this restriction, the MySQL connector is downloaded at runtime
+# to allow FusionAuth to connect to a MySQL JDBC URL.
 #
 # Generally speaking downloading this jar at runtime works just fine. However
 # if you have blocked outbound network access or are concerned with this
-# external depdendency leading to possible failures during startup you may
-# optionally download the jar ahead of time.
+# external network depdendency leading to possible failures during startup you
+# may optionally download the jar ahead of time.
 #
 # During startup, if we identify the correct MySQL connector jar in the
 # classpath the download attempt will be skipped.
