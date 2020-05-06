@@ -16,31 +16,10 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
-  search:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
-    environment:
-      - cluster.name=fusionauth
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=${ES_JAVA_OPTS}"
-# Un-comment to access the search service directly
-#    ports:
-#      - 9200:9200
-#      - 9300:9300
-    networks:
-      - search
-    restart: unless-stopped
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - es_data:/usr/share/elasticsearch/data
-
   fusionauth:
     image: fusionauth/fusionauth-app:latest
     depends_on:
       - db
-      - search
     environment:
       DATABASE_URL: jdbc:postgresql://db:5432/fusionauth
       DATABASE_ROOT_USER: ${POSTGRES_USER}
@@ -48,11 +27,10 @@ services:
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       FUSIONAUTH_MEMORY: ${FUSIONAUTH_MEMORY}
-      FUSIONAUTH_SEARCH_SERVERS: http://search:9200
+      FUSIONAUTH_SEARCH_ENGINE_TYPE: database
       FUSIONAUTH_URL: http://fusionauth:9011
     networks:
      - db
-     - search
     restart: unless-stopped
     ports:
       - 9011:9011
@@ -62,10 +40,7 @@ services:
 networks:
   db:
     driver: bridge
-  search:
-    driver: bridge
 
 volumes:
   db_data:
-  es_data:
   fa_config:

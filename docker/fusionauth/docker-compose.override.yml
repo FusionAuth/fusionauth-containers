@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+
+  search:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    environment:
+      cluster.name: fusionauth
+      bootstrap.memory_lock: "true"
+      discovery.type: single-node
+      ES_JAVA_OPTS: ${ES_JAVA_OPTS}
+    # Un-comment to access the search service directly
+    # ports:
+    #  - 9200:9200
+    #  - 9300:9300
+    networks:
+      - search
+    restart: unless-stopped
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+  fusionauth:
+    depends_on:
+      - search
+    environment:
+      FUSIONAUTH_SEARCH_ENGINE_TYPE: elasticsearch
+      FUSIONAUTH_SEARCH_SERVERS: http://search:9200
+    networks:
+      - search
+
+networks:
+  search:
+    driver: bridge
+
+volumes:
+  es_data:
