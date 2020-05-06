@@ -61,8 +61,11 @@ target(name: "release-docker", description: "Releases the Docker images to Docke
     fail("Failed to build Docker image for fusionauth-app [${project.version}]")
   }
 
-  if (!cleanExecute("docker", "tag", "fusionauth/fusionauth-app:${project.version}" as String, "fusionauth/fusionauth-app:latest" as String)) {
-    fail("Failed to build Docker image for fusionauth-app [latest]")
+  // Don't build a pre-release latest tag
+  if (!project.version.preRelease) {
+    if (!cleanExecute("docker", "tag", "fusionauth/fusionauth-app:${project.version}" as String, "fusionauth/fusionauth-app:latest" as String)) {
+      fail("Failed to build Docker image for fusionauth-app [latest]")
+    }
   }
 
   // Push images
@@ -71,8 +74,11 @@ target(name: "release-docker", description: "Releases the Docker images to Docke
       fail("Failed to push Docker image for fusionauth-app [${project.version}]")
     }
 
-    if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:latest" as String)) {
-      fail("Failed to push Docker image for fusionauth-app [latest]")
+    // Don't push a pre-release latest tag
+    if (!project.version.preRelease) {
+      if (!cleanExecute("docker", "push", "fusionauth/fusionauth-app:latest" as String)) {
+        fail("Failed to push Docker image for fusionauth-app [latest]")
+      }
     }
   }
 }
