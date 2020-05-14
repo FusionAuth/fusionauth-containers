@@ -29,6 +29,7 @@ services:
       FUSIONAUTH_MEMORY: ${FUSIONAUTH_MEMORY}
       FUSIONAUTH_SEARCH_ENGINE_TYPE: database
       FUSIONAUTH_URL: http://fusionauth:9011
+      FUSIONAUTH_RUNTIME_MODE: development
     networks:
      - db
     restart: unless-stopped
