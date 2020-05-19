@@ -3,7 +3,6 @@
 #
 # Build:
 #   > docker build -t fusionauth/fusionauth-java:14-jdk-alpine3.11.5 .
-#   > docker build -t fusionauth/fusionauth-java:latest .
 #
 
 FROM openjdk:14-jdk-alpine3.10 as build

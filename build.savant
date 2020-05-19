@@ -56,6 +56,11 @@ target(name: "idea", description: "Releases a local integration build of the pro
 }
 
 target(name: "release-docker", description: "Releases the Docker images to DockerHub") {
+  // Build Java
+  if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-java:14-jdk-alpine3.11.5" as String, "./docker/fusionauth/fusionauth-java")) {
+    fail("Failed to build Docker image for fusionauth-java [14-jdk-alpine3.11.5]")
+  }
+
   // Build images
   if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-app:${project.version}" as String, "./docker/fusionauth/fusionauth-app")) {
     fail("Failed to build Docker image for fusionauth-app [${project.version}]")
