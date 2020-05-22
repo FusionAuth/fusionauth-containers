@@ -4,8 +4,8 @@
 # Build:
 #   > docker build -t fusionauth/fusionauth-java:14-jdk-alpine3.11.5 .
 #
-
-FROM openjdk:14-jdk-alpine3.10 as build
+FROM adoptopenjdk:14.0.1_7-jdk-hotspot as build
+#FROM openjdk:14-jdk-alpine3.10 as build
 
 RUN /opt/openjdk-14/bin/jlink --compress=2 \
      --module-path /opt/openjdk-14/jmods/ \
