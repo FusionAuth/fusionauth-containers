@@ -50,6 +50,21 @@ docker pull fusionauth/fusionauth-app
 
 <br>
 
+### Community Contributed Docker Images
+
+#### Arm64
+
+One of our FusionAuth MVPs [@jerryhopper](https://github.com/jerryhopper) has been building FusionAuth for use on the Arm64 platform. Find the Arm64 images on [hub.docker.com/r/jerryhopper/fusionauth-app-arm64](https://hub.docker.com/r/jerryhopper/fusionauth-app-arm64) or using the following pull command.
+
+
+```bash
+docker pull jerryhopper/fusionauth-app-arm64
+```
+
+For a walk through on running FusionAuth on Arm64, review the following article provided by [@jerryhopper](https://github.com/jerryhopper).
+-  https://blog.jerryhopper.com/2020/06/15/fusionauth-on-arm64/
+
+
 ## Kubernetes
 
 ### Notice
