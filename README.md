@@ -64,6 +64,9 @@ docker pull jerryhopper/fusionauth-app-arm64
 For a walk through on running FusionAuth on Arm64, review the following article provided by [@jerryhopper](https://github.com/jerryhopper).
 -  https://blog.jerryhopper.com/2020/06/15/fusionauth-on-arm64/
 
+#### Multi-Architecture Builds
+
+https://github.com/jerryhopper/fusionauth-app-multiarch
 
 ## Kubernetes
 
