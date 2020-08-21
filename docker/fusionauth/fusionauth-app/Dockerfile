@@ -28,6 +28,7 @@ RUN curl -Sk --progress-bar https://files.fusionauth.io/products/fusionauth/${FU
 
 FROM fusionauth/fusionauth-java:14-jdk-alpine3.11.5
 
+###### Setup user/group #################
 RUN addgroup fusionauth \
   && adduser -G fusionauth -D -H fusionauth
 
@@ -38,5 +39,6 @@ LABEL description="Create an image running FusionAuth App. Installs FusionAuth A
 LABEL maintainer="FusionAuth <dev@fusionauth.io>"
 EXPOSE 9011
 USER fusionauth
+# Use the Java on the image
 ENV FUSIONAUTH_USE_GLOBAL_JAVA=1
 CMD ["/usr/local/fusionauth/fusionauth-app/apache-tomcat/bin/catalina.sh", "run"]
