@@ -9,22 +9,27 @@
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 
-FROM fusionauth/fusionauth-java:14-jdk-alpine3.11.5
-
-LABEL description="Create an image running FusionAuth App. Installs FusionAuth App"
-LABEL maintainer="FusionAuth <dev@fusionauth.io>"
-
-EXPOSE 9011
+FROM alpine:latest as build
 
 ###### Setup user/group #################
 RUN addgroup fusionauth \
   && adduser -G fusionauth -D -H fusionauth
 
-###### Copy the latest dev build ####################################
+###### Copy the FusionAuth Bundle #######
 COPY --chown=fusionauth:fusionauth fusionauth-app /usr/local/fusionauth
 
-###### Start FusionAuth App #########################################
+FROM fusionauth/fusionauth-java:14-jdk-alpine3.11.5
 
+###### Setup user/group #################
+RUN addgroup fusionauth \
+  && adduser -G fusionauth -D -H fusionauth
+
+COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
+
+###### Start FusionAuth App #############
+LABEL description="Create an image running FusionAuth App. Installs FusionAuth App"
+LABEL maintainer="FusionAuth <dev@fusionauth.io>"
+EXPOSE 9011
 # We set this so that we don't download java
 ENV FUSIONAUTH_USE_GLOBAL_JAVA=1
 USER fusionauth
