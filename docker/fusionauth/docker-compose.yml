@@ -7,9 +7,9 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-# Un-comment to access the db service directly
-#    ports:
-#      - 5432:5432
+    # Un-comment to access the db service directly
+#   ports:
+#     - 5432:5432
     networks:
       - db
     restart: unless-stopped
@@ -24,12 +24,21 @@ services:
       DATABASE_URL: jdbc:postgresql://db:5432/fusionauth
       DATABASE_ROOT_USER: ${POSTGRES_USER}
       DATABASE_ROOT_PASSWORD: ${POSTGRES_PASSWORD}
-      DATABASE_USER: ${DATABASE_USER}
+      # Prior to version 1.19.0, use this deprecated name
+      # DATABASE_USER: ${DATABASE_USER}
+      DATABASE_USERNAME: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      FUSIONAUTH_MEMORY: ${FUSIONAUTH_MEMORY}
-      FUSIONAUTH_SEARCH_ENGINE_TYPE: database
-      FUSIONAUTH_URL: http://fusionauth:9011
-      FUSIONAUTH_RUNTIME_MODE: development
+      # Prior to version 1.19.0, use this deprecated names
+      # FUSIONAUTH_MEMORY: ${FUSIONAUTH_MEMORY}
+      # FUSIONAUTH_SEARCH_ENGINE_TYPE: database
+      # FUSIONAUTH_URL: http://fusionauth:9011
+      # FUSIONAUTH_RUNTIME_MODE: development
+      FUSIONAUTH_APP_MEMORY: ${FUSIONAUTH_MEMORY}
+      FUSIONAUTH_APP_RUNTIME_MODE: development
+      FUSIONAUTH_APP_URL: http://fusionauth:9011
+      SEARCH_TYPE: database
+
+
     networks:
      - db
     restart: unless-stopped
