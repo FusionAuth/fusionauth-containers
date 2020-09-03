@@ -9,7 +9,7 @@
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 # Publish:
-#   > docker push fusionauth/fusionauth-app:1.19.8
+#   > docker push fusionauth/fusionauth-app:1.19.0
 #   > docker push fusionauth/fusionauth-app:latest
 #
 
