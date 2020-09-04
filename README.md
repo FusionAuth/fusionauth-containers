@@ -45,7 +45,7 @@ Docker images are available on [Docker Hub](https://hub.docker.com/u/fusionauth/
 
 FusionAuth App
 ```bash
-docker pull fusionauth/fusionauth-app
+docker pull fusionauth/fusionauth-app:latest
 ```
 
 <br>
