@@ -2,14 +2,14 @@
 # FusionAuth App Dockerfile
 #
 # Build:
-#   > docker build -t fusionauth/fusionauth-app:1.19.0 .
+#   > docker build -t fusionauth/fusionauth-app:1.19.1 .
 #   > docker build -t fusionauth/fusionauth-app:latest .
 #
 # Run:
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 # Publish:
-#   > docker push fusionauth/fusionauth-app:1.19.0
+#   > docker push fusionauth/fusionauth-app:1.19.1
 #   > docker push fusionauth/fusionauth-app:latest
 #
 
@@ -26,7 +26,7 @@ FROM alpine:latest
 COPY --from=build /jlinked /opt/openjdk
 
 ###### Get and install FusionAuth App Bundle ########################
-ENV FUSIONAUTH_VERSION=1.19.0
+ENV FUSIONAUTH_VERSION=1.19.1
 RUN apk add --no-cache bash curl unzip \
   && curl -Sk --progress-bar https://files.fusionauth.io/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip -o fusionauth-app.zip \
   && mkdir -p /usr/local/fusionauth/fusionauth-app \
