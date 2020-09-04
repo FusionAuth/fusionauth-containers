@@ -16,7 +16,7 @@
 ###### Setup the java base ##########################################
 FROM openjdk:14-jdk-alpine3.10 as build
 
-ENV FUSIONAUTH_VERSION=1.19.0
+ENV FUSIONAUTH_VERSION=1.19.1
 RUN /opt/openjdk-14/bin/jlink --compress=2 \
      --module-path /opt/openjdk-14/jmods/ \
      --add-modules java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported \
