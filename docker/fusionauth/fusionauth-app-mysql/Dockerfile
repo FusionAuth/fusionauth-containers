@@ -36,6 +36,6 @@
 FROM fusionauth/fusionauth-app:1.19.3
 
 # Do not change this version, this is the version that will be expected in the classpath at runtime.
-ARG MYSQL_CONNECTOR_VERSION=8.0.18
+ARG MYSQL_CONNECTOR_VERSION=8.0.21
 
 ADD --chown=fusionauth:fusionauth https://files.fusionauth.io/mysql/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar /usr/local/fusionauth/fusionauth-app/apache-tomcat/lib
