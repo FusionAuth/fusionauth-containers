@@ -2,21 +2,21 @@
 # FusionAuth App Dockerfile
 #
 # Build:
-#   > docker build -t fusionauth/fusionauth-app:1.19.4 .
+#   > docker build -t fusionauth/fusionauth-app:1.19.5 .
 #   > docker build -t fusionauth/fusionauth-app:latest .
 #
 # Run:
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 # Publish:
-#   > docker push fusionauth/fusionauth-app:1.19.4
+#   > docker push fusionauth/fusionauth-app:1.19.5
 #   > docker push fusionauth/fusionauth-app:latest
 #
 
 ###### Setup the java base ##########################################
 FROM openjdk:14-jdk-alpine3.10 as build
 
-ENV FUSIONAUTH_VERSION=1.19.4
+ENV FUSIONAUTH_VERSION=1.19.5
 RUN /opt/openjdk-14/bin/jlink --compress=2 \
      --module-path /opt/openjdk-14/jmods/ \
      --add-modules java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported \
