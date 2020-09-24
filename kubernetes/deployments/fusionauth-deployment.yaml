@@ -6,8 +6,8 @@ metadata:
 spec:
   replicas: 1
   selector:
-   matchLabels:
-     app: fusionauth
+    matchLabels:
+      app: fusionauth
   template:
     metadata:
       labels:
@@ -16,25 +16,25 @@ spec:
       initContainers:
         # App has to wait for the database to be online "depends_on" workaround
         - name: wait-for-db
-          image: giantswarm/tiny-tools:3.10
+          image: "busybox:latest"
           args:
-            - /bin/bash
+            - /bin/sh
             - -c
             - >
               set -x;
-              while [[ "$(nc -zv fusionauth-db 5432 &> /dev/null; echo $?)" != 0 ]]; do
+              while [[ "$(nc -zv 'fusionauth-db' 5432 &> /dev/null; echo $?)" != 0 ]]; do
                 echo '.'
                 sleep 15;
               done
         # App has to wait for elasticsearch to be online "depends_on" workaround
         - name: wait-for-search
-          image: giantswarm/tiny-tools:3.10
+          image: "busybox:latest"
           args:
-            - /bin/bash
+            - /bin/sh
             - -c
             - >
               set -x;
-              while [[ "$(nc -zv fusionauth-search 9200 &> /dev/null; echo $?)" != 0 ]]; do
+              while [[ "$(nc -zv 'fusionauth-search' 9200 &> /dev/null; echo $?)" != 0 ]]; do
                 echo '.'
                 sleep 15;
               done
