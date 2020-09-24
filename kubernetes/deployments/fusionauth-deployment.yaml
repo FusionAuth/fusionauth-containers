@@ -2,12 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fusionauth
-  namespace: default
 spec:
   replicas: 1
   selector:
-   matchLabels:
-     app: fusionauth
+    matchLabels:
+      app: fusionauth
   template:
     metadata:
       labels:

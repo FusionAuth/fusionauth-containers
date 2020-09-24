@@ -2,11 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fusionauth-search
-  namespace: default
 spec:
   ports:
-  - name: http
-    port: 9200
+    - name: http
+      port: 9200
   selector:
     app: fusionauth-search
 ---
@@ -14,7 +13,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fusionauth-search-discovery
-  namespace: default
 spec:
   selector:
     app: fusionauth-search

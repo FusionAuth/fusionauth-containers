@@ -2,7 +2,6 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: fusionauth-search-discovery
-  namespace: default
 spec:
   hosts:
     - fusionauth-search-discovery
