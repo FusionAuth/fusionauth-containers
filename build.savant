@@ -56,6 +56,11 @@ target(name: "idea", description: "Releases a local integration build of the pro
 }
 
 target(name: "release-docker", description: "Releases the Docker images to DockerHub") {
+  // Update to the latest alpine build
+  if (!cleanExecute("docker", "pull", "alpine:latest")) {
+    fail("Failed to pull the latest Alpine image.")
+  }
+
   // Build images
   if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-app:${project.version}" as String, "./docker/fusionauth/fusionauth-app")) {
     fail("Failed to build Docker image for fusionauth-app [${project.version}]")
