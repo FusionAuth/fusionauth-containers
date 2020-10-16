@@ -56,9 +56,9 @@ target(name: "idea", description: "Releases a local integration build of the pro
 }
 
 target(name: "release-docker", description: "Releases the Docker images to DockerHub") {
-  // Update to the latest alpine build
-  if (!cleanExecute("docker", "pull", "alpine:latest")) {
-    fail("Failed to pull the latest Alpine image.")
+  // Update to the latest ubuntu:focal build
+  if (!cleanExecute("docker", "pull", "ubuntu:focal")) {
+    fail("Failed to pull the latest Ubuntu image.")
   }
 
   // Build images

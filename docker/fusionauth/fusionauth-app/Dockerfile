@@ -2,7 +2,7 @@
 # FusionAuth App Dockerfile
 #
 # Build:
-#   > docker pull ubuntu:latest
+#   > docker pull ubuntu:focal
 #   > docker build -t fusionauth/fusionauth-app:1.21.0 .
 #   > docker build -t fusionauth/fusionauth-app:latest .
 #
@@ -15,7 +15,7 @@
 #
 
 ###### Setup the java and fusionauth-app base #####################################################
-FROM ubuntu:latest as build
+FROM ubuntu:focal as build
 
 ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported
 ARG FUSIONAUTH_VERSION=1.21.0
@@ -46,9 +46,9 @@ RUN ARCH="$(dpkg --print-architecture)"; \
         exit 1;\
         ;;\
     esac \
-    && apt update \
-    && apt install -y curl unzip \
-    && curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL} \
+    && apt-get update \
+    && apt-get install -y curl unzip \
+    && curl -LfsSo /tmp/openjdk.tar.gz "${BINARY_URL}" \
     && echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c - \
     && mkdir -p /tmp/openjdk \
     && cd /tmp/openjdk \
@@ -62,7 +62,7 @@ RUN ARCH="$(dpkg --print-architecture)"; \
      && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth
 
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
-FROM ubuntu:latest
+FROM ubuntu:focal
 RUN useradd -d /usr/local/fusionauth -U fusionauth
 COPY --from=build /opt/openjdk /opt/openjdk
 COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
