@@ -55,7 +55,7 @@ target(name: "idea", description: "Releases a local integration build of the pro
   idea.iml()
 }
 
-target(name: "release-docker", description: "Releases the Docker images to DockerHub") {
+target(name: "publish", description: "Releases the Docker images to DockerHub") {
   // Update to the latest ubuntu:focal build
   if (!cleanExecute("docker", "pull", "ubuntu:focal")) {
     fail("Failed to pull the latest Ubuntu image.")
