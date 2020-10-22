@@ -22,7 +22,9 @@ services:
       - db
     environment:
       DATABASE_URL: jdbc:postgresql://db:5432/fusionauth
-      DATABASE_ROOT_USER: ${POSTGRES_USER}
+      # Prior to version 1.19.0, use this deprecated name
+      # DATABASE_ROOT_USER: ${POSTGRES_USER}
+      DATABASE_ROOT_USERNAME: ${POSTGRES_USER}
       DATABASE_ROOT_PASSWORD: ${POSTGRES_PASSWORD}
       # Prior to version 1.19.0, use this deprecated name
       # DATABASE_USER: ${DATABASE_USER}
