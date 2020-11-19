@@ -28,7 +28,7 @@ services:
       DATABASE_ROOT_PASSWORD: ${POSTGRES_PASSWORD}
       # Prior to version 1.19.0, use this deprecated name
       # DATABASE_USER: ${DATABASE_USER}
-      DATABASE_USERNAME: ${DATABASE_USER}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       # Prior to version 1.19.0, use this deprecated names
       # FUSIONAUTH_MEMORY: ${FUSIONAUTH_MEMORY}
