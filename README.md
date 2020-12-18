@@ -39,6 +39,15 @@ curl -o .env https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/
 docker-compose up
 ```
 
+### *NEW* Reverse Proxy Configuration
+
+Quickly get up and running with Docker-Compose and FusionAuth configured with a containerized reverse proxy service. Several common stacks included, quick and easy deployments!
+
+- [Apache](https://github.com/FusionAuth/fusionauth-containers/tree/master/docker/fusionauth-apache/postgresql)
+- [HAProxy](https://github.com/FusionAuth/fusionauth-containers/tree/master/docker/fusionauth-haproxy/postgresql)
+- [NGINX](https://github.com/FusionAuth/fusionauth-containers/tree/master/docker/fusionauth-nginx/postgresql)
+- [Traefik](https://github.com/FusionAuth/fusionauth-containers/tree/master/docker/fusionauth-traefik/postgresql)
+
 ### Docker Images
 
 Docker images are available on [Docker Hub](https://hub.docker.com/u/fusionauth/)
