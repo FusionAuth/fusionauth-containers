@@ -3,14 +3,14 @@
 #
 # Build:
 #   > docker pull ubuntu:focal
-#   > docker build -t fusionauth/fusionauth-app:1.22.3 .
+#   > docker build -t fusionauth/fusionauth-app:1.22.4 .
 #   > docker build -t fusionauth/fusionauth-app:latest .
 #
 # Run:
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 # Publish:
-#   > docker push fusionauth/fusionauth-app:1.22.3
+#   > docker push fusionauth/fusionauth-app:1.22.4
 #   > docker push fusionauth/fusionauth-app:latest
 #
 
@@ -18,7 +18,7 @@
 FROM ubuntu:focal as build
 
 ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported
-ARG FUSIONAUTH_VERSION=1.22.3
+ARG FUSIONAUTH_VERSION=1.22.4
 RUN ARCH="$(dpkg --print-architecture)"; \
     case "${ARCH}" in\
     aarch64|arm64)\
