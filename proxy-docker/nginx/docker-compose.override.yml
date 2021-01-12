@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+
+  fusionauth:
+    environment:
+      FUSIONAUTH_APP_URL: http://fusionauth-nginx.example.com
+
+  nginx:
+    image: nginx:1.19.2
+    # wait for fusionauth container or else nginx will fail to resolve upstream resources
+    depends_on:
+      - fusionauth
+    networks:
+      - db
+    restart: unless-stopped
+    volumes:
+      - ./http_default.conf:/etc/nginx/conf.d/http_default.conf
+    ports:
+      - 80:80
