@@ -18,6 +18,7 @@ FusionAuth loves containers, found an issue? Please open a bug or submit a PR.
 - [@nadilas](https://github.com/nadilas)
 - [@trollr](https://github.com/trollr)
 - [@drpebcak](https://github.com/drpebcak)
+- [@sims-security](https://github.com/sims-security)
 
 <br>
 
