@@ -105,3 +105,17 @@ openshift
 
 See the [OpenShift README](https://github.com/FusionAuth/fusionauth-containers/tree/master/openshift)
 
+<br>
+
+## Proxy-Docker
+
+### Notice
+The Proxy-Docker portion of this repository is community maintained; and is provided to assist in your deployment and management of FusionAuth. Use of this software is not covered under the FusionAuth license agreement and is provided "as is" without warranty.  https://fusionauth.io/license
+
+```
+proxy-docker
+├── *
+├── README.md
+```
+
+See the [Proxy-Docker README](https://github.com/FusionAuth/fusionauth-containers/tree/master/proxy-docker)

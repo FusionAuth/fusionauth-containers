@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  fusionauth:
+    environment:
+      FUSIONAUTH_APP_URL: http://fusionauth-apache.example.com
+
+  apache:
+    image: httpd
+    networks:
+      - db
+    restart: unless-stopped
+    volumes:
+     - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
+    # uncomment to publish proxy port on host
+    ports:
+      - 80:80
