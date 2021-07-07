@@ -1,0 +1,44 @@
+name: k8s best practices
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '.gitignore'
+      - 'LICENSE'
+      - '**.md'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/CODEOWNERS'
+      - docs/**
+  pull_request:
+    branches: [ master ]
+    paths-ignore:
+      - '.gitignore'
+      - 'LICENSE'
+      - '**.md'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/CODEOWNERS'
+      - '.vscode/**'
+      - docs/**
+  release:
+    types:
+      - published
+
+jobs:
+  insights:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    container:
+      image: quay.io/reactiveops/ci-images:v11-alpine
+      env:
+        FAIRWINDS_TOKEN: ${{ secrets.FAIRWINDS_TOKEN }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: scan repo with insights
+        run: |
+          git fetch origin master:master
+          curl -L https://insights.fairwinds.com/v0/insights-ci.sh | bash
