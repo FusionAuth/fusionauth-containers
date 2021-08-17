@@ -17,7 +17,7 @@
 ###### Setup the java and fusionauth-app base #####################################################
 FROM ubuntu:focal as build
 
-ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported
+ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported,jdk.zipfs
 ARG FUSIONAUTH_VERSION=1.30.1
 RUN ARCH="$(dpkg --print-architecture)"; \
     case "${ARCH}" in\
