@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  type: ExternalName
+  externalName: eks-test-db.ceeh9yeyi3hf.us-west-1.rds.amazonaws.com
