@@ -3,43 +3,43 @@
 #
 # Build:
 #   > docker pull ubuntu:focal
-#   > docker build -t fusionauth/fusionauth-app:1.31.0 .
+#   > docker build -t fusionauth/fusionauth-app:1.99.9 .
 #   > docker build -t fusionauth/fusionauth-app:latest .
 #
 # Run:
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 # Publish:
-#   > docker push fusionauth/fusionauth-app:1.31.0
+#   > docker push fusionauth/fusionauth-app:1.99.9
 #   > docker push fusionauth/fusionauth-app:latest
 #
 
 ###### Setup the java and fusionauth-app base #####################################################
 FROM ubuntu:focal as build
 
-ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported,jdk.zipfs
-ARG FUSIONAUTH_VERSION=1.31.0
+ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.zipfs
+ARG FUSIONAUTH_VERSION=1.99.9
 RUN ARCH="$(dpkg --print-architecture)"; \
-    case "${ARCH}" in\
+    case "${ARCH}" in \
     aarch64|arm64)\
-        ESUM='81ca31ad90f9bd789a2ca1753d6d83d10f4927876b4a4b9f4b1c4c8cbce85feb';\
-        BINARY_URL='https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz';\
+        ESUM='e08e6d8c84da28a2c49ccd511f8835c329fbdd8e4faff662c58fa24cca74021d';\
+        BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_aarch64_linux_hotspot_17_35.tar.gz';\
         ;;\
     armhf|armv7l|armel)\
-        ESUM='458d091756500dc3013737aa182a14752b3d4ffc358d09532201874ffb8cae22';\
-        BINARY_URL='https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_arm_linux_hotspot_14.0.1_7.tar.gz';\
+        ESUM='77ef6aa6f665373e212097b937c22d0cad2add90e439ec0e90534a7ff0e8a6e9';\
+        BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_arm_linux_hotspot_17_35.tar.gz';\
         ;;\
     ppc64el|ppc64le)\
-        ESUM='bfdd77112d81256d4e1a859a465dd4dcb670019a5d6cf8260c30e24a0e5947e4';\
-        BINARY_URL='https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_ppc64le_linux_hotspot_14.0.1_7.tar.gz';\
+        ESUM='2e58f76fd332b73f323e47c73d0a81b76739debab067e7a32ed6abd73fd64c57';\
+        BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_ppc64le_linux_hotspot_17_35.tar.gz';\
         ;;\
     s390x)\
-        ESUM='c13545924e92cb9d495282e95270f299a28d5466f9741c67791f131c38ebbd0c';\
-        BINARY_URL='https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_s390x_linux_hotspot_14.0.1_7.tar.gz';\
+        ESUM='7a48159fca62b7f6afd58fb2e9712a3ef1494950212d4631e25598b45d9599b1';\
+        BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_s390x_linux_hotspot_17_35.tar.gz';\
         ;;\
     amd64|x86_64)\
-        ESUM='9ddf9b35996fbd784a53fff3e0d59920a7d5acf1a82d4c8d70906957ac146cd1';\
-        BINARY_URL='https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_x64_linux_hotspot_14.0.1_7.tar.gz';\
+        ESUM='6f1335d9a7855159f982dac557420397be9aa85f3f7bc84e111d25871c02c0c7';\
+        BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_x64_linux_hotspot_17_35.tar.gz';\
         ;;\
     *)\
         echo "Unsupported arch: ${ARCH}";\
@@ -57,9 +57,9 @@ RUN ARCH="$(dpkg --print-architecture)"; \
        --module-path /tmp/openjdk/jmods/ \
        --add-modules ${JDK_MODULES} \
        --output /opt/openjdk \
-     && curl -LfsSo /tmp/fusionauth-app.zip https://files.fusionauth.io/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip \
-     && mkdir -p /usr/local/fusionauth/fusionauth-app \
-     && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth
+    && curl -LfsSo /tmp/fusionauth-app.zip https://files.fusionauth.io/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip \
+    && mkdir -p /usr/local/fusionauth/fusionauth-app \
+    && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth
 
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
 FROM ubuntu:focal
