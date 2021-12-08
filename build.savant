@@ -18,11 +18,17 @@ savantVersion = "1.0.0"
 
 project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.31.1", licenses: ["ApacheV2_0"]) {
   workflow {
-    standard()
+    fetch {
+      cache()
+      url(url: "https://external.savant.fusionauth.io")
+    }
+    publish {
+      cache()
+    }
   }
 
   publishWorkflow {
-    subversion(repository: "http://svn.inversoft.org/savant")
+    subversion(repository: "https://external.svn.fusionauth.io")
   }
 
   publications {
