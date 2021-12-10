@@ -28,7 +28,7 @@ project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.32.0"
   }
 
   publishWorkflow {
-    subversion(repository: "https://external.svn.fusionauth.io")
+    subversion(repository: "https://external.svn.fusionauth.io", username: global.internalRepositoryUsername, password: global.internalRepositoryPassword)
   }
 
   publications {
