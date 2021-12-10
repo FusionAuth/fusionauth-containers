@@ -20,7 +20,7 @@ project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.32.1"
   workflow {
     fetch {
       cache()
-      url(url: "https://external.savant.fusionauth.io")
+      url(url: "https://repository.savantbuild.org")
     }
     publish {
       cache()
@@ -28,7 +28,7 @@ project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.32.1"
   }
 
   publishWorkflow {
-    subversion(repository: "https://external.svn.fusionauth.io", username: global.internalRepositoryUsername, password: global.internalRepositoryPassword)
+    subversion(repository: "https://svn.savantbuild.org")
   }
 
   publications {
