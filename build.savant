@@ -61,11 +61,50 @@ target(name: "idea", description: "Releases a local integration build of the pro
   idea.iml()
 }
 
-target(name: "publish", description: "Releases the Docker images to DockerHub") {
+target(name: "publish-multi-arch-experimental", description: "Releases the Docker images to DockerHub") {
   // Update to the latest ubuntu:focal build
   if (!cleanExecute("docker", "pull", "ubuntu:focal")) {
     fail("Failed to pull the latest Ubuntu image.")
   }
+
+  // https://docs.docker.com/engine/reference/commandline/build/
+
+  // Setup for multi-arch, still testing this out.
+  if (!cleanExecute("docker", "buildx", "install")) {
+    fail("Failed to install docker buildx.")
+  }
+
+  if (!cleanExecute("docker", "buildx", "create", "--use")) {
+    fail("Failed to switch to the docker buildx driver.")
+  }
+
+  // I want to eventually publish "linux/amd64,linux/arm64,linux/arm/v7", but there is something failing when trying with linux/arm/v7
+  // I think it is this: https://github.com/docker/buildx/issues/395 , but not sure how to solve it yet.
+  // Still need to figure out the :latest tag and we may  just want to try to build these one at at time and push. But I think we have a use a different
+  // strategy to do that. For now using --push so it pushes each image with the same tag and a different arch. Or maybe I can just build and push
+  // the same tag and as long as the arch is different it will be fine. Need to test.
+  if (switches.has("dryRun")) {
+    if (!cleanExecute("docker", "buildx", "build", "--platform", "linux/amd64,linux/arm64", "-t",
+                      "fusionauth/fusionauth-app:${project.version}" as String, "./docker/fusionauth/fusionauth-app")) {
+      fail("Failed to build Docker image for fusionauth-app [${project.version}]")
+    }
+  } else {
+    if (!cleanExecute("docker", "buildx", "build", "--platform", "linux/amd64,linux/arm64", "-t",
+                      "fusionauth/fusionauth-app:${project.version}" as String, "./docker/fusionauth/fusionauth-app", "--push")) {
+      fail("Failed to build Docker image for fusionauth-app [${project.version}]")
+    }
+  }
+
+}
+
+target(name: "publish", description: "Releases the Docker images to DockerHub") {
+
+  // Update to the latest ubuntu:focal build
+  if (!cleanExecute("docker", "pull", "ubuntu:focal")) {
+    fail("Failed to pull the latest Ubuntu image.")
+  }
+
+  // https://docs.docker.com/engine/reference/commandline/build/
 
   // Build images
   if (!cleanExecute("docker", "build", "-t", "fusionauth/fusionauth-app:${project.version}" as String, "./docker/fusionauth/fusionauth-app")) {
