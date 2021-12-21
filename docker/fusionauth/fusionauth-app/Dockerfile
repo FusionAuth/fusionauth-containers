@@ -51,8 +51,8 @@ RUN ARCH="$(dpkg --print-architecture)"; \
     && apt-get install -y curl unzip \
     && echo "${ARG} --> ${BINARY_URL}" \
     && echo '${ARG} --> ${BINARY_URL}' \ 
-    && curl -LfsSo /tmp/openjdk.tar.gz "${BINARY_URL}" 
-RUN echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c - 
+    && curl -LfsSo /tmp/openjdk.tar.gz "${BINARY_URL}" \
+    && echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c - 
 RUN mkdir -p /tmp/openjdk \
     && cd /tmp/openjdk \
     && tar -xf /tmp/openjdk.tar.gz --strip-components=1 
