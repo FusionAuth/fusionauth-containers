@@ -3,7 +3,7 @@ version: '3'
 services:
 
   search:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.1
     environment:
       cluster.name: fusionauth
       bootstrap.memory_lock: "true"
@@ -27,8 +27,11 @@ services:
     depends_on:
       - search
     environment:
-      FUSIONAUTH_SEARCH_ENGINE_TYPE: elasticsearch
-      FUSIONAUTH_SEARCH_SERVERS: http://search:9200
+      # Prior to version 1.19.0, use these deprecated variables
+      # FUSIONAUTH_SEARCH_ENGINE_TYPE: elasticsearch
+      # FUSIONAUTH_SEARCH_SERVERS: http://search:9200
+      SEARCH_SERVERS: http://search:9200
+      SEARCH_TYPE: elasticsearch
     networks:
       - search
 

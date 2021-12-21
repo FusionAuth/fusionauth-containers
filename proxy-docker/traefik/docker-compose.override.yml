@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  fusionauth:
+    environment:
+      FUSIONAUTH_APP_URL: http://fusionauth-traefik.example.com
+    labels:
+      - traefik.http.routers.fusionauth.rule=Host(`fusionauth-traefik.example.com`)
+
+  traefik:
+    image: traefik 
+    networks:
+      - db
+    restart: unless-stopped
+    command:
+      - --entrypoints.web.address=:80
+      - --providers.docker=true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    ports:
+      - 80:80
