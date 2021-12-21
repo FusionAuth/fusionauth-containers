@@ -1,0 +1,39 @@
+name: ci
+on: [release]
+jobs:
+  multi:
+    runs-on: ubuntu-latest
+    env:
+        FUSIONAUTH_VERSION: 1.32.2
+    steps:
+      - 
+        name: identify
+        run: echo ${{ env.FUSIONAUTH_VERSION }}
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      #-
+      #  name: Login to DockerHub
+      #  uses: docker/login-action@v1 
+      #  with:
+      #    username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #    password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/fusionauth/fusionauth-app/Dockerfile
+          build-args: FUSIONAUTH_VERSION=${{ env.FUSIONAUTH_VERSION }}
+          # linux/amd64,linux/arm/v7,
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          push: false
+          tags: |
+            ${{ secrets.DOCKERHUB_REPO }}:latest
+            ${{ secrets.DOCKERHUB_REPO }}:${{ env.FUSIONAUTH_VERSION }}
