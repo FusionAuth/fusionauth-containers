@@ -51,14 +51,19 @@ RUN ARCH="$(dpkg --print-architecture)"; \
     && apt-get install -y curl unzip \
     && curl -LfsSo /tmp/openjdk.tar.gz "${BINARY_URL}" \
     && echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c - 
+
+# without this seperate run, the build fails somehow(?)
 RUN mkdir -p /tmp/openjdk \
     && cd /tmp/openjdk \
     && tar -xf /tmp/openjdk.tar.gz --strip-components=1 
+
+# without this seperate run, the build fails somehow(?)
 RUN /tmp/openjdk/bin/jlink --compress=2 \
        --module-path /tmp/openjdk/jmods/ \
        --add-modules ${JDK_MODULES} \
-       --output /opt/openjdk \
-    && curl -LfsSo /tmp/fusionauth-app.zip https://files.fusionauth.io/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip \
+       --output /opt/openjdk 
+
+RUN curl -LfsSo /tmp/fusionauth-app.zip https://files.fusionauth.io/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip \
     && mkdir -p /usr/local/fusionauth/fusionauth-app \
     && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth
 
