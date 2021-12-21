@@ -50,8 +50,8 @@ RUN ARCH="$(dpkg --print-architecture)"; \
     && apt-get update \
     && apt-get install -y curl unzip \
     && echo "${ARG} --> ${BINARY_URL}" \
-    && echo '${ARG} --> ${BINARY_URL}' 
-RUN curl -LfsSo /tmp/openjdk.tar.gz '${BINARY_URL}' 
+    && echo '${ARG} --> ${BINARY_URL}' \ 
+    && curl -LfsSo /tmp/openjdk.tar.gz "${BINARY_URL}" 
 RUN echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c - 
 RUN mkdir -p /tmp/openjdk \
     && cd /tmp/openjdk \
