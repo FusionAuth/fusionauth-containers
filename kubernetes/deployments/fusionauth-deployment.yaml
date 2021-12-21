@@ -2,12 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fusionauth
-  namespace: default
 spec:
   replicas: 1
   selector:
-   matchLabels:
-     app: fusionauth
+    matchLabels:
+      app: fusionauth
   template:
     metadata:
       labels:
@@ -16,42 +15,42 @@ spec:
       initContainers:
         # App has to wait for the database to be online "depends_on" workaround
         - name: wait-for-db
-          image: giantswarm/tiny-tools:3.10
+          image: "busybox:latest"
           args:
-            - /bin/bash
+            - /bin/sh
             - -c
             - >
               set -x;
-              while [[ "$(nc -zv fusionauth-db 5432 &> /dev/null; echo $?)" != 0 ]]; do
+              while [[ "$(nc -zv 'fusionauth-db' 5432 &> /dev/null; echo $?)" != 0 ]]; do
                 echo '.'
                 sleep 15;
               done
         # App has to wait for elasticsearch to be online "depends_on" workaround
         - name: wait-for-search
-          image: giantswarm/tiny-tools:3.10
+          image: "busybox:latest"
           args:
-            - /bin/bash
+            - /bin/sh
             - -c
             - >
               set -x;
-              while [[ "$(nc -zv fusionauth-search 9200 &> /dev/null; echo $?)" != 0 ]]; do
+              while [[ "$(nc -zv 'fusionauth-search' 9200 &> /dev/null; echo $?)" != 0 ]]; do
                 echo '.'
                 sleep 15;
               done
       containers:
         - env:
-            - name: DATABASE_USER
+            - name: DATABASE_USERNAME
               value: fusionauth
             - name: DATABASE_PASSWORD
               value: hkaLBM3RVnyYeYeqE3WI1w2e4Avpy0Wd5O3s3
             - name: DATABASE_ROOT_PASSWORD
-            - name: DATABASE_ROOT_USER
+            - name: DATABASE_ROOT_USERNAME
               value: postgres
             - name: DATABASE_URL
               value: jdbc:postgresql://fusionauth-db:5432/fusionauth
-            - name: FUSIONAUTH_MEMORY
+            - name: FUSIONAUTH_APP_MEMORY
               value: 256M
-            - name: FUSIONAUTH_SEARCH_SERVERS
+            - name: SEARCH_SERVERS
               value: http://fusionauth-search:9200
           image: fusionauth/fusionauth-app:latest
           name: fusionauth
