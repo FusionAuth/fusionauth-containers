@@ -1,5 +1,9 @@
 name: ci
-on: [release]
+#on: [release]
+on:
+  push:
+    branches:
+      - jerryhopper--multi-build-githubworkflow
 jobs:
   multi:
     runs-on: ubuntu-latest
