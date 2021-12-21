@@ -46,8 +46,8 @@ RUN ARCH="$(dpkg --print-architecture)"; \
         exit 1;\
         ;;\
     esac \
-    && apt-get update \
-    && apt-get install -y curl unzip \
+    && apt-get update 
+RUN apt-get install -y curl unzip \
     && curl -LfsSo /tmp/openjdk.tar.gz "${BINARY_URL}" \
     && echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c - \
     && mkdir -p /tmp/openjdk \
