@@ -1,5 +1,8 @@
 name: ci
-#on: [release]
+#on:
+#  release:
+#    branches:
+#      - master
 on:
   push:
     branches:
@@ -37,6 +40,7 @@ jobs:
           build-args: FUSIONAUTH_VERSION=${{ env.FUSIONAUTH_VERSION }}
           # linux/amd64,linux/arm/v7,
           platforms: linux/amd64,linux/arm/v7,linux/arm64
+          # Change to true for pushing to dockerhub
           push: false
           tags: |
             ${{ secrets.DOCKERHUB_REPO }}:latest
