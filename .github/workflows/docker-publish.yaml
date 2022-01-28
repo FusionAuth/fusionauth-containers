@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'docker/fusionauth/release-trigger'
+concurrency: docker-concurrency-group
 jobs:
   multiarch-build:
     runs-on: ubuntu-latest
