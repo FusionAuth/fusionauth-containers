@@ -36,9 +36,8 @@ jobs:
           file: ./docker/fusionauth/fusionauth-app/Dockerfile
           build-args: FUSIONAUTH_VERSION=${{ env.FUSIONAUTH_VERSION }}
           platforms: linux/amd64,linux/arm/v7,linux/arm64
-          # Change to true for pushing to dockerhub
           push: true
           tags: |
-#            ${{ secrets.DOCKERHUB_REPO }}:latest
-            ${{ secrets.DOCKERHUB_REPO }}:${{ env.FUSIONAUTH_VERSION }}_multi_test
+#            fusionauth/fusionauth-app:latest
+             fusionauth/fusionauth-app:${{ env.FUSIONAUTH_VERSION }}_multi_test
 
