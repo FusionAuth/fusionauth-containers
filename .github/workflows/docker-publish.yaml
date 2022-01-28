@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FUSIONAUTH_VERSION: 1.32.1
+    environment: Production
     steps:
       -
         name: Publish version
