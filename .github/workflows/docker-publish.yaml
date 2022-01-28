@@ -39,5 +39,5 @@ jobs:
           push: true
           tags: |
 #            fusionauth/fusionauth-app:latest
-             fusionauth/fusionauth-app:${{ env.FUSIONAUTH_VERSION }}_multi_test
+             fusionauth/fusionauth-app:${{ env.FUSIONAUTH_VERSION }}_multi_test_1
 
