@@ -7,16 +7,21 @@ concurrency: docker-concurrency-group
 jobs:
   multiarch-build:
     runs-on: ubuntu-latest
-    env:
-      FUSIONAUTH_VERSION: 1.32.1
     environment: Production
     steps:
       -
-        name: Publish version
-        run: echo ${{ env.FUSIONAUTH_VERSION }}
-      -
         name: Checkout
         uses: actions/checkout@v2
+      -
+       name: Set variables
+       run: |
+         echo "FUSIONAUTH_VERSION=$(cat docker/fusionauth/release-trigger | grep version= | awk -F= {'print $2'}" >> $GITHUB_ENV
+         echo "FUSIONAUTH_PRE_RELEASE=$(cat docker/fusionauth/release-trigger | grep preRelease= | awk -F= {'print $2'}" >> $GITHUB_ENV
+      -
+        name: Publish version
+        run: | 
+          echo "Version: ${{ env.FUSIONAUTH_VERSION }}"
+          echo "PreRelease: ${{ env.FUSIONAUTH_VERSION }}"
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -40,5 +45,6 @@ jobs:
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           push: true
           tags: |
-             fusionauth/fusionauth-app:${{ env.FUSIONAUTH_VERSION }}_multi_test_2
+             fusionauth/fusionauth-app:latest
+             fusionauth/fusionauth-app:${{ env.FUSIONAUTH_VERSION }}
 
