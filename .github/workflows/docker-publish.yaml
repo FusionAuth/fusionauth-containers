@@ -13,13 +13,13 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
-       name: Set variables
+       name: Set variables 1
        run: |
-         echo "FUSIONAUTH_VERSION=$(cat docker/fusionauth/release-trigger | grep version= | awk -F= {'print $2'}" >> $GITHUB_ENV
+         echo "FUSIONAUTH_VERSION=$(cat docker/fusionauth/release-trigger | grep version= | awk -F= {'print $2'})" >> $GITHUB_ENV
       -
-        name: Set variables
+        name: Set variables 2
         run: |
-          echo "FUSIONAUTH_PRE_RELEASE=$(cat docker/fusionauth/release-trigger | grep preRelease= | awk -F= {'print $2'}" >> $GITHUB_ENV
+          echo "FUSIONAUTH_PRE_RELEASE=$(cat docker/fusionauth/release-trigger | grep preRelease= | awk -F= {'print $2'})" >> $GITHUB_ENV
       -
         name: Publish version
         run: | 
