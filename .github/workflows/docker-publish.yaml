@@ -7,7 +7,7 @@ concurrency: docker-concurrency-group
 jobs:
   multiarch-build:
     runs-on: ubuntu-latest
-    environment: Production
+    environment: production
     steps:
       -
         name: Checkout
