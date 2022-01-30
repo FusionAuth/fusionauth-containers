@@ -23,7 +23,7 @@ jobs:
         run: |
           echo "FUSIONAUTH_TAGS=fusionauth/fusionauth-app:${{ env.FUSIONAUTH_VERSION }}${{ env.FUSIONAUTH_TAG_SUFFIX }}" >> $GITHUB_ENV
       -
-        name: Optionally build latest tag if not pre-release
+        name: Optional :latest tag
         if: ${{ env.FUSIONAUTH_PRE_RELEASE == 'false' }}
         run: |
           echo "FUSIONAUTH_TAGS=${{ env.FUSIONAUTH_TAGS }},fusionauth/fusionauth-app:latest${{ env.FUSIONAUTH_TAG_SUFFIX }}" >> $GITHUB_ENV
