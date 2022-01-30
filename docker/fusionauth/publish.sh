@@ -6,5 +6,6 @@ echo "preRelease=${2}" >> release-trigger
 echo "tagSuffix=" >> release-trigger
 
 git add .
-git commit -m"Publish Docker images [${1}]"
+# Note, this commit message will show up as the title of the GH action workflow run
+git commit -m"Publish ${1}"
 git push
