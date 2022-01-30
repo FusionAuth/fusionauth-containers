@@ -23,7 +23,7 @@ jobs:
           echo "FUSIONAUTH_TAGS=fusionauth/fusionauth-app:${{ env.FUSIONAUTH_VERSION }}_013022_test" >> $GITHUB_ENV
       -
         name: Optionally build latest tag
-        if: ${{ env.FUSIONAUTH_PRE_RELEASE }} == "false"
+        if: ${{ env.FUSIONAUTH_PRE_RELEASE == 'false' }}
         run: |
           echo "FUSIONAUTH_TAGS=${{ env.FUSIONAUTH_TAGS }},fusionauth/fusionauth-app:_013022_test_latest" >> $GITHUB_ENV
       -
