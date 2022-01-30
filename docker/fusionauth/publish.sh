@@ -6,5 +6,5 @@ echo "preRelease=${2}" >> release-trigger
 echo "tagSuffix=" >> release-trigger
 
 git add .
-git commit -m"trigger GitHub action docker-publish for ${1}"
+git commit -m"Publish Docker images [${1}]"
 git push
