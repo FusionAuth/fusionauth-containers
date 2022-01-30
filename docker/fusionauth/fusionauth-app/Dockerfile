@@ -20,6 +20,7 @@ FROM --platform=$BUILDPLATFORM ubuntu:focal as build
 ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.scripting,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.dynalink,jdk.jcmd,jdk.jdi,jdk.localedata,jdk.jpackage,jdk.unsupported,jdk.zipfs
 ARG FUSIONAUTH_VERSION=1.32.2
 RUN ARCH="$(dpkg --print-architecture)"; \
+    echo "Download Java for ${ARCH}"; \
     case "${ARCH}" in \
     aarch64|arm64)\
         ESUM='f23d482b2b4ada08166201d1a0e299e3e371fdca5cd7288dcbd81ae82f3a75e3';\
