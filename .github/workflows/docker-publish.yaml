@@ -16,7 +16,7 @@ jobs:
        name: Set variabless
        run: |
          echo "FUSIONAUTH_VERSION=$(cat docker/fusionauth/release-trigger | grep version= | awk -F= {'print $2'})" >> $GITHUB_ENV
-         echo "FUSIONAUTH_VERSION=$(cat docker/fusionauth/release-trigger | grep version= | awk -F= {'print $2'})" >> $GITHUB_ENV
+         echo "FUSIONAUTH_PRE_RELEASE=$(cat docker/fusionauth/release-trigger | grep preRelease= | awk -F= {'print $2'})" >> $GITHUB_ENV
          echo "FUSIONAUTH_TAG_SUFFIX=$(cat docker/fusionauth/release-trigger | grep tagSuffix= | awk -F= {'print $2'})" >> $GITHUB_ENV
       -
         name: Build version tag
@@ -31,7 +31,7 @@ jobs:
         name: Job summary
         run: | 
           echo "Version: ${{ env.FUSIONAUTH_VERSION }}"
-          echo "PreRelease: ${{ env.FUSIONAUTH_VERSION }}"
+          echo "PreRelease: ${{ env.FUSIONAUTH_PRE_RELEASE }}"
           echo "Tags: ${{ env.FUSIONAUTH_TAGS }}"
       -
         name: Set up QEMU
