@@ -1,3 +1,3 @@
-version=1.32.1
-preRelease=false
-tagSuffix=_01302022_2
+version=1.24.0
+preRelease=true
+tagSuffix=_test
