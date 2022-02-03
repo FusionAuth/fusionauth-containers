@@ -13,7 +13,7 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: '1.24.0'
+          ref: 1.24.0
       -
        name: Set variabless
        run: |
