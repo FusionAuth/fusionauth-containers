@@ -26,7 +26,7 @@ ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.loggin
 ARG TARGETPLATFORM
 ARG TARGETARCH
 RUN printf "Building on ${BUILDPLATFORM} for ${TARGETPLATFORM} (${TARGETARCH})."
-RUN case "${BUILDPLASTFORM}" in \
+RUN case "${BUILDPLATFORM}" in \
     linux/arm64)\
         BUILD_JAVA_SUM="f23d482b2b4ada08166201d1a0e299e3e371fdca5cd7288dcbd81ae82f3a75e3";\
         BUILD_JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12.tar.gz";\
@@ -36,11 +36,11 @@ RUN case "${BUILDPLASTFORM}" in \
         BUILD_JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12.tar.gz";\
         ;;\
     *)\
-        printf "Unsupported build platform arch: ${BUILDPLASTFORM}";\
+        printf "Unsupported build platform arch: ${BUILDPLATFORM}";\
         exit 1;\
         ;;\
     esac \
-    case "${TARGETARCH}" in \
+    && case "${TARGETARCH}" in \
     arm64)\
         printf "download Java for arm64";\
         JAVA_SUM="f23d482b2b4ada08166201d1a0e299e3e371fdca5cd7288dcbd81ae82f3a75e3";\
