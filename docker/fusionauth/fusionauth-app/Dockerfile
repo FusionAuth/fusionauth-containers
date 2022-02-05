@@ -18,7 +18,7 @@
 #
 
 ###### Setup the java and fusionauth-app base #####################################################
-FROM --platform=$BUILDPLATFORM ubuntu:focal as build
+FROM ubuntu:focal as build
 
 ARG BUILDPLATFORM
 ARG FUSIONAUTH_VERSION=1.32.1
@@ -48,7 +48,7 @@ RUN case "${TARGETARCH}" in \
         BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12.tar.gz';\
         ;;\
     *)\
-        echo "Unsupported arch: ${TARGETARCH}";\
+        printf "Unsupported arch: ${TARGETARCH}";\
         exit 1;\
         ;;\
     esac \
