@@ -63,7 +63,7 @@ RUN printf "${TARGETARCH}" && \
     && echo "Download Java from ${BINARY_URL}" \
     && echo "Check SHA-256 checksum ${ESUM}" \
     && curl -LfsSo /tmp/openjdk.tar.gz "${BINARY_URL}" \
-    && echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c - \
+    && echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -
 RUN mkdir -p /tmp/openjdk \
     && cd /tmp/openjdk \
     && tar -xf /tmp/openjdk.tar.gz --strip-components=1 \
