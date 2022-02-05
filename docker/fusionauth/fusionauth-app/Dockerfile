@@ -55,6 +55,8 @@ RUN printf "${TARGETARCH}" && \
         ;;\
     *)\
         printf "Unsupported arch: ${TARGETARCH}";\
+        ESUM='bad-ESUM';\
+        BINARY_URL='bad-URL';\
         exit 1;\
         ;;\
     esac \
