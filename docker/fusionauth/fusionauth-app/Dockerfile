@@ -22,18 +22,18 @@ FROM --platform=$BUILDPLATFORM ubuntu:focal as build
 
 ARG BUILDPLATFORM
 ARG FUSIONAUTH_VERSION=1.32.1
-ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.jdi,jdk.localedata,jdk.scripting.nashorn,jdk.unsupported
+ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.scripting,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.dynalink,jdk.jcmd,jdk.jdi,jdk.localedata,jdk.jpackage,jdk.unsupported,jdk.zipfs
 ARG TARGETPLATFORM
 ARG TARGETARCH
 RUN printf "Building on ${BUILDPLATFORM} for ${TARGETPLATFORM} (${TARGETARCH})."
 RUN case "${BUILDPLATFORM}" in \
     linux/arm64)\
-        BUILD_JAVA_SUM="81ca31ad90f9bd789a2ca1753d6d83d10f4927876b4a4b9f4b1c4c8cbce85feb";\
-        BUILD_JAVA_URL="https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz";\
+        BUILD_JAVA_SUM="f23d482b2b4ada08166201d1a0e299e3e371fdca5cd7288dcbd81ae82f3a75e3";\
+        BUILD_JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12.tar.gz";\
         ;;\
     linux/amd64)\
-        BUILD_JAVA_SUM="9ddf9b35996fbd784a53fff3e0d59920a7d5acf1a82d4c8d70906957ac146cd1";\
-        BUILD_JAVA_URL="https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_x64_linux_hotspot_14.0.1_7.tar.gz";\
+        BUILD_JAVA_SUM="6ea18c276dcbb8522feeebcfc3a4b5cb7c7e7368ba8590d3326c6c3efc5448b6";\
+        BUILD_JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12.tar.gz";\
         ;;\
     *)\
         printf "Unsupported build platform arch: ${BUILDPLATFORM}";\
@@ -42,24 +42,25 @@ RUN case "${BUILDPLATFORM}" in \
     esac \
     && case "${TARGETARCH}" in \
     arm64)\
-        JAVA_SUM="81ca31ad90f9bd789a2ca1753d6d83d10f4927876b4a4b9f4b1c4c8cbce85feb";\
-        JAVA_URL="https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_aarch64_linux_hotspot_14.0.1_7.tar.gz";\
+        JAVA_SUM="f23d482b2b4ada08166201d1a0e299e3e371fdca5cd7288dcbd81ae82f3a75e3";\
+        JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12.tar.gz";\
         ;;\
     arm)\
-        JAVA_SUM="458d091756500dc3013737aa182a14752b3d4ffc358d09532201874ffb8cae22";\
-        JAVA_URL="https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_arm_linux_hotspot_14.0.1_7.tar.gz";\
+        JAVA_SUM="f5945a39929384235e7cb1c57df071b8c7e49274632e2a54e54b2bad05de21a5";\
+        JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_arm_linux_hotspot_17.0.1_12.tar.gz";\
         ;;\
     ppc64le)\
-        JAVA_SUM="bfdd77112d81256d4e1a859a465dd4dcb670019a5d6cf8260c30e24a0e5947e4";\
-        JAVA_URL="https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_ppc64le_linux_hotspot_14.0.1_7.tar.gz";\
+        JAVA_SUM="bd65d4e8ecc4236924ae34d2075b956799abca594021e1b40c36aa08a0d610b0";\
+        JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.1_12.tar.gz";\
         ;;\
     s390x)\
-        JAVA_SUM="c13545924e92cb9d495282e95270f299a28d5466f9741c67791f131c38ebbd0c";\
-        JAVA_URL="https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_s390x_linux_hotspot_14.0.1_7.tar.gz";\
+        JAVA_SUM="dcc17e6ef28984656e997b6b8a6a31c89f45aff87a56b5d3819137c8f1050bef";\
+        JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.1_12.tar.gz";\
         ;;\
     amd64)\
-        JAVA_SUM="9ddf9b35996fbd784a53fff3e0d59920a7d5acf1a82d4c8d70906957ac146cd1";\
-        JAVA_URL="https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jdk_x64_linux_hotspot_14.0.1_7.tar.gz";\
+        printf "download Java for amd64";\
+        JAVA_SUM="6ea18c276dcbb8522feeebcfc3a4b5cb7c7e7368ba8590d3326c6c3efc5448b6";\
+        JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12.tar.gz";\
         ;;\
     *)\
         printf "Unsupported arch: ${TARGETARCH}";\
