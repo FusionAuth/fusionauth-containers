@@ -67,18 +67,23 @@ RUN printf "${TARGETARCH}" && \
     && mkdir -p /tmp/openjdk \
     && cd /tmp/openjdk \
     && tar -xf /tmp/openjdk.tar.gz --strip-components=1 \
-    && /tmp/openjdk/bin/jlink --compress=2 \
-       --module-path /tmp/openjdk/jmods/ \
-       --add-modules ${JDK_MODULES} \
-       --output /opt/openjdk \
     && curl -LfsSo /tmp/fusionauth-app.zip https://files.fusionauth.io/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip \
     && mkdir -p /usr/local/fusionauth/fusionauth-app \
     && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth
 
+###### Use the build platforma rch to complete the jlink.
+FROM ubuntu:focal as java_build
+RUN mkdir -p /tmp/openjdk
+COPY --from=build /tmp/openjdk /tmp/openjdk
+RUN /tmp/openjdk/bin/jlink --compress=2 \
+       --module-path /tmp/openjdk/jmods/ \
+       --add-modules ${JDK_MODULES} \
+       --output /opt/openjdk
+
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
 FROM ubuntu:focal
 RUN useradd -d /usr/local/fusionauth -U fusionauth
-COPY --from=build /opt/openjdk /opt/openjdk
+COPY --from=java_build /opt/openjdk /opt/openjdk
 COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
 
 ###### Connect the log file to stdout #############################################################
