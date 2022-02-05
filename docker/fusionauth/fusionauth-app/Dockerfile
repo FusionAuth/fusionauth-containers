@@ -6,8 +6,8 @@
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.32.2 .
 #   > docker buildx build --platform=linux/arm64  -t fusionauth/fusionauth-app:latest .
 #
-# Note: Substiture your platform architecture. The above example is building on an Apple M1 ARM 64 bit architecture.
-#       To build on an Intel based platform use --platform=linux/amd64.
+# Note: Substiture your target platform architecture. The above example is targetting a 64-bit ARM platform.
+#       To target an Intel based platform use --platform=linux/amd64.
 #
 # Run:
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
