@@ -73,14 +73,14 @@ RUN case "${BUILDPLATFORM}" in \
     esac \
     && apt-get update \
     && apt-get install -y curl unzip \
+    && mkdir -p /tmp/openjdk \
+    && mkdir -p /tmp/build/openjdk \
     && curl -LfsSo /tmp/build/openjdk.tar.gz "${BUILD_JAVA_URL}" \
     && echo "${BUILD_JAVA_SUM} */tmp/build/openjdk.tar.gz" | sha256sum -c - \
     && curl -LfsSo /tmp/openjdk.tar.gz "${JAVA_URL}" \
     && echo "${JAVA_SUM} */tmp/openjdk.tar.gz" | sha256sum -c - \
-    && mkdir -p /tmp/build/openjdk \
     && cd /tmp/build/openjdk \
     && tar -xf /tmp/build/openjdk.tar.gz --strip-components=1 \
-    && mkdir -p /tmp/openjdk \
     && cd /tmp/openjdk \
     && tar -xf /tmp/openjdk.tar.gz --strip-components=1 \
     && /tmp/build/openjdk/bin/jlink --compress=2 \
