@@ -18,7 +18,7 @@
 #
 
 ###### Setup the java and fusionauth-app base #####################################################
-FROM ubuntu:focal as build
+FROM --platform=$BUILDPLATFORM ubuntu:focal as build
 
 ARG BUILDPLATFORM
 ARG FUSIONAUTH_VERSION=1.32.1
@@ -54,7 +54,7 @@ RUN case "${TARGETARCH}" in \
     esac \
     && apt-get update \
     && apt-get install -y curl unzip \
-    && curl -#LSo /tmp/openjdk.tar.gz "${BINARY_URL}" \
+    && curl -LfsSo /tmp/openjdk.tar.gz "${BINARY_URL}" \
     && echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c - \
     && mkdir -p /tmp/openjdk \
     && cd /tmp/openjdk \
@@ -63,7 +63,7 @@ RUN case "${TARGETARCH}" in \
        --module-path /tmp/openjdk/jmods/ \
        --add-modules ${JDK_MODULES} \
        --output /opt/openjdk \
-    && curl -#LSo /tmp/fusionauth-app.zip https://files.fusionauth.io/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip \
+    && curl -LfsSo /tmp/fusionauth-app.zip https://files.fusionauth.io/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip \
     && mkdir -p /usr/local/fusionauth/fusionauth-app \
     && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth
 
