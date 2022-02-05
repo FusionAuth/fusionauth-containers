@@ -22,6 +22,7 @@ FROM --platform=$BUILDPLATFORM ubuntu:focal as build
 
 ARG BUILDPLATFORM
 ARG FUSIONAUTH_VERSION=1.32.1
+ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.scripting,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.dynalink,jdk.jcmd,jdk.jdi,jdk.localedata,jdk.jpackage,jdk.unsupported,jdk.zipfs
 ARG TARGETPLATFORM
 ARG TARGETARCH
 RUN printf "Building on ${BUILDPLATFORM} for ${TARGETPLATFORM} (${TARGETARCH})."
@@ -63,27 +64,31 @@ RUN printf "${TARGETARCH}" && \
     && echo "Check SHA-256 checksum ${ESUM}" \
     && curl -LfsSo /tmp/openjdk.tar.gz "${BINARY_URL}" \
     && echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c - \
-    && mkdir -p /tmp/openjdk \
+RUN mkdir -p /tmp/openjdk \
     && cd /tmp/openjdk \
     && tar -xf /tmp/openjdk.tar.gz --strip-components=1 \
-    && curl -LfsSo /tmp/fusionauth-app.zip https://files.fusionauth.io/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip \
+    /tmp/openjdk/bin/jlink --compress=2 \
+           --module-path /tmp/openjdk/jmods/ \
+           --add-modules ${JDK_MODULES} \
+           --output /opt/openjdk
+RUN curl -LfsSo /tmp/fusionauth-app.zip https://files.fusionauth.io/products/fusionauth/${FUSIONAUTH_VERSION}/fusionauth-app-${FUSIONAUTH_VERSION}.zip \
     && mkdir -p /usr/local/fusionauth/fusionauth-app \
     && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth
 
-###### Run jlink from the target build arch
-FROM ubuntu:focal as java_build
-ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.scripting,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.dynalink,jdk.jcmd,jdk.jdi,jdk.localedata,jdk.jpackage,jdk.unsupported,jdk.zipfs
-RUN mkdir -p /tmp/openjdk
-COPY --from=build /tmp/openjdk /tmp/openjdk
-RUN /tmp/openjdk/bin/jlink --compress=2 \
-       --module-path /tmp/openjdk/jmods/ \
-       --add-modules ${JDK_MODULES} \
-       --output /opt/openjdk
+####### Run jlink from the target build arch
+#FROM ubuntu:focal as java_build
+#ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.scripting,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.dynalink,jdk.jcmd,jdk.jdi,jdk.localedata,jdk.jpackage,jdk.unsupported,jdk.zipfs
+#RUN mkdir -p /tmp/openjdk
+#COPY --from=build /tmp/openjdk /tmp/openjdk
+#RUN /tmp/openjdk/bin/jlink --compress=2 \
+#       --module-path /tmp/openjdk/jmods/ \
+#       --add-modules ${JDK_MODULES} \
+#       --output /opt/openjdk
 
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
 FROM ubuntu:focal
 RUN useradd -d /usr/local/fusionauth -U fusionauth
-COPY --from=java_build /opt/openjdk /opt/openjdk
+COPY --from=build /opt/openjdk /opt/openjdk
 COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
 
 ###### Connect the log file to stdout #############################################################
