@@ -67,7 +67,7 @@ RUN printf "${TARGETARCH}" && \
 RUN mkdir -p /tmp/openjdk \
     && cd /tmp/openjdk \
     && tar -xf /tmp/openjdk.tar.gz --strip-components=1 \
-    /tmp/openjdk/bin/jlink --compress=2 \
+    && /tmp/openjdk/bin/jlink --compress=2 \
            --module-path /tmp/openjdk/jmods/ \
            --add-modules ${JDK_MODULES} \
            --output /opt/openjdk
