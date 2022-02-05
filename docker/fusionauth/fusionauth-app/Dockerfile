@@ -60,6 +60,8 @@ RUN printf "${TARGETARCH}" && \
     esac \
     && apt-get update \
     && apt-get install -y curl unzip \
+    && printf "Download Java from ${BINARY_URL}" \
+    && printf "Check SHA-256 checksum ${ESUM}" \
     && curl -LfsSo /tmp/openjdk.tar.gz "${BINARY_URL}" \
     && echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c - \
     && mkdir -p /tmp/openjdk \
