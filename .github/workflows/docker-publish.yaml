@@ -53,7 +53,7 @@ jobs:
           context: .
           file: ./docker/fusionauth/fusionauth-app/Dockerfile
           build-args: FUSIONAUTH_VERSION=${{ env.FUSIONAUTH_VERSION }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/ppc64le,linux/s390x
           push: true
           tags: ${{ env.FUSIONAUTH_TAGS }}
 
