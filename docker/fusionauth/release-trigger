@@ -1,4 +1,3 @@
-version=1.25.0
-preRelease=true
+version=1.33.0
+preRelease=false
 tagSuffix=
-run
