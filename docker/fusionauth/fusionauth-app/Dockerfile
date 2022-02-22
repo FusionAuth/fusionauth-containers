@@ -1,5 +1,5 @@
 #
-# FusionAuth App Dockerfile
+  # FusionAuth App Dockerfile
 #
 # Build:
 #   > docker pull ubuntu:focal
@@ -58,7 +58,6 @@ RUN case "${BUILDPLATFORM}" in \
         JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.1_12.tar.gz";\
         ;;\
     amd64)\
-        printf "download Java for amd64";\
         JAVA_SUM="6ea18c276dcbb8522feeebcfc3a4b5cb7c7e7368ba8590d3326c6c3efc5448b6";\
         JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12.tar.gz";\
         ;;\
