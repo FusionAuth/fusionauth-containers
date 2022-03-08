@@ -16,7 +16,7 @@
 savantVersion = "1.0.0"
 
 
-project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.99.9", licenses: ["ApacheV2_0"]) {
+project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.35.0", licenses: ["ApacheV2_0"]) {
   workflow {
     fetch {
       cache()
