@@ -28,7 +28,7 @@ ARG TARGETARCH
 RUN printf "Building on ${BUILDPLATFORM} for ${TARGETPLATFORM} (${TARGETARCH})."
 RUN case "${BUILDPLATFORM}" in \
     linux/arm64)\
-        BUILD_JAVA_SUM="f23d482b2b4ada08166201d1a0e299e3e371fdca5cd7288dcbd81ae82f3a75e3";\
+        BUILD_JAVA_SUM="2e3c19c1707205c6b90cc04b416e8d83078ed98417d5a69dce3cf7dc0d7cfbca";\
         BUILD_JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.3%2B7/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.3_7.tar.gz";\
         ;;\
     linux/amd64)\
@@ -42,7 +42,7 @@ RUN case "${BUILDPLATFORM}" in \
     esac \
     && case "${TARGETARCH}" in \
     arm64)\
-        JAVA_SUM="f23d482b2b4ada08166201d1a0e299e3e371fdca5cd7288dcbd81ae82f3a75e3";\
+        JAVA_SUM="2e3c19c1707205c6b90cc04b416e8d83078ed98417d5a69dce3cf7dc0d7cfbca";\
         JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.3%2B7/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.3_7.tar.gz";\
         ;;\
     arm)\
@@ -50,7 +50,7 @@ RUN case "${BUILDPLATFORM}" in \
         JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.3%2B7/OpenJDK17U-jdk_arm_linux_hotspot_17.0.3_7.tar.gz";\
         ;;\
     ppc64le)\
-        JAVA_SUM="bd65d4e8ecc4236924ae34d2075b956799abca594021e1b40c36aa08a0d610b0";\
+        JAVA_SUM="a04587018c9719dca21073f19d56b335c4985f41afe7d99b24852c1a94b917e5";\
         JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.3%2B7/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.3_7.tar.gz";\
         ;;\
     s390x)\
