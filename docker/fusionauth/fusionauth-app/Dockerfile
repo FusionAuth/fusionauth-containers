@@ -4,7 +4,7 @@
 # Build:
 #   > docker pull ubuntu:focal
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.37.0 .
-#   > docker buildx build --platform=linux/arm64  -t fusionauth/fusionauth-app:latest .
+#   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:latest .
 #
 # Note: Substiture your target platform architecture. The above example is targetting a 64-bit ARM platform.
 #       To target an Intel based platform use --platform=linux/amd64.
