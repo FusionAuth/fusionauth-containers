@@ -22,6 +22,8 @@ FusionAuth loves containers, found an issue? Please open a bug or submit a PR.
 - [@drpebcak](https://github.com/drpebcak)
 - [@sims-security](https://github.com/sims-security)
 
+https://github.com/fusionauth/fusionauth-contrib is the new repository for all contributions, including container runtimes and configs.
+
 <br>
 
 ## Docker
