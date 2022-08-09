@@ -89,7 +89,7 @@ RUN case "${BUILDPLATFORM}" in \
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
 FROM ubuntu:focal
 RUN useradd -d /usr/local/fusionauth -U fusionauth
-COPY --from=build /opt/openjdk /opt/openjdk
+COPY --chown=fusionauth:fusionauth --from=build /opt/openjdk /opt/openjdk
 COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
 
 ###### Connect the log file to stdout #############################################################
