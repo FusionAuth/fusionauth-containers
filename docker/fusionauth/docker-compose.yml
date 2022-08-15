@@ -39,8 +39,6 @@ services:
       FUSIONAUTH_APP_RUNTIME_MODE: development
       FUSIONAUTH_APP_URL: http://fusionauth:9011
       SEARCH_TYPE: database
-
-
     networks:
      - db
     restart: unless-stopped
@@ -48,7 +46,20 @@ services:
       - 9011:9011
     volumes:
       - fa_config:/usr/local/fusionauth/config
-
+  caddy:
+    image: caddy
+    depends_on:
+    - fusionauth
+    restart: unless-stopped
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - ./Caddyfile:/etc/caddy/Caddyfile
+    - caddy_data:/data
+    - caddy_config:/config
+    networks:
+    - db      
 networks:
   db:
     driver: bridge
@@ -56,3 +67,5 @@ networks:
 volumes:
   db_data:
   fa_config:
+  caddy_data:
+  caddy_config:
