@@ -3,8 +3,8 @@
 #
 # Build:
 #   > docker pull ubuntu:focal
-#   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.36.9 .
-#   > docker buildx build --platform=linux/arm64  -t fusionauth/fusionauth-app:latest .
+#   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.38.1 .
+#   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:latest .
 #
 # Note: Substiture your target platform architecture. The above example is targetting a 64-bit ARM platform.
 #       To target an Intel based platform use --platform=linux/amd64.
@@ -13,7 +13,7 @@
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 # Publish:
-#   > docker push fusionauth/fusionauth-app:1.36.9
+#   > docker push fusionauth/fusionauth-app:1.38.1
 #   > docker push fusionauth/fusionauth-app:latest
 #
 
@@ -21,7 +21,7 @@
 FROM --platform=$BUILDPLATFORM ubuntu:focal as build
 
 ARG BUILDPLATFORM
-ARG FUSIONAUTH_VERSION=1.36.9
+ARG FUSIONAUTH_VERSION=1.38.1
 ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.scripting,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.dynalink,jdk.jcmd,jdk.jdi,jdk.localedata,jdk.jpackage,jdk.unsupported,jdk.zipfs
 ARG TARGETPLATFORM
 ARG TARGETARCH
@@ -89,7 +89,7 @@ RUN case "${BUILDPLATFORM}" in \
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
 FROM ubuntu:focal
 RUN useradd -d /usr/local/fusionauth -U fusionauth
-COPY --from=build /opt/openjdk /opt/openjdk
+COPY --chown=fusionauth:fusionauth --from=build /opt/openjdk /opt/openjdk
 COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
 
 ###### Connect the log file to stdout #############################################################
@@ -105,4 +105,4 @@ USER fusionauth
 ENV FUSIONAUTH_USE_GLOBAL_JAVA=1
 ENV JAVA_HOME=/opt/openjdk
 ENV PATH=$PATH:$JAVA_HOME/bin
-CMD ["/usr/local/fusionauth/fusionauth-app/apache-tomcat/bin/catalina.sh", "run"]
+CMD ["/usr/local/fusionauth/fusionauth-app/bin/start.sh"]

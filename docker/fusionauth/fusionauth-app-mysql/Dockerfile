@@ -26,16 +26,16 @@
 # -----------------------------------------------------------------------------
 #
 # Build:
-#   > docker build -t fusionauth/fusionauth-app-mysql:1.36.9 .
+#   > docker build -t fusionauth/fusionauth-app-mysql:1.38.1 .
 #   > docker build -t fusionauth/fusionauth-app-mysql:latest .
 #
 # Run:
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app-mysql
 #
 
-FROM fusionauth/fusionauth-app:1.36.9
+FROM fusionauth/fusionauth-app:1.38.1
 
 # Do not change this version, this is the version that will be expected in the classpath at runtime.
 ARG MYSQL_CONNECTOR_VERSION=8.0.21
 
-ADD --chown=fusionauth:fusionauth https://files.fusionauth.io/mysql/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar /usr/local/fusionauth/fusionauth-app/apache-tomcat/lib
+ADD --chown=fusionauth:fusionauth https://files.fusionauth.io/mysql/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar /usr/local/fusionauth/fusionauth-app/lib
