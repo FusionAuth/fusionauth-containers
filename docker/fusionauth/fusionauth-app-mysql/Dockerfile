@@ -8,19 +8,9 @@
 #
 # https://github.com/mysql/mysql-connector-j/blob/release/8.0/LICENSE
 #
-# Because of this restriction, the MySQL connector is downloaded at runtime
-# to allow FusionAuth to connect to a MySQL JDBC URL.
-#
-# Generally speaking downloading this jar at runtime works just fine. However
-# if you have blocked outbound network access or are concerned with this
-# external network dependency leading to possible failures during startup you
-# may optionally download the jar ahead of time.
-#
-# During startup, if we identify the correct MySQL connector jar in the
-# classpath the download attempt will be skipped.
-#
-# Re-packaging the FusionAuth Docker image with the MySQL connector is one
-# way of keeping this download from occurring at runtime.
+# Because of this restriction, you will need to build a docker image for your
+# use that contains the MySQL JDBC connector in order to connect to a MySQL
+# database at runtime.
 #
 # This file is provided as an example only.
 # -----------------------------------------------------------------------------
