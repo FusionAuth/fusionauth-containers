@@ -6,21 +6,17 @@
 # The MySQL JDBC connector is not bundled with FusionAuth due to the GPL
 # license terms under which Oracle publishes this software.
 #
-# https://github.com/mysql/mysql-connector-j/blob/release/8.0/LICENSE
+# Because of this restriction, you will need to build a docker image for your
+# use that contains the MySQL JDBC connector in order to connect to a MySQL
+# database at runtime.
+
+# Source: https://github.com/mysql/mysql-connector-j
+# License: https://github.com/mysql/mysql-connector-j/blob/release/8.0/LICENSE
+# Homepage: https://dev.mysql.com/doc/connector-j/8.0/en/
 #
-# Because of this restriction, the MySQL connector is downloaded at runtime
-# to allow FusionAuth to connect to a MySQL JDBC URL.
-#
-# Generally speaking downloading this jar at runtime works just fine. However
-# if you have blocked outbound network access or are concerned with this
-# external network dependency leading to possible failures during startup you
-# may optionally download the jar ahead of time.
-#
-# During startup, if we identify the correct MySQL connector jar in the
-# classpath the download attempt will be skipped.
-#
-# Re-packaging the FusionAuth Docker image with the MySQL connector is one
-# way of keeping this download from occurring at runtime.
+# If you choose to build a Docker image containing this connector, ensure you
+# aware and in compliance with the license under which the MySQL JDBC connector
+# is provided.
 #
 # This file is provided as an example only.
 # -----------------------------------------------------------------------------
@@ -33,9 +29,5 @@
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app-mysql
 #
 
-FROM fusionauth/fusionauth-app:1.41.0-{integration}
-
-# Do not change this version, this is the version that will be expected in the classpath at runtime.
-ARG MYSQL_CONNECTOR_VERSION=8.0.21
-
-ADD --chown=fusionauth:fusionauth https://files.fusionauth.io/mysql/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.jar /usr/local/fusionauth/fusionauth-app/lib
+FROM fusionauth/fusionauth-app:1.41.0
+ADD --chown=fusionauth:fusionauth https://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/8.0.30/mysql-connector-java-8.0.30.jar /usr/local/fusionauth/fusionauth-app/lib
