@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2018-2022, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * either express or implied. See the License for the specific
  * language governing permissions and limitations under the License.
  */
-savantVersion = "1.0.0"
+savantVersion = "2.0.0-RC.1"
 
 
 project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.41.0", licenses: ["ApacheV2_0"]) {
@@ -42,7 +42,7 @@ project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.41.0"
 /*
  * Define Plugins
  */
-idea = loadPlugin(id: "org.savantbuild.plugin:idea:1.0.1")
+idea = loadPlugin(id: "org.savantbuild.plugin:idea:${savantVersion}")
 release = loadPlugin(id: "org.savantbuild.plugin:release-git:${savantVersion}")
 
 /*
@@ -62,7 +62,7 @@ target(name: "idea", description: "Releases a local integration build of the pro
 }
 
 target(name: "publish", description: "Releases the Docker images to DockerHub") {
-  def args = ["./publish.sh", "${project.version}" as String , "${project.version.preRelease}" as String]
+  def args = ["./publish.sh", "${project.version}" as String, "${project.version.preRelease}" as String]
   ProcessBuilder pb = new ProcessBuilder(args).inheritIO().directory(new File('./docker/fusionauth'))
 
   def process = pb.start()
