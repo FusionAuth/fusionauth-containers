@@ -18,7 +18,7 @@
 #
 
 ###### Setup the java and fusionauth-app base #####################################################
-FROM --platform=$BUILDPLATFORM ubuntu:jammy as build
+FROM --platform=$BUILDPLATFORM ubuntu:focal as build
 
 ARG BUILDPLATFORM
 ARG FUSIONAUTH_VERSION=1.41.0
@@ -87,7 +87,7 @@ RUN case "${BUILDPLATFORM}" in \
     && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth
 
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
-FROM ubuntu:jammy
+FROM ubuntu:focal
 RUN useradd -d /usr/local/fusionauth -U fusionauth
 COPY --chown=fusionauth:fusionauth --from=build /opt/openjdk /opt/openjdk
 COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
