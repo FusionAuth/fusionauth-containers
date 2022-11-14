@@ -21,7 +21,7 @@
 FROM --platform=$BUILDPLATFORM ubuntu:jammy as build
 
 ARG BUILDPLATFORM
-ARG FUSIONAUTH_VERSION=1.39.0
+ARG FUSIONAUTH_VERSION=1.41.0
 ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.security.jgss,java.security.sasl,java.scripting,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.dynalink,jdk.jcmd,jdk.jdi,jdk.localedata,jdk.jpackage,jdk.unsupported,jdk.zipfs
 ARG TARGETPLATFORM
 ARG TARGETARCH
