@@ -1,5 +1,5 @@
 #
-  # FusionAuth App Dockerfile
+# FusionAuth App Dockerfile
 #
 # Build:
 #   > docker pull ubuntu:jammy
