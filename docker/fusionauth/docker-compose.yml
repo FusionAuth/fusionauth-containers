@@ -20,7 +20,6 @@ services:
 
   search:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
-    container_name: search
     environment:
       cluster.name: fusionauth
       bootstrap.memory_lock: "true"
