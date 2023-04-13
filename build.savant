@@ -14,7 +14,7 @@
  * language governing permissions and limitations under the License.
  */
 
-project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.45.0", licenses: ["ApacheV2_0"]) {
+project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.45.1", licenses: ["ApacheV2_0"]) {
   workflow {
     fetch {
       cache()
