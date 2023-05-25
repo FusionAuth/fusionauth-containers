@@ -2,3 +2,4 @@
 fusionauth-containers.iws
 **/fusionauth-app.zip
 **/fusionauth-search.zip
+.savant/cache
