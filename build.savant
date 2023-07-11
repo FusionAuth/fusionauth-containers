@@ -14,6 +14,8 @@
  * language governing permissions and limitations under the License.
  */
 
+import java.nio.charset.StandardCharsets
+
 project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.47.0", licenses: ["ApacheV2_0"]) {
   workflow {
     fetch {
@@ -60,10 +62,17 @@ target(name: "idea", description: "Releases a local integration build of the pro
 }
 
 target(name: "publish", description: "Releases the Docker images to DockerHub") {
-  def args = ["./publish.sh", "${project.version}" as String, "${project.version.preRelease}" as String]
-  ProcessBuilder pb = new ProcessBuilder(args).inheritIO().directory(new File('./docker/fusionauth'))
+  ProcessBuilder pb = new ProcessBuilder("git", "branch", "--show-current")
+  def process = pb.redirectOutput(ProcessBuilder.Redirect.PIPE).directory(new File(".")).start()
+  process.waitFor()
+  def branch = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim()
 
-  def process = pb.start()
+  // The theory is that if we release from a maintenance branch, a staging branch etc. this will be a pre-release or a maintenance release.
+  def latestVersion = "master" == branch && !project.version.isPreRelease()
+  def args = ["./publish.sh", "${project.version}" as String, "${latestVersion}" as String]
+
+  pb = new ProcessBuilder(args).inheritIO().directory(new File('./docker/fusionauth'))
+  process = pb.start()
   process.consumeProcessOutput(System.out, System.err)
   process.waitFor()
   if (process.exitValue() != 0) {
