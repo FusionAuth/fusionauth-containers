@@ -103,6 +103,7 @@ LABEL maintainer="FusionAuth <dev@fusionauth.io>"
 EXPOSE 9011
 USER fusionauth
 ENV FUSIONAUTH_USE_GLOBAL_JAVA=1
+ENV FUSIONAUTH_DISABLE_GC_LOG=1
 ENV JAVA_HOME=/opt/openjdk
 ENV PATH=$PATH:$JAVA_HOME/bin
 CMD ["/usr/local/fusionauth/fusionauth-app/bin/start.sh"]
