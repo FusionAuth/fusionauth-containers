@@ -28,11 +28,11 @@ ARG TARGETARCH
 RUN printf "Building on ${BUILDPLATFORM} for ${TARGETPLATFORM} (${TARGETARCH})."
 RUN case "${BUILDPLATFORM}" in \
     linux/arm64)\
-        BUILD_JAVA_SUM="2e3c19c1707205c6b90cc04b416e8d83078ed98417d5a69dce3cf7dc0d7cfbca";\
+        BUILD_JAVA_SUM="c43688163cfdcb1a6e6fe202cc06a51891df746b954c55dbd01430e7d7326d00";\
         BUILD_JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8%2B7/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.8_7.tar.gz";\
         ;;\
     linux/amd64)\
-        BUILD_JAVA_SUM="81f5bed21077f9fbb04909b50391620c78b9a3c376593c0992934719c0de6b73";\
+        BUILD_JAVA_SUM="aa5fc7d388fe544e5d85902e68399d5299e931f9b280d358a3cbee218d6017b0";\
         BUILD_JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8%2B7/OpenJDK17U-jdk_x64_linux_hotspot_17.0.8_7.tar.gz";\
         ;;\
     *)\
@@ -42,23 +42,23 @@ RUN case "${BUILDPLATFORM}" in \
     esac \
     && case "${TARGETARCH}" in \
     arm64)\
-        JAVA_SUM="2e3c19c1707205c6b90cc04b416e8d83078ed98417d5a69dce3cf7dc0d7cfbca";\
+        JAVA_SUM="c43688163cfdcb1a6e6fe202cc06a51891df746b954c55dbd01430e7d7326d00";\
         JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8%2B7/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.8_7.tar.gz";\
         ;;\
     arm)\
-        JAVA_SUM="d76c462f44c9f306a0fe4468a0218a261ab152f358a8fb55ec80865bf35e2c41";\
+        JAVA_SUM="33d972efd78b70a07aed793a6ebcb52a5129707e8c62268e478d1c2df15898e1";\
         JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8%2B7/OpenJDK17U-jdk_arm_linux_hotspot_17.0.8_7.tar.gz";\
         ;;\
     ppc64le)\
-        JAVA_SUM="a04587018c9719dca21073f19d56b335c4985f41afe7d99b24852c1a94b917e5";\
+        JAVA_SUM="88f5d14cc84a4bcfe50aa275092ae97a0edf7205269ed12c1972bf613bc52b1e";\
         JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8%2B7/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.8_7.tar.gz";\
         ;;\
     s390x)\
-        JAVA_SUM="d9456cdf9719f9d8a11f26b2dd176cd6a8478d96ced09396765c7473482bc7f1";\
+        JAVA_SUM="055d8bd0eebf137cf3506fb84817ce2d858597f21067d9a1268f08916738b435";\
         JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8%2B7/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.8_7.tar.gz";\
         ;;\
     amd64)\
-        JAVA_SUM="81f5bed21077f9fbb04909b50391620c78b9a3c376593c0992934719c0de6b73";\
+        JAVA_SUM="aa5fc7d388fe544e5d85902e68399d5299e931f9b280d358a3cbee218d6017b0";\
         JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8%2B7/OpenJDK17U-jdk_x64_linux_hotspot_17.0.8_7.tar.gz";\
         ;;\
     *)\
