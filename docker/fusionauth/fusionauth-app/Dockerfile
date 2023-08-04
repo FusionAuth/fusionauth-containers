@@ -2,7 +2,7 @@
 # FusionAuth App Dockerfile
 #
 # Build:
-#   > docker pull ubuntu:lunar
+#   > docker pull ubuntu:jammy
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.47.1 .
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:latest .
 #
