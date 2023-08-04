@@ -2,11 +2,11 @@
 # FusionAuth App Dockerfile
 #
 # Build:
-#   > docker pull ubuntu:jammy
+#   > docker pull ubuntu:lunar
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.47.1 .
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:latest .
 #
-# Note: Substiture your target platform architecture. The above example is targetting a 64-bit ARM platform.
+# Note: Substitute your target platform architecture. The above example is targetting a 64-bit ARM platform.
 #       To target an Intel based platform use --platform=linux/amd64.
 #
 # Run:
@@ -66,7 +66,6 @@ RUN case "${BUILDPLATFORM}" in \
         exit 1;\
         ;;\
     esac \
-    && apt-get update \
     && apt-get install -y curl unzip \
     && mkdir -p /tmp/openjdk \
     && mkdir -p /tmp/build/openjdk \
@@ -88,7 +87,10 @@ RUN case "${BUILDPLATFORM}" in \
 
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
 FROM ubuntu:jammy
-RUN useradd -d /usr/local/fusionauth -U fusionauth
+RUN apt-get update \
+    && apt-get install -y curl \
+    && rm -rf /var/lib/apt/lists \
+    && useradd -d /usr/local/fusionauth -U fusionauth
 COPY --chown=fusionauth:fusionauth --from=build /opt/openjdk /opt/openjdk
 COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
 
