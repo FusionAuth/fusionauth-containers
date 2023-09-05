@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# Copyright (c) 2018-2023, FusionAuth, All Rights Reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the License for the specific
+# language governing permissions and limitations under the License.
+
+#
+# You can install FusionAuth by running:
+#
+# curl -s https://fusionauth.io/getit | sh -
+#
+
+# Useful colors
+COLOR_RESET="\e[0m"
+COLOR_RED="\e[31m"
+COLOR_GREEN="\e[32m"
+COLOR_YELLOW="\e[33m"
+COLOR_CYAN="\e[36m"
+
+# Displays help menu
+display_help() {
+  printf "%bDescription:%b\n" "$COLOR_YELLOW" "$COLOR_RESET"
+  printf "  Downloads necessary files to start a FusionAuth instance\n\n"
+
+  printf "%bUsage:%b\n" "$COLOR_YELLOW" "$COLOR_RESET"
+  printf "  %b$0%b [options]%b\n\n" "$COLOR_GREEN" "$COLOR_YELLOW" "$COLOR_RESET"
+
+  printf "%bOptions:%b\n" "$COLOR_YELLOW" "$COLOR_RESET"
+  printf "  %b-k, --kickstart%b   Downloads files to be used with Kickstart\n" "$COLOR_GREEN" "$COLOR_RESET"
+}
+
+# Files to download
+case "$1" in
+"-k" | "--kickstart")
+  DOCKER_COMPOSE_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-example-template/master/docker-compose.yml"
+  ENV_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-example-template/master/.env"
+  ;;
+
+"-h" | "--help")
+  display_help
+  exit 1
+  ;;
+
+**)
+  DOCKER_COMPOSE_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml"
+  ENV_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env"
+  ;;
+esac
+
+# Downloading files
+download() {
+  printf "[ %b•%b ] Downloading %b%s%b..." "$COLOR_CYAN" "$COLOR_RESET" "$COLOR_YELLOW" "$1" "$COLOR_RESET"
+  curlError=$(curl --no-progress-meter --fail -o "$1" "$2" 2>&1)
+  # shellcheck disable=SC2181
+  if [ $? -ne 0 ]; then
+    printf "\r[ %b×%b ] Downloading %b%s%b %bFAILED%b\n" "$COLOR_RED" "$COLOR_RESET" "$COLOR_YELLOW" "$1" "$COLOR_RESET" "$COLOR_RED" "$COLOR_RESET"
+    printf "[ %b×%b ] %bError: %s%b\n" "$COLOR_RED" "$COLOR_RESET" "$COLOR_RED" "$curlError" "$COLOR_RESET"
+    exit 1
+  fi
+  printf "\r[ %b✔%b ] Downloading %b%s%b\n" "$COLOR_GREEN" "$COLOR_RESET" "$COLOR_YELLOW" "$1" "$COLOR_RESET"
+}
+
+download "docker-compose.yml" "$DOCKER_COMPOSE_FILE"
+download ".env" "$ENV_FILE"
+
+printf "[ %b✔%b ] %bAll files downloaded successfully%b\n" "$COLOR_GREEN" "$COLOR_RESET" "$COLOR_GREEN" "$COLOR_RESET"
+printf "[ %b✔%b ] %bYou can start your FusionAuth instance by running %bdocker compose up -d%b\n" "$COLOR_GREEN" "$COLOR_RESET" "$COLOR_RESET" "$COLOR_CYAN" "$COLOR_RESET"
