@@ -17,7 +17,7 @@
 #
 # You can install FusionAuth by running:
 #
-# curl -s https://fusionauth.io/getit | sh -
+# curl -s https://fusionauth.io/getit | sh -s - --download
 #
 
 # Useful colors
