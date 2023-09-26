@@ -21,39 +21,51 @@
 #
 
 # Useful colors
-COLOR_RESET="\e[0m"
-COLOR_RED="\e[31m"
-COLOR_GREEN="\e[32m"
-COLOR_YELLOW="\e[33m"
-COLOR_CYAN="\e[36m"
+if test -t 1; then
+    COLOR_RESET="\e[0m"
+    COLOR_RED="\e[31m"
+    COLOR_GREEN="\e[32m"
+    COLOR_YELLOW="\e[33m"
+    COLOR_CYAN="\e[36m"
+else
+    COLOR_RESET=""
+    COLOR_RED=""
+    COLOR_GREEN=""
+    COLOR_YELLOW=""
+    COLOR_CYAN=""
+fi
 
 # Displays help menu
 display_help() {
   printf "%bDescription:%b\n" "$COLOR_YELLOW" "$COLOR_RESET"
-  printf "  Downloads necessary files to start a FusionAuth instance\n\n"
+  printf "  Downloads %b.env%b and %bdocker-compose.yml%b files to\n" "$COLOR_CYAN" "$COLOR_RESET" "$COLOR_CYAN" "$COLOR_RESET"
+  printf "  start a FusionAuth instance with Docker Compose\n\n"
 
   printf "%bUsage:%b\n" "$COLOR_YELLOW" "$COLOR_RESET"
   printf "  %b$0%b [options]%b\n\n" "$COLOR_GREEN" "$COLOR_YELLOW" "$COLOR_RESET"
 
   printf "%bOptions:%b\n" "$COLOR_YELLOW" "$COLOR_RESET"
-  printf "  %b-k, --kickstart%b   Downloads files to be used with Kickstart\n" "$COLOR_GREEN" "$COLOR_RESET"
+  printf "  %b--download%b            Downloads standard .env and docker-compose.yml files\n" "$COLOR_GREEN" "$COLOR_RESET"
+  printf "  %b--download-kickstart%b  Downloads files to be used with Kickstart\n" "$COLOR_GREEN" "$COLOR_RESET"
 }
 
 # Files to download
 case "$1" in
-"-k" | "--kickstart")
-  DOCKER_COMPOSE_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-example-template/master/docker-compose.yml"
-  ENV_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-example-template/master/.env"
+"--download")
+  DOCKER_COMPOSE_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml"
+  ENV_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env"
+  printf "Downloading files\n"
   ;;
 
-"-h" | "--help")
-  display_help
-  exit 1
+"--download-kickstart")
+  DOCKER_COMPOSE_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-example-template/master/docker-compose.yml"
+  ENV_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-example-template/master/.env"
+  printf "Downloading files with Kickstart capabilities\n"
   ;;
 
 **)
-  DOCKER_COMPOSE_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/docker-compose.yml"
-  ENV_FILE="https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/master/docker/fusionauth/.env"
+  display_help
+  exit 1
   ;;
 esac
 
