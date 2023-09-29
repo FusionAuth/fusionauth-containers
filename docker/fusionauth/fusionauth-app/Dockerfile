@@ -66,6 +66,7 @@ RUN case "${BUILDPLATFORM}" in \
         exit 1;\
         ;;\
     esac \
+    && apt-get update \
     && apt-get install -y curl unzip \
     && mkdir -p /tmp/openjdk \
     && mkdir -p /tmp/build/openjdk \
