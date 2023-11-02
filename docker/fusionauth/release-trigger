@@ -1,3 +1,4 @@
 version=1.48.1
 latestVersion=true
 tagSuffix=
+trigger=rebuild
