@@ -89,7 +89,9 @@ RUN case "${BUILDPLATFORM}" in \
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
 FROM ubuntu:jammy
 RUN apt-get update \
-    && apt-get install -y curl \
+    && apt-get -y install --no-install-recommends curl \
+    && apt-get -y upgrade \
+    && apt-get -y clean \
     && rm -rf /var/lib/apt/lists \
     && useradd -d /usr/local/fusionauth -U fusionauth
 COPY --chown=fusionauth:fusionauth --from=build /opt/openjdk /opt/openjdk
