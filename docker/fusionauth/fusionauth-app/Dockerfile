@@ -3,7 +3,7 @@
 #
 # Build:
 #   > docker pull ubuntu:jammy
-#   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.48.2 .
+#   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.49.0 .
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:latest .
 #
 # Note: Substitute your target platform architecture. The above example is targetting a 64-bit ARM platform.
@@ -13,7 +13,7 @@
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 # Publish:
-#   > docker push fusionauth/fusionauth-app:1.48.2
+#   > docker push fusionauth/fusionauth-app:1.49.0
 #   > docker push fusionauth/fusionauth-app:latest
 #
 
