@@ -4,9 +4,7 @@ on:
     branches:
       - master
       - staging
-      - 1.43.0.maintenance
-      - 1.45.0.maintenance
-      - 1.45.2.maintenance
+      - 1.48.2.maintenance
     paths:
       - 'docker/fusionauth/release-trigger'
 concurrency: docker-concurrency-group
