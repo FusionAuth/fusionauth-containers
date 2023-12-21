@@ -65,7 +65,6 @@ services:
       FUSIONAUTH_APP_URL: http://fusionauth:9011
       SEARCH_SERVERS: http://search:9200
       SEARCH_TYPE: elasticsearch
-      FUSIONAUTH_APP_KICKSTART_FILE: ${FUSIONAUTH_APP_KICKSTART_FILE}
     networks:
       - db_net
       - search_net
