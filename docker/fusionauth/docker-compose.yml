@@ -73,7 +73,6 @@ services:
       - 9011:9011
     volumes:
       - fusionauth_config:/usr/local/fusionauth/config
-      - ./kickstart:/usr/local/fusionauth/kickstart
 
 networks:
   db_net:
