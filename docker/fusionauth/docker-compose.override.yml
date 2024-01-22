@@ -1,2 +1,2 @@
-# deprecated, no longer used
-# make any changes to elasticsearch in the docker-compose.yml file
+# deprecated, no longer used, kept for backward compatibility.
+# make any changes to elasticsearch or opensearch in the docker-compose.yml file
