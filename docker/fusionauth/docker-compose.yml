@@ -65,6 +65,11 @@ services:
       FUSIONAUTH_APP_URL: http://fusionauth:9011
       SEARCH_SERVERS: http://search:9200
       SEARCH_TYPE: elasticsearch
+    healthcheck:
+      test: curl --silent --fail http://localhost:9011 -o /dev/null -w "%{http_code}"
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - db_net
       - search_net
