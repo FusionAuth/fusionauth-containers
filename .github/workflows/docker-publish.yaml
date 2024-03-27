@@ -5,6 +5,7 @@ on:
       - master
       - staging
       - 1.48.2.maintenance
+      - feature/custom-scopes
     paths:
       - 'docker/fusionauth/release-trigger'
 concurrency: docker-concurrency-group
