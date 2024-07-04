@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2023, FusionAuth, All Rights Reserved
+ * Copyright (c) 2018-2024, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ target(name: "publish", description: "Releases the Docker images to DockerHub") 
   def branch = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim()
 
   // The theory is that if we release from a maintenance branch, a staging branch etc. this will be a pre-release or a maintenance release.
-  def latestVersion = "master" == branch && !project.version.isPreRelease()
+  def latestVersion = "main" == branch && !project.version.isPreRelease()
   def args = ["./publish.sh", "${project.version}" as String, "${latestVersion}" as String]
 
   pb = new ProcessBuilder(args).inheritIO().directory(new File('./docker/fusionauth'))
