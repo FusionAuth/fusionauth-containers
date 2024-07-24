@@ -2,7 +2,7 @@
 # FusionAuth App Dockerfile
 #
 # Build:
-#   > docker pull ubuntu:jammy
+#   > docker pull ubuntu:noble
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.51.1 .
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:latest .
 #
@@ -18,7 +18,7 @@
 #
 
 ###### Setup the java and fusionauth-app base #####################################################
-FROM --platform=$BUILDPLATFORM ubuntu:jammy AS build
+FROM --platform=$BUILDPLATFORM ubuntu:noble AS build
 
 ARG BUILDPLATFORM
 ARG FUSIONAUTH_VERSION=1.51.1
@@ -87,7 +87,7 @@ RUN case "${BUILDPLATFORM}" in \
     && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth
 
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
-FROM ubuntu:jammy
+FROM ubuntu:noble
 RUN apt-get update \
     && apt-get -y install --no-install-recommends curl \
     && apt-get -y upgrade \
