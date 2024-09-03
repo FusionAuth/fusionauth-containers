@@ -15,7 +15,7 @@
 # Homepage: https://dev.mysql.com/doc/connector-j/8.0/en/
 #
 # If you choose to build a Docker image containing this connector, ensure you
-# aware and in compliance with the license under which the MySQL JDBC connector
+# are aware and in compliance with the license under which the MySQL JDBC connector
 # is provided.
 #
 # This file is provided as an example only.
@@ -30,4 +30,4 @@
 #
 
 FROM fusionauth/fusionauth-app:1.53.0
-ADD --chown=fusionauth:fusionauth https://search.maven.org/remotecontent?filepath=com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar /usr/local/fusionauth/fusionauth-app/lib
+ADD --chown=fusionauth:fusionauth https://search.maven.org/remotecontent?filepath=com/mysql/mysql-connector-j/9.0.0/mysql-connector-j-9.0.0.jar /usr/local/fusionauth/fusionauth-app/lib
