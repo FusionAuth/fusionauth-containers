@@ -16,7 +16,7 @@
 
 import java.nio.charset.StandardCharsets
 
-project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.55.0", licenses: ["ApacheV2_0"]) {
+project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.55.1", licenses: ["ApacheV2_0"]) {
   workflow {
     fetch {
       cache()
