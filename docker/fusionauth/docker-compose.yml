@@ -1,6 +1,11 @@
 version: '3'
 
 services:
+  #
+  # Required services (database and FusionAuth)
+  #
+
+  # Postgresql is the default database. You can swap this out for MySQL if you prefer.
   db:
     image: postgres:16.0-bookworm
     environment:
@@ -12,12 +17,46 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-    networks:
-      - db_net
     restart: unless-stopped
     volumes:
       - db_data:/var/lib/postgresql/data
 
+  # This is the main FusionAuth application.
+  fusionauth:
+    image: fusionauth/fusionauth-app:latest
+    depends_on:
+      db:
+        condition: service_healthy
+      search:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/fusionauth
+      DATABASE_ROOT_USERNAME: ${POSTGRES_USER}
+      DATABASE_ROOT_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_USERNAME: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      FUSIONAUTH_APP_KICKSTART_FILE: ${FUSIONAUTH_APP_KICKSTART_FILE}
+      FUSIONAUTH_APP_MEMORY: ${FUSIONAUTH_APP_MEMORY}
+      FUSIONAUTH_APP_RUNTIME_MODE: ${FUSIONAUTH_APP_RUNTIME_MODE}
+      FUSIONAUTH_APP_URL: http://fusionauth:9011
+      SEARCH_SERVERS: http://search:9200
+      SEARCH_TYPE: ${FUSIONAUTH_SEARCH_TYPE}
+    healthcheck:
+      test: curl --silent --fail http://localhost:9011/api/status -o /dev/null -w "%{http_code}"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    ports:
+      - 9011:9011
+    volumes:
+      - fusionauth_config:/usr/local/fusionauth/config
+      - ${FUSIONAUTH_LOCAL_KICKSTART_DIRECTORY}:/usr/local/fusionauth/kickstart
+      - ${FUSIONAUTH_LOCAL_PLUGIN_DIRECTORY}:/usr/local/fusionauth/plugins
+
+  # Open Search isn't technically required, but the `fusionauth` service currently depends on it, so we start it here.
+  # You can change the search engine backend to `database` in the `.env` file if you would prefer to use that.
+  # Then you can remove the search dependency above and disable this service.
   search:
     image: opensearchproject/opensearch:2.11.0
     environment:
@@ -44,48 +83,100 @@ services:
       - 9600:9600 # Performance Analyzer
     volumes:
       - search_data:/usr/share/opensearch/data
-    networks:
-      - search_net
 
-  fusionauth:
-    image: fusionauth/fusionauth-app:latest
+  #
+  # Optional services
+  #
+
+  # Caddy can be used as a proxy to FusionAuth.
+  caddy:
+    image: caddy
+    profiles:
+      - caddy
+    depends_on:
+      - fusionauth
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+  # Mailcatcher is a nice SMTP server that can be used for development and testing. You'll need to configure FusionAuth
+  # to use Mailcatcher (or use a Kickstart file that points the SMTP configuration to localhost:1025).
+  mailcatcher:
+    image: sj26/mailcatcher
+    profiles:
+      - mailcatcher
+    ports:
+      - "1025:1025"
+      - "1080:1080"
+    healthcheck:
+      interval: 10s
+      retries: 80
+      test: wget -q -O /dev/null http://mailcatcher:1080/
+
+  # Zookeeper is needed for Kafka
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    profiles:
+      - kafka
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 2181:2181
+
+  # Kafka can be used for Webhooks rather than HTTP. You'll need to configure FusionAuth to use Kafka (or use a
+  # Kickstart file that enables Kafka).
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    profiles:
+      - kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  # Cleanspeak provides filter of usernames and profile data to prevent profanity and other unwanted content. You'll
+  # need a Cleanspeak license to enable this service.
+  cleanspeak:
+    image: cleanspeak/cleanspeak-app:latest
+    profiles:
+      - cleanspeak
     depends_on:
       db:
         condition: service_healthy
       search:
         condition: service_healthy
     environment:
-      DATABASE_URL: jdbc:postgresql://db:5432/fusionauth
+      DATABASE_URL: jdbc:postgresql://db:5432/cleanspeak
       DATABASE_ROOT_USERNAME: ${POSTGRES_USER}
       DATABASE_ROOT_PASSWORD: ${POSTGRES_PASSWORD}
-      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_USERNAME: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      FUSIONAUTH_APP_MEMORY: ${FUSIONAUTH_APP_MEMORY}
-      FUSIONAUTH_APP_RUNTIME_MODE: ${FUSIONAUTH_APP_RUNTIME_MODE}
-      FUSIONAUTH_APP_URL: http://fusionauth:9011
+      CLEANSPEAK_APP_MEMORY: ${CLEANSPEAK_APP_MEMORY}
+      LICENSE_ID: ${CLEANSPEAK_LICENSE_ID}
       SEARCH_SERVERS: http://search:9200
-      SEARCH_TYPE: elasticsearch
-    healthcheck:
-      test: curl --silent --fail http://localhost:9011/api/status -o /dev/null -w "%{http_code}"
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - db_net
-      - search_net
     restart: unless-stopped
     ports:
-      - 9011:9011
+      - 8001:8001
     volumes:
-      - fusionauth_config:/usr/local/fusionauth/config
-
-networks:
-  db_net:
-    driver: bridge
-  search_net:
-    driver: bridge
+      - cs_config:/usr/local/cleanspeak/config
 
 volumes:
+  caddy_config:
+  caddy_data:
+  cs_config:
   db_data:
   fusionauth_config:
   search_data:
