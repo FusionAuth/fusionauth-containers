@@ -26,6 +26,10 @@ https://github.com/fusionauth/fusionauth-contrib is the new repository for all c
 
 <br>
 
+## Review us on G2
+
+https://www.g2.com/products/fusionauth/take_survey
+
 ## Docker
 
 ### Docker Compose
