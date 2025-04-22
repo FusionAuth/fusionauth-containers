@@ -22,12 +22,12 @@
 # -----------------------------------------------------------------------------
 #
 # Build:
-#   > docker build -t fusionauth/fusionauth-app-mysql:1.55.1 .
+#   > docker build -t fusionauth/fusionauth-app-mysql:1.57.1 .
 #   > docker build -t fusionauth/fusionauth-app-mysql:latest .
 #
 # Run:
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app-mysql
 #
 
-FROM fusionauth/fusionauth-app:1.55.1
+FROM fusionauth/fusionauth-app:1.57.1
 ADD --chown=fusionauth:fusionauth https://search.maven.org/remotecontent?filepath=com/mysql/mysql-connector-j/9.0.0/mysql-connector-j-9.0.0.jar /usr/local/fusionauth/fusionauth-app/lib
