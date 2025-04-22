@@ -1,0 +1,15 @@
+# replace :80 with your domain name to get automatic https via LetsEncrypt
+# Default http. Add your domain to serve only https (recommended)
+# don't forget to set your DNS first as Caddy will automatically validate and create certificates for you; 
+# login.myawesomedomain.com {
+#   reverse_proxy fusionauth:9011
+# }
+
+
+:80 {
+  reverse_proxy fusionauth:9011 {
+    header_up X-Forwarded-Proto "http"
+    header_up X-Forwarded-Host "localhost"
+    header_up X-Forwarded-Port "80"
+  }
+}
