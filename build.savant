@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2024, FusionAuth, All Rights Reserved
+ * Copyright (c) 2018-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,22 +62,7 @@ target(name: "idea", description: "Releases a local integration build of the pro
 }
 
 target(name: "publish", description: "Releases the Docker images to DockerHub") {
-  ProcessBuilder pb = new ProcessBuilder("git", "branch", "--show-current")
-  def process = pb.redirectOutput(ProcessBuilder.Redirect.PIPE).directory(new File(".")).start()
-  process.waitFor()
-  def branch = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim()
-
-  // The theory is that if we release from a maintenance branch, a staging branch etc. this will be a pre-release or a maintenance release.
-  def latestVersion = "main" == branch && !project.version.isPreRelease()
-  def args = ["./publish.sh", "${project.version}" as String, "${latestVersion}" as String]
-
-  pb = new ProcessBuilder(args).inheritIO().directory(new File('./docker/fusionauth'))
-  process = pb.start()
-  process.consumeProcessOutput(System.out, System.err)
-  process.waitFor()
-  if (process.exitValue() != 0) {
-    fail("Failed to publish Docker [${project.version}]")
-  }
+ // Use the github action for now :)
 }
 
 target(name: "release", description: "Releases a full version of the project") {
