@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   #
   # Required services (database and FusionAuth)
@@ -147,7 +145,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  # Cleanspeak provides filter of usernames and profile data to prevent profanity and other unwanted content. You'll
+  # Cleanspeak provides filtering of usernames and profile data to prevent profanity and other unwanted content. You'll
   # need a Cleanspeak license to enable this service.
   cleanspeak:
     image: cleanspeak/cleanspeak-app:latest
@@ -173,10 +171,41 @@ services:
     volumes:
       - cs_config:/usr/local/cleanspeak/config
 
+  # OpenTelemetry can be used to collect metrics from FusionAuth and push them to Prometheus or other systems. You might need
+  # to configure OpenTelemetry by editing the opentelementy-collector-config.yml file.
+  opentelemetry:
+    image: otel/opentelemetry-collector
+    profiles:
+      - opentelemetry
+    depends_on:
+      - fusionauth
+    ports:
+      - 8889:8889
+      - 4318:4318
+    volumes:
+      - ${OPENTELEMETRY_COLLECTOR_CONFIG_FILE}:/etc/opentelemetry/collector-config.yml
+    command: ["--config=/etc/opentelemetry/collector-config.yml"]
+
+  # Prometheus can be used to monitor FusionAuth and can be used with OpenTelemetry or directly. Depending on the way you want to
+  # use Prometheus, you might need to change the PROMETHEUS_CONFIG_FILE variable to point to a different configuration file, or
+  # edit the configuration files as needed.
+  prometheus:
+    image: prom/prometheus
+    profiles:
+      - prometheus
+    depends_on:
+      - fusionauth
+    ports:
+      - 9090:9090
+    volumes:
+      - ${PROMETHEUS_CONFIG_FILE}:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+
 volumes:
   caddy_config:
   caddy_data:
   cs_config:
   db_data:
   fusionauth_config:
+  prometheus-data:
   search_data:
