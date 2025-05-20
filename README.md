@@ -44,6 +44,19 @@ curl -o .env https://raw.githubusercontent.com/FusionAuth/fusionauth-containers/
 docker compose up
 ```
 
+This compose file includes a number of profiles that you can use to enable various optional services. The profiles are:
+
+* **caddy** - This profile enables a Caddy service that is configured to proxy to FusionAuth on ports 80 and 443.
+* **mailcatcher** - This profile enables Mailcatcher, which is a test SMTP server. You can configure FusionAuth to use this SMTP server during development and testing.
+* **kafka** - This profile enables Kafka (and Zookeeper) which you can use Kafka to receive Webhook events.
+* **cleanspeak** - This profile enables Cleanspeak, which you can use to filter usernames and profile data for profanity and other unwanted content.
+
+To enable a profile, you use the `--profile` switch on the command-line like this (use can use multiple instances of this switch to enable multiple profiles):
+
+```bash
+docker compose --profile caddy --profile kafka up
+```
+
 ### Docker Images
 
 Docker images are available on [Docker Hub](https://hub.docker.com/u/fusionauth/)
