@@ -1,4 +1,8 @@
 receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
   prometheus:
     config:
       scrape_configs:
@@ -19,5 +23,5 @@ exporters:
 service:
   pipelines:
     metrics:
-      receivers: [prometheus]
+      receivers: [prometheus, otlp]
       exporters: [prometheus]
