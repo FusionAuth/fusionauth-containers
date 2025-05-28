@@ -1,0 +1,35 @@
+services:
+  # OpenTelemetry can be used to collect metrics from FusionAuth and push them to Prometheus or other systems. You might need
+  # to configure OpenTelemetry by editing the opentelementy-collector-config.yml file.
+  opentelemetry:
+    image: otel/opentelemetry-collector
+    ports:
+      - 8889:8889
+      - 4318:4318
+    volumes:
+      - ${OPENTELEMETRY_COLLECTOR_CONFIG_FILE}:/etc/opentelemetry/collector-config.yml
+    command: ["--config=/etc/opentelemetry/collector-config.yml"]
+
+  # Prometheus can be used to monitor FusionAuth and can be used with OpenTelemetry or directly. Depending on the way you want to
+  # use Prometheus, you might need to change the PROMETHEUS_CONFIG_FILE variable to point to a different configuration file or
+  # edit the configuration files as needed.
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ${PROMETHEUS_CONFIG_FILE}:/etc/prometheus/prometheus.yml
+      - ${PROMETHEUS_RULES_FILE}:/etc/prometheus/rules.yml
+      - prometheus_data:/prometheus
+
+  # Alertmanager can be used in conjunction with Prometheus to handle errors that are collected.
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    ports:
+      - 9093:9093
+    volumes:
+      - ${ALERTMANAGER_CONFIG_FILE}:/etc/alertmanager/alertmanager-config.yml
+
+volumes:
+  prometheus_data:
+  search_data:
