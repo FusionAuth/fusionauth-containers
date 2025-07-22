@@ -3,7 +3,7 @@
 #
 # Build:
 #   > docker pull ubuntu:noble
-#   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.58.0 .
+#   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.58.1 .
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:latest .
 #
 # Note: Substitute your target platform architecture. The above example is targetting a 64-bit ARM platform.
@@ -13,7 +13,7 @@
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 # Publish:
-#   > docker push fusionauth/fusionauth-app:1.58.0
+#   > docker push fusionauth/fusionauth-app:1.58.1
 #   > docker push fusionauth/fusionauth-app:latest
 #
 
@@ -21,7 +21,7 @@
 FROM --platform=$BUILDPLATFORM ubuntu:noble AS build
 
 ARG BUILDPLATFORM
-ARG FUSIONAUTH_VERSION=1.58.0
+ARG FUSIONAUTH_VERSION=1.58.1
 ARG JDK_MODULES=java.base,java.compiler,java.desktop,java.instrument,java.logging,java.management,java.naming,java.net.http,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.attach,jdk.crypto.ec,jdk.dynalink,jdk.jcmd,jdk.jdi,jdk.localedata,jdk.jpackage,jdk.unsupported,jdk.zipfs
 ARG TARGETPLATFORM
 ARG TARGETARCH
