@@ -6,6 +6,6 @@
       <excludeFolder url="file://$MODULE_DIR$/docker/fusionauth/test/fusionauth-app/fusionauth-app" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Groovy 2.4" level="application" />
   </component>
 </module>
-
