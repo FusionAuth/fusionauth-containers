@@ -1,0 +1,27 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: 'fusionauth'
+          scrape_interval: 15s
+          scheme: http
+          metrics_path: api/prometheus/metrics
+          static_configs:
+            - targets: ['fusionauth:9011']
+          basic_auth:
+            username: "apikey"
+            password: "33052c8a-c283-4e96-9d2a-eb1215c69f8f-not-for-prod"
+
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+
+service:
+  pipelines:
+    metrics:
+      receivers: [prometheus, otlp]
+      exporters: [prometheus]

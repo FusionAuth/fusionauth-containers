@@ -1,0 +1,12 @@
+global:
+  evaluation_interval: 30s
+scrape_configs:
+  - job_name: FusionAuth
+    scrape_interval: 15s
+    scheme: http
+    metrics_path: api/prometheus/metrics
+    static_configs:
+      - targets: ["fusionauth:9011"]
+    basic_auth:
+      username: "apikey"
+      password: "33052c8a-c283-4e96-9d2a-eb1215c69f8f-not-for-prod"

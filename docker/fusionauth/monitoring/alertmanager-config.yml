@@ -1,0 +1,7 @@
+route:
+  receiver: ntfy
+  repeat_interval: 1m
+receivers:
+  - name: ntfy
+    webhook_configs:
+      - url: http://ntfy.sh/fusionauthprometheus

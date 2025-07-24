@@ -1,0 +1,11 @@
+groups:
+  - name: fusionauthAlerts
+    rules:
+      - alert: FusionAuthError
+        expr: increase(prime_mvc_____errors_total[1m]) > 0
+        for: 30s
+        labels:
+          severity: error
+        annotations:
+          summary: FusionAuth Error Detected
+          description: A FusionAuth error occurred in the last minute
