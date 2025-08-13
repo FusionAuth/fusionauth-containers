@@ -93,7 +93,8 @@ RUN apt-get update \
 COPY --chown=fusionauth:fusionauth --from=build /opt/openjdk /opt/openjdk
 COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
 
-RUN mkdir -p /usr/local/fusionauth/logs
+RUN mkdir -p /usr/local/fusionauth/logs \
+    && chown fusionauth:fusionauth /usr/local/fusionauth/logs
 
 ###### Start FusionAuth App #######################################################################
 LABEL description="Create an image running FusionAuth App. Installs FusionAuth App"
