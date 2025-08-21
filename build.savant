@@ -16,7 +16,7 @@
 
 import java.nio.charset.StandardCharsets
 
-project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.59.0", licenses: ["ApacheV2_0"]) {
+project(group: "io.fusionauth", name: "fusionauth-containers", version: "1.60.0", licenses: ["ApacheV2_0"]) {
   workflow {
     fetch {
       cache()
@@ -62,7 +62,7 @@ target(name: "idea", description: "Releases a local integration build of the pro
 }
 
 target(name: "publish", description: "Releases the Docker images to DockerHub") {
-  // Use the github action for now :)
+ // Use the github action for now :)
 }
 
 target(name: "release", description: "Releases a full version of the project") {
