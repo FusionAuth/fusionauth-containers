@@ -29,7 +29,7 @@ jobs:
     environment: production
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Build version tag
         run: |
@@ -69,7 +69,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y trivy
 
-      - name: Trivy pre-build scan
+      - name: Run Trivy pre-build scan
         run: |
           trivy fs \
             --scanners vuln,misconfig \
@@ -88,7 +88,7 @@ jobs:
           load: true
           tags: ${{ env.FUSIONAUTH_SCAN_TAG }}
 
-      - name: Trivy vulnerability scan
+      - name: Run Trivy image scan
         run: |
           trivy image \
             --exit-code 1 \
@@ -96,6 +96,7 @@ jobs:
             --ignore-unfixed \
             "${FUSIONAUTH_SCAN_TAG}"
 
+      # If all scans pass, build and optionally push the multi-arch image
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -105,3 +106,23 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
           push: ${{ inputs.command == 'publish' }}
           tags: ${{ env.FUSIONAUTH_TAGS }}
+
+      - name: Trivy multi-arch scan
+        if: ${{ inputs.command == 'publish' }}
+        run: |
+          set -euo pipefail
+          IMAGE="fusionauth/fusionauth-app:${{ inputs.version }}"
+          docker manifest inspect "$IMAGE" |
+            jq -r '
+              .manifests[]
+              | select(.platform.os != "unknown" and .platform.architecture != "unknown")
+              | "\(.digest)\t\(.platform.os)/\(.platform.architecture)\(if .platform.variant then "/" + .platform.variant else "" end)"
+            ' | while IFS=$'\t' read -r digest platform; do
+              echo
+              echo "=== Scanning $platform ($digest) ==="
+              trivy image \
+                --exit-code 1 \
+                --severity HIGH,CRITICAL \
+                --ignore-unfixed \
+                "$IMAGE@$digest"
+              done
