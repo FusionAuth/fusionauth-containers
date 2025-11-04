@@ -1,12 +1,16 @@
 name: Deploy
+
+env:
+  PLATFORMS: "linux/amd64,linux/arm64,linux/ppc64le,linux/s390x"
+
 on:
   workflow_dispatch:
     inputs:
       command:
         type: choice
         options:
-          - build    # build only
-          - publish  # build & publish to dockerhub
+          - build # build only
+          - publish # build & publish to dockerhub
         default: build
         description: Build only or Build And Publish to DockerHub
       version:
@@ -29,16 +33,17 @@ jobs:
     environment: production
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Build version tag
         run: |
           echo "FUSIONAUTH_TAGS=fusionauth/fusionauth-app:${{ inputs.version }}${{ inputs.tag-suffix }}" >> $GITHUB_ENV
+          echo "FUSIONAUTH_SCAN_TAG=fusionauth/fusionauth-app:${{ inputs.version }}${{ inputs.tag-suffix }}-scan" >> $GITHUB_ENV
 
       - name: Optional :latest tag
         if: ${{ inputs.latest == true }}
         run: |
-          echo "FUSIONAUTH_TAGS=${{ env.FUSIONAUTH_TAGS }},fusionauth/fusionauth-app:latest${{ env.FUSIONAUTH_TAG_SUFFIX }}" >> $GITHUB_ENV
+          echo "FUSIONAUTH_TAGS=${{ env.FUSIONAUTH_TAGS }},fusionauth/fusionauth-app:latest" >> $GITHUB_ENV
 
       - name: Job summary
         run: |
@@ -47,25 +52,68 @@ jobs:
           echo "Tags: ${{ env.FUSIONAUTH_TAGS }}"
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/trivy-archive-keyring.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y jq trivy
+
+      - name: Run Trivy pre-build scan
+        run: |
+          trivy fs \
+            --scanners vuln,misconfig \
+            --exit-code 1 \
+            --severity HIGH,CRITICAL \
+            --ignore-unfixed \
+            docker/fusionauth/fusionauth-app
+
+      - name: Build and scan platform images
+        run: |
+          set -euo pipefail
+          IFS=',' read -ra platforms <<< "${{ env.PLATFORMS }}"
+          for platform in "${platforms[@]}"; do
+            platform="$(echo "$platform" | xargs)"
+            arch="${platform##*/}"
+            scan_tag="${FUSIONAUTH_SCAN_TAG}-${arch}"
+            echo "::group::Building $scan_tag ($platform)"
+            docker buildx build \
+              --platform "$platform" \
+              --load \
+              --tag "$scan_tag" \
+              --build-arg FUSIONAUTH_VERSION=${{ inputs.version }} \
+              -f ./docker/fusionauth/fusionauth-app/Dockerfile \
+              .
+            echo "Scanning $scan_tag"
+            trivy image \
+              --exit-code 1 \
+              --severity HIGH,CRITICAL \
+              --ignore-unfixed \
+              "$scan_tag"
+            echo "::endgroup::"
+          done
+
+      # If all scans pass, build and optionally push the multi-arch image
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./docker/fusionauth/fusionauth-app/Dockerfile
           build-args: FUSIONAUTH_VERSION=${{ inputs.version }}
-          platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
+          platforms: ${{ env.PLATFORMS }}
           push: ${{ inputs.command == 'publish' }}
           tags: ${{ env.FUSIONAUTH_TAGS }}
-
