@@ -1,4 +1,8 @@
 name: Deploy
+
+env:
+  PLATFORMS: "linux/amd64,linux/arm64,linux/ppc64le,linux/s390x"
+
 on:
   workflow_dispatch:
     inputs:
@@ -67,7 +71,7 @@ jobs:
           wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy-archive-keyring.gpg
           echo "deb [signed-by=/usr/share/keyrings/trivy-archive-keyring.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/trivy.list
           sudo apt-get update
-          sudo apt-get install -y trivy
+          sudo apt-get install -y jq trivy
 
       - name: Run Trivy pre-build scan
         run: |
@@ -78,23 +82,28 @@ jobs:
             --ignore-unfixed \
             docker/fusionauth/fusionauth-app
 
-      - name: Build image for vulnerability scan
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./docker/fusionauth/fusionauth-app/Dockerfile
-          build-args: FUSIONAUTH_VERSION=${{ inputs.version }}
-          platforms: linux/amd64
-          load: true
-          tags: ${{ env.FUSIONAUTH_SCAN_TAG }}
-
-      - name: Run Trivy image scan
+      - name: Build and scan platform images
         run: |
-          trivy image \
-            --exit-code 1 \
-            --severity HIGH,CRITICAL \
-            --ignore-unfixed \
-            "${FUSIONAUTH_SCAN_TAG}"
+          set -euo pipefail
+          for platform in ${{ env.PLATFORMS }}; do
+            arch="${platform##*/}"
+            scan_tag="${FUSIONAUTH_SCAN_TAG}-${arch}"
+            echo "::group::Building $scan_tag ($platform)"
+            docker buildx build \
+              --platform "$platform" \
+              --load \
+              --tag "$scan_tag" \
+              --build-arg FUSIONAUTH_VERSION=${{ inputs.version }} \
+              -f ./docker/fusionauth/fusionauth-app/Dockerfile \
+              .
+            echo "Scanning $scan_tag"
+            trivy image \
+              --exit-code 1 \
+              --severity HIGH,CRITICAL \
+              --ignore-unfixed \
+              "$scan_tag"
+            echo "::endgroup::"
+          done
 
       # If all scans pass, build and optionally push the multi-arch image
       - name: Build and push
@@ -103,26 +112,6 @@ jobs:
           context: .
           file: ./docker/fusionauth/fusionauth-app/Dockerfile
           build-args: FUSIONAUTH_VERSION=${{ inputs.version }}
-          platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
+          platforms: ${{ env.PLATFORMS }}
           push: ${{ inputs.command == 'publish' }}
           tags: ${{ env.FUSIONAUTH_TAGS }}
-
-      - name: Trivy multi-arch scan
-        if: ${{ inputs.command == 'publish' }}
-        run: |
-          set -euo pipefail
-          IMAGE="fusionauth/fusionauth-app:${{ inputs.version }}"
-          docker manifest inspect "$IMAGE" |
-            jq -r '
-              .manifests[]
-              | select(.platform.os != "unknown" and .platform.architecture != "unknown")
-              | "\(.digest)\t\(.platform.os)/\(.platform.architecture)\(if .platform.variant then "/" + .platform.variant else "" end)"
-            ' | while IFS=$'\t' read -r digest platform; do
-              echo
-              echo "=== Scanning $platform ($digest) ==="
-              trivy image \
-                --exit-code 1 \
-                --severity HIGH,CRITICAL \
-                --ignore-unfixed \
-                "$IMAGE@$digest"
-              done
