@@ -85,7 +85,9 @@ jobs:
       - name: Build and scan platform images
         run: |
           set -euo pipefail
-          for platform in ${{ env.PLATFORMS }}; do
+          IFS=',' read -ra platforms <<< "${{ env.PLATFORMS }}"
+          for platform in "${platforms[@]}"; do
+            platform="$(echo "$platform" | xargs)"
             arch="${platform##*/}"
             scan_tag="${FUSIONAUTH_SCAN_TAG}-${arch}"
             echo "::group::Building $scan_tag ($platform)"
