@@ -84,7 +84,8 @@ RUN case "${BUILDPLATFORM}" in \
 
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
 FROM ubuntu:noble
-RUN apt-get update \
+RUN echo "cache-bust-2026-02-06-CVE-2025-68973" > /dev/null \
+    && apt-get update \
     && apt-get -y install --no-install-recommends curl \
     && apt-get -y upgrade \
     && apt-get -y clean \
