@@ -63,7 +63,7 @@ RUN case "${BUILDPLATFORM}" in \
         ;;\
     esac \
     && apt-get update \
-    && apt-get install -y curl unzip \
+    && apt-get install -y --no-install-recommends ca-certificates curl unzip \
     && mkdir -p /tmp/openjdk \
     && mkdir -p /tmp/build/openjdk \
     && curl -LfsSo /tmp/build/openjdk.tar.gz "${BUILD_JAVA_URL}" \
