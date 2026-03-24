@@ -61,8 +61,8 @@ services:
       cluster.name: fusionauth
       discovery.type: single-node
       node.name: search
-      plugins.security.disabled: true
-      bootstrap.memory_lock: true
+      plugins.security.disabled: "true"
+      bootstrap.memory_lock: "true"
       OPENSEARCH_JAVA_OPTS: ${OPENSEARCH_JAVA_OPTS}
     healthcheck:
       interval: 10s
