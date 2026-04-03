@@ -61,8 +61,8 @@ services:
       cluster.name: fusionauth
       discovery.type: single-node
       node.name: search
-      plugins.security.disabled: true
-      bootstrap.memory_lock: true
+      plugins.security.disabled: "true"
+      bootstrap.memory_lock: "true"
       OPENSEARCH_JAVA_OPTS: ${OPENSEARCH_JAVA_OPTS}
     healthcheck:
       interval: 10s
@@ -184,7 +184,7 @@ services:
       - 4318:4318
     volumes:
       - ${OPENTELEMETRY_COLLECTOR_CONFIG_FILE}:/etc/opentelemetry/collector-config.yml
-    command: ["--config=/etc/opentelemetry/collector-config.yml"]
+    command: [ "--config=/etc/opentelemetry/collector-config.yml" ]
 
   # Prometheus can be used to monitor FusionAuth and can be used with OpenTelemetry or directly. Depending on the way you want to
   # use Prometheus, you might need to change the PROMETHEUS_CONFIG_FILE variable to point to a different configuration file or
