@@ -89,7 +89,7 @@ RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists \
-    && useradd -d /usr/local/fusionauth -U fusionauth
+    && useradd --shell /usr/sbin/nologin -d /usr/local/fusionauth -U fusionauth
 COPY --chown=fusionauth:fusionauth --from=build /opt/openjdk /opt/openjdk
 COPY --chown=fusionauth:fusionauth --from=build /usr/local/fusionauth /usr/local/fusionauth
 
