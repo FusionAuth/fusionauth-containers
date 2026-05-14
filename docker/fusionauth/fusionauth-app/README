@@ -1,0 +1,2 @@
+The easiest way to update this file is to run sb updateJavaVersion --version=21.0.4+7 with a prospective Java version
+and then carefully compare the checksums to https://github.com/adoptium/temurin21-binaries/releases
