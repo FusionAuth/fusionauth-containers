@@ -33,12 +33,13 @@ RUN printf "Building on ${BUILDPLATFORM} for ${TARGETPLATFORM} (${TARGETARCH})."
 RUN --mount=type=bind,target=/ctx apt-get update \
     && apt-get install -y curl jq unzip \
     && JAVA_VERSION="$(jq -r '.version' /ctx/java.json)" \
+    && JAVA_MAJOR=$(echo "${JAVA_VERSION}" | cut -d. -f1) \
     && echo "Using Java version ${JAVA_VERSION}" \
     && JAVA_VERSION_URL="jdk-$(echo "${JAVA_VERSION}" | sed 's/_/%2B/g')" \
     && BUILD_JAVA_SUM="$(jq -r '.checksums["'"${BUILDARCH}"'"]' /ctx/java.json)" \
-    && BUILD_JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/${JAVA_VERSION_URL}/OpenJDK21U-jdk_$(echo "${BUILDPLATFORM}" | sed 's|linux/||;s|arm64|aarch64|;s|amd64|x64|')_linux_hotspot_${JAVA_VERSION}.tar.gz" \
+    && BUILD_JAVA_URL="https://github.com/adoptium/temurin${JAVA_MAJOR}-binaries/releases/download/${JAVA_VERSION_URL}/OpenJDK${JAVA_MAJOR}U-jdk_$(echo "${BUILDPLATFORM}" | sed 's|linux/||;s|arm64|aarch64|;s|amd64|x64|')_linux_hotspot_${JAVA_VERSION}.tar.gz" \
     && JAVA_SUM="$(jq -r '.checksums["'"${TARGETARCH}"'"]' /ctx/java.json)" \
-    && JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/${JAVA_VERSION_URL}/OpenJDK21U-jdk_$(echo "${TARGETARCH}" | sed 's|arm64|aarch64|;s|amd64|x64|')_linux_hotspot_${JAVA_VERSION}.tar.gz" \
+    && JAVA_URL="https://github.com/adoptium/temurin${JAVA_MAJOR}-binaries/releases/download/${JAVA_VERSION_URL}/OpenJDK${JAVA_MAJOR}U-jdk_$(echo "${TARGETARCH}" | sed 's|arm64|aarch64|;s|amd64|x64|')_linux_hotspot_${JAVA_VERSION}.tar.gz" \
     && mkdir -p /tmp/openjdk \
     && mkdir -p /tmp/build/openjdk \
     && curl -LfsSo /tmp/build/openjdk.tar.gz "${BUILD_JAVA_URL}" \
@@ -60,7 +61,6 @@ RUN --mount=type=bind,target=/ctx apt-get update \
        fi \
     && mkdir -p /usr/local/fusionauth/fusionauth-app \
     && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth \
-    && JAVA_MAJOR=$(echo "${JAVA_VERSION}" | cut -d. -f1) \
     && JAVA_DEB_VERSION=$(echo "${JAVA_VERSION}" | sed 's/_/+/') \
     && DEB_TARGETARCH="${TARGETARCH}" \
     && if [ "${TARGETARCH}" = "ppc64le" ]; then DEB_TARGETARCH="ppc64el"; fi \
