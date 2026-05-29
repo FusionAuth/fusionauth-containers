@@ -61,7 +61,7 @@ RUN --mount=type=bind,target=/ctx apt-get update \
        fi \
     && mkdir -p /usr/local/fusionauth/fusionauth-app \
     && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth \
-    && JAVA_DEB_VERSION=$(echo "${JAVA_VERSION}" | sed 's/_/+/') \
+    && JAVA_DEB_VERSION="$(echo "${JAVA_VERSION}" | sed 's/_/+/')-99" \
     && DEB_TARGETARCH="${TARGETARCH}" \
     && if [ "${TARGETARCH}" = "ppc64le" ]; then DEB_TARGETARCH="ppc64el"; fi \
     && mkdir -p /tmp/jdk-shim/DEBIAN \
