@@ -73,12 +73,14 @@ RUN --mount=type=bind,target=/ctx apt-get update \
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
 FROM ubuntu:noble
 RUN apt-get update \
-    && apt-get -y install --no-install-recommends curl \
     && apt-get -y upgrade \
-    # Automatically apply security updates that are currently available \
+    # Automatically apply security updates that are currently available. some security updates (e.g. libssl3t64) \
+    # will not apply after curl is installed \
     && apt-get -s dist-upgrade | grep "^Inst" | \
            grep -i securi | awk -F " " {'print $2'} | \
-           xargs apt-get install -y \
+           xargs -r apt-get install -y \
+    # we want the lightest curl possible in the image \
+    && apt-get -y install --no-install-recommends curl \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists \
     && useradd --shell /usr/sbin/nologin -d /usr/local/fusionauth -U fusionauth
