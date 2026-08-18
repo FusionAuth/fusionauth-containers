@@ -1,9 +1,17 @@
 {
   "version": "25.0.3_9",
   "checksums": {
-    "arm64": "3e4287cb98870ba824ed698854bdc27cff984254caf66dd12cc291e7bfdde26b",
-    "amd64": "69264a7a211bf5029830d07bc3370f879769d62ebc5b5488e90c9343a2da0e1f",
-    "ppc64le": "72b0fbb201716ca465ab704ec0fb12971abab3fdde5ae8d03b125a273522cf05",
-    "s390x": "24b497d10acb6ee706ca30e1c8a929785c250cad54c5c12f1f8f93c3c06a53f7"
+    "jdk": {
+      "arm64": "3e4287cb98870ba824ed698854bdc27cff984254caf66dd12cc291e7bfdde26b",
+      "amd64": "69264a7a211bf5029830d07bc3370f879769d62ebc5b5488e90c9343a2da0e1f",
+      "ppc64le": "72b0fbb201716ca465ab704ec0fb12971abab3fdde5ae8d03b125a273522cf05",
+      "s390x": "24b497d10acb6ee706ca30e1c8a929785c250cad54c5c12f1f8f93c3c06a53f7"
+    },
+    "jmods": {
+      "arm64": "39d1b5322ad28c8d84b28cbb0625d96e9501acc382bae2f6448fa05468aa812a",
+      "amd64": "9e39b2995cc3234e63f8cd41cdee8b071fcf581e1a63e3e538354a9802aa0702",
+      "ppc64le": "be4df85e20d89df0d04ea919bcb66db84b5db4bc29c1e6f0ded821e1f05dc80c",
+      "s390x": "4fcd47408c946b28d3842c2e2b93445de8b029e526070bae44c2f9245baa1afa"
+    }
   }
 }
