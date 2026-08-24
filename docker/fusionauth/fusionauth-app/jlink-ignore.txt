@@ -1,0 +1,7 @@
+# For Graal, we are not currently using JVMCI
+# see https://www.graalvm.org/jdk24/reference-manual/js/RunOnJDK/
+jdk.internal.vm.ci
+# We are not directly using flight recorder classes
+jdk.jfr
+# No need for platform mbeans, com.sun.management classes
+jdk.management

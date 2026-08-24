@@ -1,0 +1,31 @@
+# JDK modules included in the jlink output image.
+# To add or remove a module, edit the list below and rebuild the Docker image.
+java.base
+java.compiler
+# AWT, swing, etc.
+java.desktop
+java.instrument
+java.logging
+java.management
+java.naming
+java.net.http
+# TODO: Why do we need the RMI module?
+java.rmi
+# TODO: Why do we need the JGSS API?
+java.security.jgss
+java.security.sasl
+java.sql
+java.xml.crypto
+# dynamic agent loading, tool integration
+jdk.attach
+jdk.crypto.ec
+jdk.dynalink
+# jstack/thread dumps, etc.
+jdk.jcmd
+# JPDA debugging
+jdk.jdi
+jdk.localedata
+# some libraries like Jackson, etc. depend on this. sun.misc.Unsafe, sun.misc.Signal
+jdk.unsupported
+# ZIP filesystem/compression
+jdk.zipfs
