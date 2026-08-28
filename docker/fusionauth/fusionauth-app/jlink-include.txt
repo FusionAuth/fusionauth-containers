@@ -1,20 +1,20 @@
-# JDK modules included in the jlink output image.
+# This file controls the jlink'ed modules that are included in the fusionauth-app
+# Docker image and explains why they are here
 # To add or remove a module, edit the list below and rebuild the Docker image.
 java.base
 java.compiler
-# AWT, swing, etc.
+# We need the java.beans.Introspector class for Prime MVC
 java.desktop
+# Allow agents (e.g. APM monitoring, etc.)
 java.instrument
 java.logging
 java.management
 java.naming
 java.net.http
-# TODO: Why do we need the RMI module?
-java.rmi
-# TODO: Why do we need the JGSS API?
-java.security.jgss
 java.security.sasl
 java.sql
+# java.xml is just a transitive dependency of java.xml.crypto
+java.xml
 java.xml.crypto
 # dynamic agent loading, tool integration
 jdk.attach

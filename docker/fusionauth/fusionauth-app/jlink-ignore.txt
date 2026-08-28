@@ -1,7 +1,6 @@
-# For Graal, we are not currently using JVMCI
-# see https://www.graalvm.org/jdk24/reference-manual/js/RunOnJDK/
-jdk.internal.vm.ci
-# We are not directly using flight recorder classes
-jdk.jfr
-# No need for platform mbeans, com.sun.management classes
-jdk.management
+# This file is used for testing only, and shows which modules some testing tools might
+# think are required, but can be ignored.
+# FreeMarker's RMI debugger needs this, but we don't need that functionality
+java.rmi
+# Apache HTTP client and Kafka client have Kerberos support but we are not using that Kerberos support
+java.security.jgss
