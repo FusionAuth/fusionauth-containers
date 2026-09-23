@@ -68,6 +68,10 @@ FusionAuth App
 docker pull fusionauth/fusionauth-app:latest
 ```
 
+## Easypanel
+
+[Easypanel](https://easypanel.io) is a self-hosted Docker deployment platform, and FusionAuth has a one-click deployment template there: https://easypanel.io/templates/fusionauth - it deploys FusionAuth alongside a Postgres database with persistent volumes automatically.
+
 ## Kubernetes
 
 Kubernetes is a supported platform. The supported installation method is Helm.
