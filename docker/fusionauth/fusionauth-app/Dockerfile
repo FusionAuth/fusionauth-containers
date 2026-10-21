@@ -70,7 +70,8 @@ RUN --mount=type=bind,target=/ctx apt-get update \
     && printf "Package: openjdk-${JAVA_MAJOR}-jdk\nSource: openjdk-${JAVA_MAJOR}\nVersion: ${JAVA_DEB_VERSION}\nArchitecture: ${DEB_TARGETARCH}\nMaintainer: Eclipse Adoptium <temurin@adoptium.net>\nDescription: Eclipse Temurin JDK ${JAVA_MAJOR} (security metadata shim)\n" \
            > /tmp/jdk-shim/DEBIAN/control \
     && dpkg-deb --build /tmp/jdk-shim /tmp/jdk-shim.deb \
-    && rm -rf /tmp/jdk-shim
+    && rm -rf /tmp/jdk-shim \
+    && cat /ctx/blocked.certs >> /opt/openjdk/lib/security/blocked.certs
 
 ###### Use Ubuntu latest and only copy in what we need to reduce the layer size ###################
 FROM ubuntu:noble
