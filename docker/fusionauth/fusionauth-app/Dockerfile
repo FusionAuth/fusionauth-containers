@@ -3,7 +3,7 @@
 #
 # Build:
 #   > docker pull ubuntu:noble
-#   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.70.0 .
+#   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:1.71.0 .
 #   > docker buildx build --platform=linux/arm64 -t fusionauth/fusionauth-app:latest .
 #
 # Note: Substitute your target platform architecture. The above example is targetting a 64-bit ARM platform.
@@ -16,7 +16,7 @@
 #  > docker run -p 9011:9011 -it fusionauth/fusionauth-app
 #
 # Publish:
-#   > docker push fusionauth/fusionauth-app:1.70.0
+#   > docker push fusionauth/fusionauth-app:1.71.0
 #   > docker push fusionauth/fusionauth-app:latest
 #
 
@@ -25,7 +25,7 @@ FROM --platform=$BUILDPLATFORM ubuntu:noble AS build
 
 ARG BUILDARCH
 ARG BUILDPLATFORM
-ARG FUSIONAUTH_VERSION=1.70.0
+ARG FUSIONAUTH_VERSION=1.71.0
 ARG TARGETPLATFORM
 ARG TARGETARCH
 RUN printf "Building on ${BUILDPLATFORM} for ${TARGETPLATFORM} (${TARGETARCH})."
