@@ -2,5 +2,3 @@
 # think are required, but can be ignored.
 # FreeMarker's RMI debugger needs this, but we don't need that functionality
 java.rmi
-# Apache HTTP client and Kafka client have Kerberos support but we are not using that Kerberos support
-java.security.jgss

@@ -11,6 +11,10 @@ java.logging
 java.management
 java.naming
 java.net.http
+# Apache HTTP client and Kafka client have Kerberos support but we are not using that Kerberos support
+# BUT the Kafka client references GSSException, even though it's not actually used
+# and will fail to classload without this
+java.security.jgss
 java.security.sasl
 java.sql
 # java.xml is just a transitive dependency of java.xml.crypto
