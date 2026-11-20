@@ -64,10 +64,8 @@ RUN --mount=type=bind,target=/ctx apt-get update \
     && mkdir -p /usr/local/fusionauth/fusionauth-app \
     && unzip -nq /tmp/fusionauth-app.zip -d /usr/local/fusionauth \
     && JAVA_DEB_VERSION="$(echo "${JAVA_VERSION}" | sed 's/_/+/')-99" \
-    && DEB_TARGETARCH="${TARGETARCH}" \
-    && if [ "${TARGETARCH}" = "ppc64le" ]; then DEB_TARGETARCH="ppc64el"; fi \
     && mkdir -p /tmp/jdk-shim/DEBIAN \
-    && printf "Package: openjdk-${JAVA_MAJOR}-jdk\nSource: openjdk-${JAVA_MAJOR}\nVersion: ${JAVA_DEB_VERSION}\nArchitecture: ${DEB_TARGETARCH}\nMaintainer: Eclipse Adoptium <temurin@adoptium.net>\nDescription: Eclipse Temurin JDK ${JAVA_MAJOR} (security metadata shim)\n" \
+    && printf "Package: openjdk-${JAVA_MAJOR}-jdk\nSource: openjdk-${JAVA_MAJOR}\nVersion: ${JAVA_DEB_VERSION}\nArchitecture: ${TARGETARCH}\nMaintainer: Eclipse Adoptium <temurin@adoptium.net>\nDescription: Eclipse Temurin JDK ${JAVA_MAJOR} (security metadata shim)\n" \
            > /tmp/jdk-shim/DEBIAN/control \
     && dpkg-deb --build /tmp/jdk-shim /tmp/jdk-shim.deb \
     && rm -rf /tmp/jdk-shim \
