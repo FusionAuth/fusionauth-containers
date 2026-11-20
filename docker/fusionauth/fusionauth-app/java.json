@@ -1,13 +1,13 @@
 {
-  "version": "25.0.5_8",
+  "version": "25.0.5.1_2",
   "checksums": {
     "jdk": {
-      "arm64": "bb5b2ded252f21c6090cf780b0a408ad0d83bbb557e702955643557f13231880",
-      "amd64": "68982529869257d0ee6b824ec5aa270ff8b118bb438670da0b97ebdab178d7fb"
+      "arm64": "c37879e0d08eeb1baa69fcbb7758cd455b7b1c0ceab1e2a136ccb1713c530984",
+      "amd64": "760f91b22c3efc9bd1b64ff950598231be82928cc807e30691a0e7a2995a62c0"
     },
     "jmods": {
-      "arm64": "882c60e7a9d6c0a81a4deaef47280e7c455fafb6ab2c26734021967ced37d7ca",
-      "amd64": "7f29246c5da4e4b0b0737f22001c6369dfb6913630bea2c3f49127ce53c98a0c"
+      "arm64": "f82ed3990f3921f04936727c65943f4ee76a9aefca246d49e9fe9990f1187f41",
+      "amd64": "dc3ddb2debedd571473622a77e847dc6627959e7031f0a8ff17ad88b8f4f7f20"
     }
   }
 }
