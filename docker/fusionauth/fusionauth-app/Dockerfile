@@ -100,6 +100,8 @@ LABEL maintainer="FusionAuth <dev@fusionauth.io>"
 EXPOSE 9011
 USER fusionauth
 ENV FUSIONAUTH_USE_GLOBAL_JAVA=1
+# Exit on OOM so container orchestrators can restart the process instead of leaving it running in a degraded state
+ENV JDK_JAVA_OPTIONS="-XX:+ExitOnOutOfMemoryError"
 ENV JAVA_HOME=/opt/openjdk
 ENV PATH=$PATH:$JAVA_HOME/bin
 CMD ["/usr/local/fusionauth/fusionauth-app/bin/start.sh"]
